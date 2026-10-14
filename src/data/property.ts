@@ -78,8 +78,8 @@ export const ROOMS = [
   },
   {
     key: 'bedroom-4', floor: 'og', beds: 2,
-    de: { title: 'Doppelzimmer im Obergeschoss', text: 'Doppelbett und Sitzecke zwischen alten Blockwänden, abends mit indirektem Licht.' },
-    en: { title: 'First-floor double room', text: 'A double bed and a seating corner between old log walls, with soft indirect light in the evening.' },
+    de: { title: 'Doppelzimmer im Obergeschoss', text: 'Doppelbett und Sitzecke zwischen alten Blockwänden, darüber eine Altholzdecke – abends mit indirektem Licht.' },
+    en: { title: 'First-floor double room', text: 'A double bed and a seating corner between old log walls beneath an old timber ceiling, with soft indirect light in the evening.' },
   },
   {
     key: 'balcony', floor: 'og', beds: 0,
