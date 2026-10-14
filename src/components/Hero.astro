@@ -7,8 +7,10 @@ interface Props {
   lang: Lang;
   eyebrow: string;
   title: string;
-  leadWinter: string;
-  leadSummer: string;
+  tagline?: string; // one serif line under the title (Home: the brand claim)
+  leadWinter?: string;
+  leadSummer?: string;
+  spec?: { text: string; wide?: boolean }[]; // one quiet line of key facts; `wide` items only from 431 px
   meta?: { value: string; label: string }[];
   compact?: boolean;
   winterSlot?: Slot;
@@ -17,11 +19,12 @@ interface Props {
   summerPos?: string;
   art?: boolean; // force the generative ridge instead of photos
 }
-const { lang, eyebrow, title, leadWinter, leadSummer, meta = [], compact = false, winterSlot = 'hero-winter', summerSlot = 'hero-summer', winterPos = '62% 25%', summerPos = '60% 20%', art = false } = Astro.props;
+const { lang, eyebrow, title, tagline, leadWinter, leadSummer, spec = [], meta = [], compact = false, winterSlot = 'hero-winter', summerSlot = 'hero-summer', winterPos = '62% 25%', summerPos = '60% 20%', art = false } = Astro.props;
 const hasPhotos = !art && Boolean(getPhoto(winterSlot) && getPhoto(summerSlot));
 const metaColsMobile = meta.length === 4 ? 2 : 3;
+const short = Boolean(tagline) && !leadWinter && !leadSummer; // title, tagline, facts line, action
 ---
-<section class:list={['hero', { 'hero--compact': compact }]} data-hero>
+<section class:list={['hero', { 'hero--compact': compact, 'hero--short': short }]} data-hero>
   <div class="hero__media">
     {hasPhotos ? (
       <>
@@ -36,8 +39,14 @@ const metaColsMobile = meta.length === 4 ? 2 : 3;
   <div class="wrap hero__content">
     <p class="eyebrow hero__eyebrow">{eyebrow}</p>
     <h1 class="hero__title">{title}</h1>
-    <p class="hero__lead" data-season-only="winter">{leadWinter}</p>
-    <p class="hero__lead" data-season-only="summer">{leadSummer}</p>
+    {tagline && <p class="hero__tagline">{tagline}</p>}
+    {leadWinter && <p class="hero__lead" data-season-only="winter">{leadWinter}</p>}
+    {leadSummer && <p class="hero__lead" data-season-only="summer">{leadSummer}</p>}
+    {spec.length > 0 && (
+      <ul class="hero__spec" role="list">
+        {spec.map((s) => <li class:list={{ 'hero__spec-wide': s.wide }}>{s.text}</li>)}
+      </ul>
+    )}
     <div class="hero__actions"><slot name="actions" /></div>
     {meta.length > 0 && (
       <dl class="hero__meta" style={`--meta-m:${metaColsMobile}`}>
@@ -66,10 +75,18 @@ const metaColsMobile = meta.length === 4 ? 2 : 3;
       linear-gradient(90deg, rgb(var(--shade) / 0.58) 0%, rgb(var(--shade) / 0.3) 36%, rgb(var(--shade) / 0) 64%),
       linear-gradient(180deg, rgb(var(--shade) / 0.5) 0%, rgb(var(--shade) / 0) 22%, rgb(var(--shade) / 0.06) 52%, rgb(var(--shade) / 0.78) 100%);
   }
-  .hero__title, .hero__lead, .hero__eyebrow, .hero__meta { text-shadow: 0 1px 2px rgb(0 0 0 / 0.26), 0 2px 26px rgb(0 0 0 / 0.28); }
+  .hero__title, .hero__tagline, .hero__lead, .hero__spec, .hero__eyebrow, .hero__meta { text-shadow: 0 1px 2px rgb(0 0 0 / 0.26), 0 2px 26px rgb(0 0 0 / 0.28); }
   @media (max-width: 900px) {
     /* Phones and tablets in portrait: the text block covers the lower half – keep it on a calm ground. */
     .hero__shade { background: linear-gradient(180deg, rgb(var(--shade) / 0.5) 0%, rgb(var(--shade) / 0.06) 22%, rgb(var(--shade) / 0.34) 44%, rgb(var(--shade) / 0.8) 64%, rgb(var(--shade) / 0.92) 100%); }
+    /* a short text block (tagline + facts line): a light veil under the header, the scrim travels with the text, the house above stays clear */
+    .hero--short .hero__shade { background: linear-gradient(180deg, rgb(var(--shade) / 0.5) 0, rgb(var(--shade) / 0) 7.5rem); }
+    .hero--short .hero__content { position: relative; }
+    .hero--short .hero__content::before {
+      /* starts 6rem above the eyebrow: the content box begins with the header clearance (padding-top) */
+      content: ''; position: absolute; z-index: -1; inset: calc(var(--hdr-h) + var(--space-2xl) - 6rem) 0 0;
+      background: linear-gradient(180deg, rgb(var(--shade) / 0) 0, rgb(var(--shade) / 0.34) 3rem, rgb(var(--shade) / 0.6) 5.5rem, rgb(var(--shade) / 0.74) 9rem, rgb(var(--shade) / 0.88) 100%);
+    }
   }
   .hero__content { padding-block: calc(var(--hdr-h) + var(--space-2xl)) var(--space-l); display: grid; gap: var(--space-s); }
   .hero__eyebrow { color: var(--creme); }
@@ -77,9 +94,19 @@ const metaColsMobile = meta.length === 4 ? 2 : 3;
     font-size: var(--step-5); font-weight: 400; line-height: 0.92; letter-spacing: -0.022em; margin-left: -0.03em;
   }
   .hero--compact .hero__title { font-size: var(--step-4); line-height: 1; letter-spacing: -0.015em; max-width: 16ch; }
+  .hero__tagline { font-family: var(--font-display); font-size: var(--step-2); font-weight: 400; line-height: 1.12; letter-spacing: -0.012em; max-width: 20ch; text-wrap: balance; }
+  .hero__spec { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; font-size: var(--step--1); font-weight: 500; letter-spacing: 0.02em; color: rgb(255 255 255 / 0.92); }
+  .hero__spec li + li::before { content: '·'; margin-inline: 0.6em; }
+  @media (max-width: 430px) { .hero__spec-wide { display: none; } }
   .hero__lead { font-family: var(--font-text); font-size: clamp(1.1rem, 1rem + 0.5vw, 1.4rem); line-height: 1.5; max-width: 36ch; font-weight: 400; color: rgb(255 255 255 / 0.94); }
-  .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: var(--space-xs); }
+  .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.75rem; margin-top: var(--space-xs); }
   .hero__actions:empty { display: none; }
+  .hero__actions :global(.link-arrow:hover) { color: var(--rose-2); }
+  /* phones: one full-width action; the quiet second link joins from 561 px */
+  @media (max-width: 560px) {
+    .hero--short .hero__actions :global(.btn) { flex: 1 1 100%; }
+    .hero__actions :global(.hero__more) { display: none; }
+  }
   .hero__meta {
     display: grid; grid-template-columns: repeat(5, auto); justify-content: start; gap: 0.6rem clamp(1.4rem, 3.4vw, 3.4rem);
     margin: var(--space-m) 0 0; padding-top: var(--space-s); border-top: 1px solid var(--line-light);

@@ -26,14 +26,10 @@ const p = PROPERTY;
 const C = de ? {
   title: 'Untermoos – Tiroler Bauernhaus für 10 Gäste im Alpbachtal',
   description: 'Rund 200 Jahre altes Bauernhaus über dem Inntal: 300 m², 4 Schlafzimmer, Stube mit Kachelofen, Garten. Ganz für bis zu 10 Gäste – Skifahren, Seen, Alpbachtal Card inklusive.',
-  eyebrow: 'Breitenbach am Inn · Alpbachtal · Tirol',
-  leadWinter: 'Ein 200 Jahre altes Bauernhaus über dem Inntal. Kachelofen, Holzherd, lange Abende in der Stube – und 18 Kilometer bis zur SkiWelt Wilder Kaiser.',
-  leadSummer: 'Ein 200 Jahre altes Bauernhaus über dem Inntal. Garten, Grill, Abende auf der Terrasse – und elf Kilometer bis zu zwei Naturbadeseen.',
+  eyebrow: 'Alpbachtal · Tirol',
+  tagline: 'Das ganze Bauernhaus. Nur für Sie.',
+  spec: [{ text: `${p.maxGuests} Gäste` }, { text: `${p.bedrooms} Schlafzimmer` }, { text: `${p.bathrooms} Bäder` }, { text: '300 m²', wide: true }],
   ctaPrimary: 'Verfügbarkeit anfragen', ctaSecondary: 'Das Haus entdecken',
-  meta: [
-    { value: '300 m²', label: 'Wohnfläche' }, { value: '10', label: 'Gäste' }, { value: '4', label: 'Schlafzimmer' },
-    { value: `${p.elevationM} m`, label: 'Seehöhe' }, { value: '≈ 200', label: 'Jahre Hof' },
-  ],
   introEyebrow: 'Das Haus', introTitle: 'Ein Hof, der Zeit hat.',
   introLead: 'Untermoos steht seit rund zweihundert Jahren auf einer Anhöhe über dem Inntal, in einem kleinen Weiler oberhalb von Breitenbach.',
   introText: 'Renoviert hat das Bauernhaus ein Bildhauer, der hier aufgewachsen ist – mit Respekt vor dem alten Holz, der originalen Stube und dem Kachelofen. Sie bewohnen das ganze Haus allein: vier Schlafzimmer, zwei Bäder, eine Küche mit Holzherd und ein Garten mit Spielplatz und Grill. Platz für zehn Menschen, die gemeinsam Zeit verbringen wollen.',
@@ -95,14 +91,10 @@ const C = de ? {
 } : {
   title: 'Untermoos – Tyrolean farmhouse for 10 guests in the Alpbachtal',
   description: 'A 200-year-old farmhouse above the Inn valley: 300 m², 4 bedrooms, a wood-panelled Stube with tiled stove, garden. Entirely yours for up to 10 guests – skiing, lakes and the Alpbachtal Card included.',
-  eyebrow: 'Breitenbach am Inn · Alpbachtal · Tyrol',
-  leadWinter: 'A 200-year-old farmhouse above the Inn valley. A tiled stove, a wood-fired range, long evenings in the Stube – and 18 kilometres to SkiWelt Wilder Kaiser.',
-  leadSummer: 'A 200-year-old farmhouse above the Inn valley. Garden, barbecue, evenings on the terrace – and eleven kilometres to two natural swimming lakes.',
+  eyebrow: 'Alpbachtal · Tyrol',
+  tagline: 'The whole farmhouse. Just for you.',
+  spec: [{ text: `${p.maxGuests} guests` }, { text: `${p.bedrooms} bedrooms` }, { text: `${p.bathrooms} bathrooms` }, { text: '300 m²', wide: true }],
   ctaPrimary: 'Check availability', ctaSecondary: 'Explore the house',
-  meta: [
-    { value: '300 m²', label: 'Living space' }, { value: '10', label: 'Guests' }, { value: '4', label: 'Bedrooms' },
-    { value: `${p.elevationM} m`, label: 'Altitude' }, { value: '≈ 200', label: 'Years old' },
-  ],
   introEyebrow: 'The house', introTitle: 'A farmhouse that takes its time.',
   introLead: 'Untermoos has stood for some two hundred years on a rise above the Inn valley, in a small hamlet above Breitenbach.',
   introText: 'It was renovated by a sculptor who grew up here – with respect for the old timber, the original Stube and the tiled stove. The whole house is yours: four bedrooms, two bathrooms, a kitchen with a wood-fired range and a garden with playground and barbecue. Room for ten people who want to spend time together.',
@@ -173,10 +165,10 @@ const photoCount = GALLERY.reduce((n, s) => n + s.slots.filter((slot) => getPhot
 const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id), meta: t.meta, text: t.text, position: (t as { position?: string }).position, href: url('gallery', lang, t.id) }));
 ---
 <Base lang={lang} route="home" title={C.title} description={C.description} jsonLd={jsonLd}>
-  <Hero lang={lang} eyebrow={C.eyebrow} title="Untermoos" leadWinter={C.leadWinter} leadSummer={C.leadSummer} meta={C.meta}>
+  <Hero lang={lang} eyebrow={C.eyebrow} title="Untermoos" tagline={C.tagline} spec={C.spec}>
     <Fragment slot="actions">
       <a class="btn btn--light" href={url('rates', lang, 'anfrage')}>{C.ctaPrimary} <span class="arrow" aria-hidden="true">→</span></a>
-      <a class="btn btn--line-light" href={url('house', lang)}>{C.ctaSecondary}</a>
+      <a class="link-arrow hero__more" href={url('house', lang)}>{C.ctaSecondary} <span aria-hidden="true">→</span></a>
     </Fragment>
   </Hero>
 

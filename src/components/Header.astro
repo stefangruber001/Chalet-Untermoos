@@ -30,7 +30,7 @@ const host = PROPERTY.host;
       <a class="lang" href={switchHref} hreflang={other} lang={other} title={t.langSwitch.label}>{t.langSwitch.short}</a>
       <a class="btn header-cta" href={url('rates', lang, 'anfrage')}>{t.enquire}</a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-sheet" data-menu-open>
-        <span class="menu-btn__lines" aria-hidden="true"><i></i><i></i><i></i></span>{t.menu}
+        <span class="menu-btn__lines" aria-hidden="true"><i></i><i></i><i></i></span><span class="menu-btn__label">{t.menu}</span>
       </button>
     </div>
   </div>
@@ -42,7 +42,7 @@ const host = PROPERTY.host;
       <Crest />
       <span class="brand__text"><span class="brand__word">Untermoos</span><span class="brand__tag">{t.brandTag}</span></span>
     </a>
-    <button class="menu-close" type="button" data-menu-close>{t.close}</button>
+    <button class="menu-close" type="button" data-menu-close><span class="menu-close__label">{t.close}</span><span class="menu-close__x" aria-hidden="true"></span></button>
   </div>
   <nav aria-label={lang === 'de' ? 'Mobile Navigation' : 'Mobile navigation'}>
     <a href={url('home', lang)} aria-current={route === 'home' ? 'page' : undefined}>{lang === 'de' ? 'Start' : 'Home'}</a>

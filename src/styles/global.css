@@ -285,6 +285,14 @@ html[data-hdr='over'] .nav a[aria-current='page'] { border-bottom-color: var(--c
   .menu-btn__lines i { display: block; height: 1.5px; background: currentColor; }
 }
 @media (max-width: 900px) { .header-cta { display: none; } }
+/* small phones (≤ 374 px): menu and close buttons keep only their icon (labels stay for screen readers), so the wordmark keeps its distance */
+@media (max-width: 374px) {
+  .site-header__inner { gap: 0.75rem; }
+  .menu-btn { width: 2.75rem; padding: 0; justify-content: center; }
+  .menu-close { width: 2.75rem; padding: 0; display: inline-grid; place-items: center; }
+  .menu-btn__label, .menu-close__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .menu-close .menu-close__x { display: block; } /* base rule (display: none) sits further down */
+}
 /* full navigation on small laptops (1181–1366 px): the tagline gives way so links and tools keep their spacing */
 @media (min-width: 1181px) and (max-width: 1366px) { .site-header .brand__tag { display: none; } }
 
@@ -313,6 +321,9 @@ html[data-hdr='over'] .nav a[aria-current='page'] { border-bottom-color: var(--c
   min-height: 2.75rem; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); border-radius: var(--radius);
   padding: 0.55rem 0.95rem; font-size: var(--step--2); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
 }
+.menu-close__x { display: none; position: relative; width: 16px; height: 16px; }
+.menu-close__x::before, .menu-close__x::after { content: ''; position: absolute; left: 0; top: calc(50% - 0.75px); width: 16px; height: 1.5px; background: currentColor; transform: rotate(45deg); }
+.menu-close__x::after { transform: rotate(-45deg); }
 
 /* sticky enquiry bar (phones and tablets, portrait and landscape): door red with a white button.
    It appears once the opening photograph has scrolled away and steps aside at the form, the closing band and the footer. */
