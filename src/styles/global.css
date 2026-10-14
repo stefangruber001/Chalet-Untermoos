@@ -141,8 +141,8 @@ h3 { font-size: var(--step-2); line-height: 1.16; }
 h4 { font-size: var(--step-1); line-height: 1.22; }
 p { margin: 0; text-wrap: pretty; }
 /* comfortable line length wherever a column gets wide (single-column tablets, phones in landscape) */
-main p, main .ticks { max-width: 75ch; }
-main p.small { max-width: 64ch; }
+main p, main .ticks { max-width: 68ch; }
+main p.small { max-width: 60ch; }
 em, i { font-style: italic; }
 
 .skip-link {
