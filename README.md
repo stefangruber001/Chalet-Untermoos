@@ -6,7 +6,7 @@ Bilingual (DE/EN) website for **Untermoos**, a ~200-year-old Tyrolean farmhouse 
 |---|---|---|
 | Home | `/` | `/en/` |
 | The house (floor plans, rooms) | `/haus/` | `/en/house/` |
-| Photos (60, room by room, full-screen viewer) | `/bilder/` | `/en/photos/` |
+| Photos (room by room, full-screen viewer) | `/bilder/` | `/en/photos/` |
 | Region | `/region/` | `/en/region/` |
 | Occasions | `/anlaesse/` | `/en/occasions/` |
 | Rates & enquiry | `/preise/` | `/en/rates/` |

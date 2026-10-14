@@ -116,9 +116,7 @@ const widths = [480, 768, 1080, 1440];
       <span class="lb__count num" data-lb-count></span>
       <button type="button" class="lb__btn lb__close" data-lb-close>{C.close} <span aria-hidden="true">✕</span></button>
     </div>
-    <div class="lb__stage" data-lb-stage>
-      <img class="lb__img" data-lb-img alt="" decoding="async" />
-    </div>
+    <div class="lb__stage" data-lb-stage></div>
     <div class="lb__foot">
       <button type="button" class="lb__btn lb__nav lb__nav--prev" data-lb-prev aria-label={C.prev}><span aria-hidden="true">←</span></button>
       <p class="lb__cap" data-lb-cap aria-live="polite"></p>
@@ -133,10 +131,14 @@ const widths = [480, 768, 1080, 1440];
   const dlg = document.querySelector<HTMLDialogElement>('[data-lb]');
   const items = [...document.querySelectorAll<HTMLAnchorElement>('.gal-item')];
   if (dlg && items.length && typeof dlg.showModal === 'function') {
-    const img = dlg.querySelector<HTMLImageElement>('[data-lb-img]')!;
     const cap = dlg.querySelector<HTMLElement>('[data-lb-cap]')!;
     const count = dlg.querySelector<HTMLElement>('[data-lb-count]')!;
     const stage = dlg.querySelector<HTMLElement>('[data-lb-stage]')!;
+    const img = document.createElement('img');
+    img.className = 'lb__img';
+    img.alt = '';
+    img.decoding = 'async';
+    img.dataset.lbImg = ''; // inserted on first open, so the page never holds an image without a source
     let i = 0;
     let opener: HTMLElement | null = null;
     const at = (k: number) => items[(k + items.length) % items.length];
@@ -145,6 +147,7 @@ const widths = [480, 768, 1080, 1440];
       const a = items[i];
       img.classList.remove('is-in');
       img.src = a.href;
+      if (!img.isConnected) stage.append(img);
       img.alt = a.dataset.cap ?? '';
       cap.textContent = `${a.dataset.sec} · ${a.dataset.cap}`;
       count.textContent = `${i + 1} / ${items.length}`;
@@ -270,8 +273,8 @@ const widths = [480, 768, 1080, 1440];
   .lb__btn:hover { background: var(--kalk); color: var(--laerche); }
   .lb__close { padding: 0.55rem 0.95rem; display: inline-flex; gap: 0.5rem; align-items: center; }
   .lb__stage { position: relative; min-height: 0; display: grid; place-items: center; padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px)); touch-action: pan-y pinch-zoom; user-select: none; }
-  .lb__img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; opacity: 0; transition: opacity 0.35s var(--ease); -webkit-user-drag: none; }
-  .lb__img.is-in { opacity: 1; }
+  .lb__stage :global(.lb__img) { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; opacity: 0; transition: opacity 0.35s var(--ease); -webkit-user-drag: none; }
+  .lb__stage :global(.lb__img.is-in) { opacity: 1; }
   .lb__foot { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem;
     padding: 0.8rem max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 1rem) max(16px, env(safe-area-inset-left, 0px)); }
   .lb__cap { margin: 0; text-align: center; font-size: var(--step--1); line-height: 1.4; color: rgb(236 238 232 / 0.86); }
@@ -284,5 +287,5 @@ const widths = [480, 768, 1080, 1440];
     .lb__foot { grid-template-columns: 1fr; }
   }
   :global(html.lb-open) { overflow: hidden; }
-  @media (prefers-reduced-motion: reduce) { .gal-item :global(img), .lb__img { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .gal-item :global(img), .lb__stage :global(.lb__img) { transition: none; } }
 </style>
