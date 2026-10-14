@@ -1,0 +1,54 @@
+# Public preview of the website on GitHub Pages: https://stefangruber001.github.io/Chalet-Untermoos/
+# Flat bundle with relative links (tools/preview-bundle.mjs --standalone), every page noindex.
+# The enquiry form has no mail backend here and opens a prepared e-mail instead.
+# Sample reviews are shown with their "Beispiel" tag; the live site (Cloudflare Pages) never builds them.
+# One-time setup: repository Settings → Pages → Build and deployment → Source: GitHub Actions.
+name: Preview on GitHub Pages
+
+on:
+  push:
+    branches: [claude/ferienwohnung-premium-rebrand-6vjugz]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --omit=dev
+      # optimised photos are cached between runs (a cold build takes about 9 minutes)
+      - uses: actions/cache@v4
+        with:
+          path: node_modules/.astro
+          key: astro-${{ hashFiles('src/assets/**', 'package-lock.json') }}
+          restore-keys: astro-
+      - run: npm run build
+        env:
+          SHOW_SAMPLE_REVIEWS: '1'
+      - run: node tools/preview-bundle.mjs pages --standalone
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

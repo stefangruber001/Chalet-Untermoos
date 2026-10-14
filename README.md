@@ -12,6 +12,10 @@ Bilingual (DE/EN) website for **Untermoos**, a ~200-year-old Tyrolean farmhouse 
 | Rates & enquiry | `/preise/` | `/en/rates/` |
 | Imprint / Privacy | `/impressum/`, `/datenschutz/` | `/en/imprint/`, `/en/privacy/` |
 
+## Preview link (GitHub Pages)
+
+https://stefangruber001.github.io/Chalet-Untermoos/ – a shareable preview, rebuilt on every push by `.github/workflows/pages.yml` (one-time setup: Settings → Pages → Source: *GitHub Actions*). Hidden from search engines (noindex); the enquiry form opens a prepared email because there is no mail backend; sample reviews are shown with their “Beispiel” tag. The real site goes live on Cloudflare Pages (below).
+
 ## Go live (one-time, about 30 minutes, € 0)
 
 1. **Cloudflare Pages** (free): dash.cloudflare.com → Workers & Pages → Create → Pages → *Connect to Git* → this repository, branch `main`.

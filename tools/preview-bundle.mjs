@@ -1,15 +1,18 @@
 // Builds a flat, self-contained preview of ./dist for sharing as a claude.ai Artifact.
-// Run after `npm run build`:  node tools/preview-bundle.mjs <outdir>
+// Run after `npm run build`:  node tools/preview-bundle.mjs <outdir> [--standalone]
 // - every page becomes a flat file (index.html, haus.html, en-house.html …) with relative links
 // - one WebP per photo (largest ≤ 1440 px) instead of the full AVIF/WebP/JPEG set
 // - JS modules inlined, prefetch dropped; the main page loses its document wrapper (the viewer adds one)
+// --standalone: for a static host under any path (GitHub Pages preview): full documents, every page noindex
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync, rmSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const dist = join(root, 'dist');
-const out = process.argv[2] || join(root, 'preview');
+const args = process.argv.slice(2);
+const standalone = args.includes('--standalone');
+const out = args.find((a) => !a.startsWith('--')) || join(root, 'preview');
 rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
 
@@ -53,7 +56,8 @@ function transform(html, isMain) {
   html = html.replace(/(["'(\s,])\/_astro\//g, '$1assets/').replace(/(["'(\s,])\/fonts\//g, '$1fonts/').replace(/(["'(\s,])\/plans\//g, '$1plans/').replace(/"\/favicon\.svg"/g, '"favicon.svg"');
   html = html.replace(/<link rel="apple-touch-icon"[^>]*>/, '');
   // (safe-area handling for the viewer's status bar lives in global.css: --safe-top)
-  if (isMain) {
+  if (standalone) html = html.replace('<head>', '<head><meta name="robots" content="noindex, nofollow">');
+  if (isMain && !standalone) {
     html = html
       .replace(/^<!DOCTYPE html><html[^>]*><head>/i, '')
       .replace(/<meta charset="utf-8">/, '')
