@@ -1,0 +1,11 @@
+---
+// Brand mark: the low Tyrolean gable over a "U" – roof and house in one stroke.
+interface Props { class?: string; title?: string }
+const { class: cls = '', title } = Astro.props;
+---
+<svg class={cls} viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" role={title ? 'img' : undefined} aria-hidden={title ? undefined : 'true'}>
+  {title && <title>{title}</title>}
+  <path d="M2.5 13.2 16 5.5l13.5 7.7" />
+  <path d="M8 11.2v10.3c0 3.6 2.6 6 8 6s8-2.4 8-6V11.2" />
+  <path d="M13.2 17.6h5.6" />
+</svg>

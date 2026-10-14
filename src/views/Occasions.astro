@@ -1,0 +1,124 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Photo from '../components/Photo.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { url, ROUTES, type Lang } from '../i18n/routes';
+import { SEASONS } from '../data/rates';
+import { fmtEUR } from '../i18n/ui';
+import { breadcrumbJsonLd } from '../data/jsonld';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const de = lang === 'de';
+const pp = (k: keyof typeof SEASONS) => fmtEUR(Math.round(SEASONS[k].rate / 10), lang);
+
+const C = de ? {
+  title: 'Familienurlaub, Skiwoche, Team-Offsite, Feiern in Tirol | Untermoos',
+  description: 'Ein ganzes Bauernhaus für bis zu zehn: Familienurlaub mit Großeltern, Skiwoche mit Freunden, Team-Offsite unter der Woche oder ein Familienfest – mit Ideen, Preisen pro Person und Service auf Wunsch.',
+  eyebrow: 'Anlässe', heroTitle: 'Ein Haus für Ihre Leute.',
+  leadWinter: 'Zehn Betten, eine Tafel, ein Kachelofen. Für die Skiwoche mit Freunden, den Jahreswechsel mit der Familie oder zwei Tage Klausur mit dem Team.',
+  leadSummer: 'Zehn Betten, ein Garten, eine Tafel. Für den Familiensommer, das Wiedersehen mit Freunden oder den runden Geburtstag.',
+  perPerson: 'pro Person und Nacht bei 10 Gästen',
+  idea: 'Unser Vorschlag',
+  items: [
+    { k: 'familie', slot: 'garden', pos: '62% 50%', title: 'Familie & Generationen',
+      text: 'Großeltern, Eltern, Kinder – und der Hund. Jeder hat seinen Platz, und abends sitzen alle an einem Tisch.',
+      list: ['Doppelzimmer im Erdgeschoss für alle, die keine Treppe möchten', 'Vierbettzimmer für die Kinder', 'Garten mit Spielplatz und Liegestühlen', 'Eingezäunter Bereich für bis zu zwei Hunde', 'Babybett auf Anfrage'],
+      idea: 'Vormittags mit der Alpbachtal Card auf den Reitherkogel, nachmittags an den Reintaler See, abends Grill im Garten.',
+      price: 'summer' as const },
+    { k: 'freunde', slot: 'winter-detail', pos: '50% 50%', title: 'Freunde & Skiwoche',
+      text: 'Tagsüber vier Skigebiete, abends Kachelofen, Stube und lange Gespräche. Ein Haus nur für Ihre Runde.',
+      list: ['Ski Juwel ca. 25 min, SkiWelt ca. 30 min, Zillertal ca. 40 min, Kitzbühel ca. 55 min', 'Skiraum und Parkplätze am Haus', 'Stube mit Kachelofen, Bibliothek und Dartecke', 'Private Chef für einen Abend auf Wunsch'],
+      idea: 'Montag Ski Juwel, Dienstag SkiWelt, Mittwoch Kitzbühel, Donnerstag Langlauf in Breitenbach, Freitag kocht ein Private Chef in der Stube.',
+      price: 'winter' as const },
+    { k: 'team', slot: 'stube', pos: '50% 50%', title: 'Team-Offsite',
+      text: 'Raus aus dem Büro, rein in ein Haus mit Geschichte. Unter der Woche, ruhig gelegen, gut erreichbar.',
+      list: ['Sonntag bis Donnerstag in Neben- und Zwischensaison', 'Die Stube als Workshop-Raum mit Tafel für zehn', 'Schreibtisch im oberen Hausgang, WLAN im ganzen Haus', 'Bahn bis Wörgl (ICE, Railjet), ab München rund 1 h 25 mit dem Auto', 'Catering, Private Chef oder geführte Wanderung auf Wunsch', 'Rechnung auf Ihr Unternehmen'],
+      idea: 'Anreise am Sonntag, zwei Workshop-Tage in der Stube, nachmittags Bewegung am Berg, am letzten Abend kocht ein Private Chef.',
+      price: 'low' as const },
+    { k: 'feste', slot: 'table', pos: '50% 55%', title: 'Feste & Familientreffen',
+      text: 'Runde Geburtstage, Jubiläen, das große Wiedersehen: ein Haus, eine Tafel, keine Fremden am Nebentisch.',
+      list: ['Lange Tafel für zehn in der Stube, Holztisch vor dem Haus', 'In der Nebensaison auch für zwei Nächte', 'Private Chef oder Catering auf Wunsch', 'Ruhige Lage in einem kleinen Weiler'],
+      idea: 'Freitag Anreise und Begrüßung mit dem hauseigenen Schnaps, Samstag Fest an der Tafel, Sonntag Frühstück in der Sonne.',
+      price: 'low' as const },
+  ],
+} : {
+  title: 'Family holidays, ski weeks, team offsites, celebrations in Tyrol | Untermoos',
+  description: 'A whole farmhouse for up to ten: a family holiday with grandparents, a ski week with friends, a midweek team offsite or a family celebration – with ideas, prices per person and services on request.',
+  eyebrow: 'Occasions', heroTitle: 'A house for your people.',
+  leadWinter: 'Ten beds, one table, one tiled stove. For the ski week with friends, New Year with the family or two days away with the team.',
+  leadSummer: 'Ten beds, one garden, one table. For the family summer, the reunion with friends or the milestone birthday.',
+  perPerson: 'per person per night with 10 guests',
+  idea: 'Our suggestion',
+  items: [
+    { k: 'familie', slot: 'garden', pos: '62% 50%', title: 'Family & generations',
+      text: 'Grandparents, parents, children – and the dog. Everyone has their own space, and at night everyone sits at one table.',
+      list: ['A ground-floor double room for anyone who prefers no stairs', 'A four-bed room for the children', 'Garden with playground and deck chairs', 'Fenced area for up to two dogs', 'Baby cot on request'],
+      idea: 'Morning up the Reitherkogel with the Alpbachtal Card, afternoon at Lake Reintal, evening barbecue in the garden.',
+      price: 'summer' as const },
+    { k: 'freunde', slot: 'winter-detail', pos: '50% 50%', title: 'Friends & ski week',
+      text: 'Four ski areas by day; the tiled stove, the Stube and long conversations at night. A house just for your group.',
+      list: ['Ski Juwel approx. 25 min, SkiWelt approx. 30 min, Zillertal approx. 40 min, Kitzbühel approx. 55 min', 'Ski room and parking at the house', 'Stube with tiled stove, library and darts corner', 'A private chef for one evening on request'],
+      idea: 'Monday Ski Juwel, Tuesday SkiWelt, Wednesday Kitzbühel, Thursday cross-country in Breitenbach, Friday a private chef cooks in the Stube.',
+      price: 'winter' as const },
+    { k: 'team', slot: 'stube', pos: '50% 50%', title: 'Team offsite',
+      text: 'Out of the office and into a house with history. Midweek, quietly located, easy to reach.',
+      list: ['Sunday to Thursday in low and mid season', 'The Stube as a workshop room with a table for ten', 'Desk in the upstairs hallway, Wi-Fi throughout', 'Rail to Wörgl (ICE, Railjet); about 1 h 25 by car from Munich', 'Catering, private chef or a guided hike on request', 'Invoice to your company'],
+      idea: 'Arrive on Sunday, two workshop days in the Stube, afternoons outdoors on the mountain, a private chef on the last evening.',
+      price: 'low' as const },
+    { k: 'feste', slot: 'table', pos: '50% 55%', title: 'Celebrations & reunions',
+      text: 'Milestone birthdays, anniversaries, the big reunion: one house, one table, no strangers at the next table.',
+      list: ['The long table for ten in the Stube, a wooden table outside', 'Two-night stays possible in low season', 'Private chef or catering on request', 'A quiet location in a small hamlet'],
+      idea: 'Arrive on Friday and toast with the house schnapps, celebrate at the long table on Saturday, breakfast in the sun on Sunday.',
+      price: 'low' as const },
+  ],
+};
+const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }, { name: C.eyebrow, path: ROUTES.occasions[lang] }])];
+---
+<Base lang={lang} route="occasions" title={C.title} description={C.description} jsonLd={jsonLd}>
+  <Hero lang={lang} compact eyebrow={C.eyebrow} title={C.heroTitle} leadWinter={C.leadWinter} leadSummer={C.leadSummer}
+    winterSlot="hero-winter" summerSlot="exterior-tree" winterPos="62% 50%" summerPos="50% 45%" />
+
+  {C.items.map((o, i) => (
+    <section class:list={['section', 'occ-block', { 'occ-block--alt': i % 2 === 1 }]} id={o.k}>
+      <div class="wrap grid">
+        <div class="occ-block__media">
+          <Photo slot={o.slot as any} lang={lang} ratio="4/5" sizes="(min-width: 980px) 42vw, 100vw" position={o.pos} />
+        </div>
+        <div class="occ-block__text stack reveal">
+          <p class="eyebrow">{String(i + 1).padStart(2, '0')} · {C.eyebrow}</p>
+          <h2>{o.title}</h2>
+          <p class="lead lead--s">{o.text}</p>
+          <ul class="ticks" role="list">{o.list.map((x) => <li>{x}</li>)}</ul>
+          <div class="occ-idea">
+            <p class="footer-label">{C.idea}</p>
+            <p>{o.idea}</p>
+          </div>
+          <p class="occ-price"><strong class="num">{de ? 'ab ' : 'from '}{pp(o.price)}</strong> <span class="muted">{C.perPerson}</span></p>
+          <p><a class="btn" href={url('rates', lang, 'anfrage')}>{de ? 'Anfragen' : 'Enquire'} <span class="arrow" aria-hidden="true">→</span></a></p>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <CtaBand lang={lang} />
+</Base>
+
+<style>
+  .occ-block--alt { background: var(--papier); }
+  .occ-block__media { grid-column: 1 / span 5; }
+  .occ-block__text { grid-column: 7 / -1; align-self: center; --flow: var(--space-s); }
+  .occ-block--alt .occ-block__media { grid-column: 8 / -1; grid-row: 1; }
+  .occ-block--alt .occ-block__text { grid-column: 1 / span 6; grid-row: 1; }
+  .ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
+  .ticks li { position: relative; padding-left: 1.6rem; }
+  .ticks li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 0.8rem; height: 1px; background: var(--geranie); }
+  .occ-idea { border-left: 2px solid var(--moos); padding: 0.2rem 0 0.2rem 1rem; display: grid; gap: 0.3rem; }
+  .occ-idea .footer-label { color: var(--moos); margin: 0; }
+  .occ-price strong { font-family: var(--font-display); font-weight: 400; font-size: var(--step-2); margin-right: 0.3rem; }
+  @media (max-width: 900px) {
+    .occ-block__media, .occ-block__text, .occ-block--alt .occ-block__media, .occ-block--alt .occ-block__text { grid-column: 1 / -1; grid-row: auto; }
+    .occ-block__text { margin-top: var(--space-l); }
+  }
+</style>

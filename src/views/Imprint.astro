@@ -1,0 +1,71 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import type { Lang } from '../i18n/routes';
+import { PROPERTY } from '../data/property';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const de = lang === 'de';
+const p = PROPERTY;
+const h = p.host;
+const tel = h.phone.replace(/\s/g, '');
+---
+{de ? (
+  <LegalPage lang="de" route="imprint" title="Impressum | Untermoos" description="Impressum und Offenlegung des Ferienhauses Untermoos in Breitenbach am Inn, Tirol."
+    eyebrow="Rechtliches" heading="Impressum" updated="Stand: Oktober 2026">
+    <h2>Medieninhaber und Betreiber</h2>
+    <p class="small muted">Informationspflicht nach § 5 E-Commerce-Gesetz und Offenlegung nach § 25 Mediengesetz</p>
+    <address>
+      {h.company}<br />
+      {h.name}<br />
+      {p.address.street}<br />
+      {p.address.postalCode} {p.address.locality}<br />
+      Österreich
+    </address>
+    <dl>
+      <dt>Telefon</dt><dd><a href={`tel:${tel}`}>{h.phoneDisplay}</a></dd>
+      <dt>E-Mail</dt><dd><a href={`mailto:${h.email}`}>{h.email}</a></dd>
+      <dt>Unternehmensgegenstand</dt><dd>Vermietung von Ferienunterkünften</dd>
+      <dt>Aufsichtsbehörde</dt><dd>{h.authority}</dd>
+    </dl>
+
+    <h2>Grundlegende Richtung</h2>
+    <p>Information über das Ferienhaus Untermoos, seine Ausstattung, Preise und die Region Alpbachtal sowie die Möglichkeit, eine Anfrage zu stellen.</p>
+
+    <h2>Bilder und Pläne</h2>
+    <p>Fotos: Untermoos, sofern nicht anders angegeben. Grundrisse nach Plänen der Eigentümer, nicht maßstäblich. Alle Inhalte dieser Website sind urheberrechtlich geschützt; eine Verwendung bedarf unserer Zustimmung.</p>
+    <p>Schriften: Newsreader und Albert Sans, lizenziert unter der SIL Open Font License, lokal von dieser Website ausgeliefert.</p>
+
+    <h2>Haftung</h2>
+    <p>Wir erstellen die Inhalte dieser Website mit Sorgfalt. Preise, Fahrzeiten und Angaben zu Angeboten in der Region (etwa Alpbachtal Card, Bergbahnen, Skigebiete) können sich ändern und sind ohne Gewähr; maßgeblich ist unser persönliches Angebot. Für Inhalte verlinkter externer Websites sind ausschließlich deren Betreiber verantwortlich.</p>
+  </LegalPage>
+) : (
+  <LegalPage lang="en" route="imprint" title="Imprint | Untermoos" description="Legal notice of the Untermoos holiday house in Breitenbach am Inn, Tyrol, Austria."
+    eyebrow="Legal" heading="Imprint" updated="Last updated: October 2026">
+    <h2>Owner and operator</h2>
+    <p class="small muted">Information pursuant to § 5 Austrian E-Commerce Act and disclosure pursuant to § 25 Austrian Media Act</p>
+    <address>
+      {h.company}<br />
+      {h.name}<br />
+      {p.address.street}<br />
+      {p.address.postalCode} {p.address.locality}<br />
+      Austria
+    </address>
+    <dl>
+      <dt>Phone</dt><dd><a href={`tel:${tel}`}>{h.phoneDisplay}</a></dd>
+      <dt>Email</dt><dd><a href={`mailto:${h.email}`}>{h.email}</a></dd>
+      <dt>Business purpose</dt><dd>Letting of holiday accommodation</dd>
+      <dt>Supervisory authority</dt><dd>{h.authority} (District Authority Kufstein)</dd>
+    </dl>
+
+    <h2>Editorial line</h2>
+    <p>Information about the Untermoos holiday house, its facilities, rates and the Alpbachtal region, and the option to send an enquiry.</p>
+
+    <h2>Images and plans</h2>
+    <p>Photos: Untermoos unless stated otherwise. Floor plans based on the owners’ drawings, not to scale. All content on this website is protected by copyright; any use requires our consent.</p>
+    <p>Typefaces: Newsreader and Albert Sans, licensed under the SIL Open Font License and served locally from this website.</p>
+
+    <h2>Liability</h2>
+    <p>We prepare the content of this website with care. Prices, travel times and details of regional offers (such as the Alpbachtal Card, mountain lifts and ski areas) may change and are given without guarantee; our personal offer is binding. The operators of linked external websites are solely responsible for their content.</p>
+  </LegalPage>
+)}

@@ -1,0 +1,76 @@
+---
+import plans from '../data/plans.json';
+import type { Lang } from '../i18n/routes';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const de = lang === 'de';
+
+// Label anchors in plan coordinates (pt), taken from the owner's CAD plans.
+const LABELS = {
+  eg: [
+    { x: 167, y: 462, de: 'Stube', en: 'Stube' },
+    { x: 183, y: 600, de: 'Küche', en: 'Kitchen' },
+    { x: 293, y: 470, de: 'Hausgang', en: 'Hallway', small: true },
+    { x: 401, y: 470, de: 'Doppelzimmer', en: 'Double room' },
+    { x: 407, y: 563, de: 'Abstellraum', en: 'Storage', small: true },
+    { x: 421, y: 618, de: 'Bad', en: 'Bath' },
+    { x: 370, y: 627, de: 'WC', en: 'WC', small: true },
+    { x: 293, y: 391, de: '↑ Garten', en: '↑ Garden', small: true },
+  ],
+  og: [
+    { x: 290, y: 376, de: 'Balkon', en: 'Balcony', small: true },
+    { x: 179, y: 455, de: 'Vierbettzimmer', en: 'Four-bed room' },
+    { x: 294, y: 560, de: 'Hausgang', en: 'Hallway', small: true },
+    { x: 294, y: 455, de: 'Schreibtisch', en: 'Desk', small: true },
+    { x: 402, y: 470, de: 'Doppelzimmer', en: 'Double room' },
+    { x: 177, y: 618, de: 'Zweibettzimmer', en: 'Two-bed room' },
+  ],
+} as const;
+
+const floors = [
+  { key: 'eg' as const, title: de ? 'Erdgeschoss' : 'Ground floor' },
+  { key: 'og' as const, title: de ? 'Obergeschoss' : 'First floor' },
+];
+const box = (vb: string) => vb.split(' ').map(Number);
+---
+<div class="plans">
+  {floors.map(({ key, title }) => {
+    const p = (plans as any)[key];
+    const [vx, vy, vw, vh] = box(p.viewBox);
+    return (
+      <figure class="plan">
+        <figcaption class="plan__title"><span class="eyebrow eyebrow--plain">{title}</span></figcaption>
+        <div class="plan__canvas" style={`aspect-ratio:${vw}/${vh}`}>
+          <svg viewBox={p.viewBox} role="img" aria-label={de ? `Grundriss ${title}` : `Floor plan ${title.toLowerCase()}`} preserveAspectRatio="xMidYMid meet">
+            <path d={p.furn} class="plan__furn" />
+            <path d={p.door} class="plan__door" />
+            <path d={p.wall} class="plan__wall" />
+          </svg>
+          {LABELS[key].map((l) => (
+            <span class:list={['plan__label', { 'plan__label--small': 'small' in l && l.small }]} style={`left:${(4 + ((l.x - vx) / vw) * 92).toFixed(2)}%;top:${(4 + ((l.y - vy) / vh) * 92).toFixed(2)}%`}>{l[lang]}</span>
+          ))}
+        </div>
+      </figure>
+    );
+  })}
+  <p class="plans__note small muted">{de ? 'Grundrisse nach Plänen der Eigentümer, nicht maßstäblich. Das zusätzliche Bad (seit Frühjahr 2026) ist noch nicht eingezeichnet.' : 'Floor plans based on the owners’ drawings, not to scale. The additional bathroom (since spring 2026) is not yet shown.'}</p>
+</div>
+
+<style>
+  .plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-l) clamp(16px, 3vw, 48px); }
+  .plan { margin: 0; display: grid; gap: var(--space-s); }
+  .plan__canvas { position: relative; width: 100%; background: var(--papier); border: 1px solid var(--linie); }
+  .plan__canvas svg { position: absolute; inset: 4%; width: 92%; height: 92%; overflow: visible; }
+  .plan__furn { fill: none; stroke: #9da095; stroke-width: 0.35; stroke-linecap: round; }
+  .plan__door { fill: none; stroke: var(--moos); stroke-width: 0.5; stroke-linecap: round; }
+  .plan__wall { fill: var(--laerche); stroke: var(--laerche); stroke-width: 0.3; }
+  .plan__label {
+    position: absolute; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none;
+    font-family: var(--font-display); font-size: clamp(0.72rem, 0.6rem + 0.45vw, 1rem); line-height: 1; color: var(--laerche);
+    background: rgb(246 247 243 / 0.88); padding: 0.18em 0.35em; border-radius: 2px;
+  }
+  .plan__label--small { font-family: var(--font-text); font-size: clamp(0.56rem, 0.5rem + 0.2vw, 0.68rem); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; color: var(--fels); }
+  .plans__note { grid-column: 1 / -1; margin-top: calc(var(--space-s) * -1); }
+  @media (max-width: 860px) { .plans { grid-template-columns: 1fr; } }
+</style>

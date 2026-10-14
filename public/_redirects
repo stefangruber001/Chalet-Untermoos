@@ -1,0 +1,8 @@
+# Old ferienhaus-untermoos.at URLs → new structure (permanent)
+/kontakt /preise/#anfrage 301
+/kontakt/ /preise/#anfrage 301
+/buchung /preise/ 301
+/buchung/ /preise/ 301
+/bildergalerie /haus/ 301
+/bildergalerie/ /haus/ 301
+# Apex → www is handled by a Cloudflare redirect rule (see README).

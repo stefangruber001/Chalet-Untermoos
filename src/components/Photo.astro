@@ -1,0 +1,43 @@
+---
+import { Picture } from 'astro:assets';
+import { getPhoto, photoAlt, type Slot } from '../data/photos';
+import type { Lang } from '../i18n/routes';
+import { UI } from '../i18n/ui';
+
+interface Props {
+  slot: Slot;
+  lang: Lang;
+  ratio?: string; // e.g. '4/5'
+  sizes?: string;
+  widths?: number[];
+  priority?: boolean; // eager + high fetch priority
+  high?: boolean; // lazy but high priority (season-dependent heroes: hidden one never loads)
+  class?: string;
+  caption?: string;
+  alt?: string;
+  position?: string; // object-position focal point, e.g. '65% 40%'
+}
+const { slot, lang, ratio = '4/5', sizes = '(min-width: 980px) 50vw, 100vw', widths = [480, 768, 1080, 1440, 1920], priority = false, high = false, class: cls = '', caption, alt, position } = Astro.props;
+const img = getPhoto(slot);
+const altText = alt ?? photoAlt(slot, lang);
+const usableWidths = img ? widths.filter((w) => w <= img.width) : [];
+---
+<figure class:list={['frame', 'reveal-img', cls]} style={`aspect-ratio:${ratio}${position ? `;--pos:${position}` : ''}`}>
+  {img ? (
+    <Picture
+      src={img}
+      alt={altText}
+      formats={['avif', 'webp']}
+      widths={usableWidths.length ? usableWidths : [img.width]}
+      sizes={sizes}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority || high ? 'high' : 'auto'}
+      decoding="async"
+    />
+  ) : (
+    <div class="ph" role="img" aria-label={altText}>
+      <span class="ph__label"><span>{UI[lang].photoPending}</span><span>{altText}</span></span>
+    </div>
+  )}
+  {caption && <figcaption class="sr-only">{caption}</figcaption>}
+</figure>

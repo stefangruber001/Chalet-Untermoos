@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../i18n/routes';
+---
+<Base lang="de" route="home" title="Seite nicht gefunden · Page not found | Untermoos" description="Diese Seite gibt es nicht (mehr). This page does not exist." noindex bar={false}>
+  <section class="section nf">
+    <div class="wrap nf__inner">
+      <p class="eyebrow">404</p>
+      <h1>Hier geht’s nicht weiter.</h1>
+      <p class="lead lead--s muted">Diese Seite gibt es nicht (mehr). Vielleicht hilft einer dieser Wege:</p>
+      <ul class="nf__links" role="list">
+        <li><a class="link-arrow" href={url('home', 'de')}>Startseite <span aria-hidden="true">→</span></a></li>
+        <li><a class="link-arrow" href={url('house', 'de')}>Das Haus <span aria-hidden="true">→</span></a></li>
+        <li><a class="link-arrow" href={url('rates', 'de', 'anfrage')}>Preise &amp; Anfrage <span aria-hidden="true">→</span></a></li>
+      </ul>
+      <div class="nf__en" lang="en">
+        <p class="eyebrow eyebrow--plain">English</p>
+        <p class="lead lead--s">This path leads nowhere. Try the <a href={url('home', 'en')}>home page</a>, <a href={url('house', 'en')}>the house</a> or <a href={url('rates', 'en', 'anfrage')}>rates &amp; enquiry</a>.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { min-height: 62svh; display: grid; align-items: center; }
+  .nf__inner { display: grid; gap: var(--space-s); justify-items: start; }
+  .nf h1 { font-size: var(--step-4); max-width: 14ch; }
+  .nf__links { list-style: none; padding: 0; margin: var(--space-s) 0 0; display: flex; flex-wrap: wrap; gap: var(--space-m); }
+  .nf__en { margin-top: var(--space-l); padding-top: var(--space-s); border-top: 1px solid var(--linie); display: grid; gap: var(--space-2xs); max-width: 52ch; }
+</style>

@@ -1,0 +1,429 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Photo from '../components/Photo.astro';
+import TimeMap from '../components/TimeMap.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import SeasonTable from '../components/SeasonTable.astro';
+import { url, type Lang } from '../i18n/routes';
+import { fmtEUR } from '../i18n/ui';
+import { PROPERTY } from '../data/property';
+import { FROM_PRICE } from '../data/rates';
+import { FAQ } from '../data/faq';
+import { rentalJsonLd, faqJsonLd } from '../data/jsonld';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const de = lang === 'de';
+const p = PROPERTY;
+
+const C = de ? {
+  title: 'Untermoos – Tiroler Bauernhaus für 10 Gäste im Alpbachtal',
+  description: 'Rund 200 Jahre altes Bauernhaus über dem Inntal: 300 m², 4 Schlafzimmer, Stube mit Kachelofen, Garten. Ganz für bis zu 10 Gäste – Skifahren, Seen, Alpbachtal Card inklusive.',
+  eyebrow: 'Breitenbach am Inn · Alpbachtal · Tirol',
+  leadWinter: 'Ein 200 Jahre altes Bauernhaus über dem Inntal. Kachelofen, Holzherd, lange Abende in der Stube – und rund 25 Minuten bis zur ersten Gondel.',
+  leadSummer: 'Ein 200 Jahre altes Bauernhaus über dem Inntal. Garten, Grill, Abende auf der Terrasse – und zehn Minuten bis zum nächsten Badesee.',
+  ctaPrimary: 'Verfügbarkeit anfragen', ctaSecondary: 'Das Haus entdecken',
+  meta: [
+    { value: '300 m²', label: 'Wohnfläche' }, { value: '10', label: 'Gäste' }, { value: '4', label: 'Schlafzimmer' },
+    { value: '640 m', label: 'Seehöhe' }, { value: '≈ 200', label: 'Jahre Hof' },
+  ],
+  introEyebrow: 'Das Haus', introTitle: 'Ein Hof, der Zeit hat.',
+  introLead: 'Untermoos steht seit rund zweihundert Jahren auf einer Anhöhe über dem Inntal, in einem kleinen Weiler oberhalb von Breitenbach.',
+  introText: 'Renoviert hat das Bauernhaus ein Bildhauer, der hier aufgewachsen ist – mit Respekt vor dem alten Holz, der originalen Stube und dem Kachelofen. Sie bewohnen das ganze Haus allein: vier Schlafzimmer, zwei Bäder, eine Küche mit Holzherd und ein Garten mit Spielplatz und Grill. Platz für zehn Menschen, die gemeinsam Zeit verbringen wollen.',
+  facts: [
+    { n: '25', u: 'min', l: 'bis zur nächsten Gondel' }, { n: '10', u: 'min', l: 'zum nächsten Badesee' },
+    { n: '4', u: '', l: 'Skigebiete in unter einer Stunde' }, { n: '4', u: '', l: 'Bergbahnen im Sommer gratis' },
+    { n: '0', u: '€', l: 'extra für Reinigung, Wäsche und Energie' }, { n: '2', u: '', l: 'Hunde willkommen' },
+  ],
+  roomsEyebrow: 'Innen & außen', roomsTitle: 'Altes Holz. Viel Platz. Ein Tisch für alle.',
+  rooms: [
+    { slot: 'stube', title: 'Die Stube', text: 'Durch den holzgetäfelten Hausgang in die Stube: Kachelofen, Ofenbank und die lange Tafel für zehn – das Herz des Hauses.' },
+    { slot: 'table', title: 'Vor der Haustür', text: 'Frühstück am Holztisch neben der roten Tür, abends ein Glas im Garten, während die Berge das letzte Licht fangen.' },
+    { slot: 'schnaps', title: 'Zur Begrüßung', text: 'Ein Glas vom hauseigenen Untermoos-Schnaps. Und Platz für alles, was danach kommt: vier Schlafzimmer, zehn Betten.' },
+  ],
+  roomsLink: 'Alle Räume und die Ausstattung',
+  seasonsEyebrow: 'Zwei Jahreszeiten', seasonsTitle: 'Winter wie Sommer: das Alpbachtal vor der Tür.',
+  winter: {
+    eyebrow: 'Winter', title: 'Vier Skiberge, ein Kachelofen.',
+    text: 'Das Ski Juwel Alpbachtal Wildschönau – 114 Pistenkilometer auf vier Bergen – erreichen Sie in rund 25 Minuten. SkiWelt Wilder Kaiser, Zillertal und Kitzbühel sind Tagesausflüge. In Breitenbach selbst startet die Schönauer Loipe.',
+    list: ['Skisaison 4. Dezember 2026 bis 4. April 2027 (geplant)', 'Alpbachtal Card: Regio- und Skibusse gratis, rund 70 km Loipen, geführte Schneeschuhwanderungen', 'Adventmärkte in Rattenberg, Kufstein und Innsbruck'],
+  },
+  summer: {
+    eyebrow: 'Sommer', title: 'Seen, Almen, Bergbahnen inklusive.',
+    text: 'Mit der Alpbachtal Card fahren Sie im Sommer kostenlos mit vier Bergbahnen, baden im Reintaler See und nutzen alle Regiobusse. Der Berglsteiner See und die Kundler Klamm liegen rund zehn Minuten vom Haus.',
+    list: ['Unbegrenzt: Wiedersbergerhorn, Reitherkogel, Markbachjoch und Schatzberg', 'Baden im Reintaler See, Reither Badesee und in den Freibädern Münster und Brixlegg', '18-Loch-Golf in Westendorf, rund 35 Minuten'],
+  },
+  locEyebrow: 'Lage', locTitle: 'Ruhig gelegen. Schnell überall.',
+  locText: 'Untermoos liegt auf 640 Metern in einem Weiler über dem Inntal – abseits vom Durchzugsverkehr und doch zentral zwischen Alpbachtal, Kitzbüheler Alpen und Kufstein. Innsbruck ist knapp eine Stunde entfernt, München knapp eineinhalb.',
+  locLink: 'Region & Anreise',
+  inclEyebrow: 'Inklusive', inclTitle: 'Ein Preis. Ohne Kleingedrucktes.',
+  inclText: 'Keine Energiepauschale, keine Wäschegebühr, keine Endreinigung extra. Nur die Ortstaxe kommt dazu.',
+  incl: ['Endreinigung', 'Bettwäsche & Handtücher', 'Strom, Heizung & Brennholz', 'WLAN', 'Parkplätze am Haus', 'Alpbachtal Card – im Sommer mit vier Bergbahnen'],
+  extrasTitle: 'Auf Wunsch organisieren wir',
+  extras: ['Private Chef für einen Abend', 'Lebensmittel, die bei Ihrer Ankunft warten', 'Skipässe & Skiverleih', 'Transfer von Flughafen oder Bahnhof', 'Babyausstattung'],
+  hostEyebrow: 'Gastgeber', hostTitle: 'Ein Haus mit Menschen dahinter.',
+  hostText: 'Renoviert hat das Bauernhaus ein Bildhauer, der hier aufgewachsen ist. Im Garten stehen Skulpturen, auf dem Tisch wartet zur Begrüßung der hauseigene Untermoos-Schnaps.',
+  hostText2: 'Ihre Gastgeber sind persönlich für Sie da: bei der Ankunft, mit Tipps für Touren und Tische, und wenn etwas fehlt. Anfragen beantworten sie innerhalb von 24 Stunden.',
+  occEyebrow: 'Für wen', occTitle: 'Gemacht für Gruppen, die zusammen sein wollen.',
+  occ: [
+    { k: 'familie', title: 'Familie & Generationen', text: 'Ein Schlafzimmer im Erdgeschoss für die Großeltern, Spielplatz und eingezäunter Garten für Kinder und Hund.' },
+    { k: 'freunde', title: 'Freunde & Skiwoche', text: 'Vier Skigebiete in Reichweite, Skiraum, Stube und Dartecke. Im Winter ab rund € 59 pro Person und Nacht.' },
+    { k: 'team', title: 'Team-Offsite', text: 'Unter der Woche in Neben- und Zwischensaison: die Stube als Workshop-Raum für zehn, WLAN, Catering auf Wunsch.' },
+    { k: 'feste', title: 'Feste & Familientreffen', text: 'Runde Geburtstage, Jubiläen, Wiedersehen: ein Haus, eine Tafel, keine Fremden am Nebentisch.' },
+  ],
+  occLink: 'Alle Anlässe',
+  priceEyebrow: 'Preise', priceTitle: (n: string) => `Das ganze Haus ab ${n} pro Nacht.`,
+  priceText: 'Für bis zu zehn Gäste, alles inklusive außer Ortstaxe. Direkt bei den Gastgebern, ohne Plattformgebühren.',
+  priceLink: 'Preise & Verfügbarkeit',
+} : {
+  title: 'Untermoos – Tyrolean farmhouse for 10 guests in the Alpbachtal',
+  description: 'A 200-year-old farmhouse above the Inn valley: 300 m², 4 bedrooms, a wood-panelled Stube with tiled stove, garden. Entirely yours for up to 10 guests – skiing, lakes and the Alpbachtal Card included.',
+  eyebrow: 'Breitenbach am Inn · Alpbachtal · Tyrol',
+  leadWinter: 'A 200-year-old farmhouse above the Inn valley. A tiled stove, a wood-fired range, long evenings in the Stube – and about 25 minutes to the first gondola.',
+  leadSummer: 'A 200-year-old farmhouse above the Inn valley. Garden, barbecue, evenings on the terrace – and ten minutes to the nearest swimming lake.',
+  ctaPrimary: 'Check availability', ctaSecondary: 'Explore the house',
+  meta: [
+    { value: '300 m²', label: 'Living space' }, { value: '10', label: 'Guests' }, { value: '4', label: 'Bedrooms' },
+    { value: '640 m', label: 'Altitude' }, { value: '≈ 200', label: 'Years old' },
+  ],
+  introEyebrow: 'The house', introTitle: 'A farmhouse that takes its time.',
+  introLead: 'Untermoos has stood for some two hundred years on a rise above the Inn valley, in a small hamlet above Breitenbach.',
+  introText: 'It was renovated by a sculptor who grew up here – with respect for the old timber, the original Stube and the tiled stove. The whole house is yours: four bedrooms, two bathrooms, a kitchen with a wood-fired range and a garden with playground and barbecue. Room for ten people who want to spend time together.',
+  facts: [
+    { n: '25', u: 'min', l: 'to the nearest gondola' }, { n: '10', u: 'min', l: 'to the nearest swimming lake' },
+    { n: '4', u: '', l: 'ski areas within an hour' }, { n: '4', u: '', l: 'mountain lifts free in summer' },
+    { n: '€0', u: '', l: 'extra for cleaning, linen or energy' }, { n: '2', u: '', l: 'dogs welcome' },
+  ],
+  roomsEyebrow: 'Inside & out', roomsTitle: 'Old timber. Plenty of space. One table for everyone.',
+  rooms: [
+    { slot: 'stube', title: 'The Stube', text: 'Down the wood-panelled hallway into the Stube: a tiled stove, its warm bench and the long table for ten – the heart of the house.' },
+    { slot: 'table', title: 'By the front door', text: 'Breakfast at the wooden table beside the red door, a glass in the garden at night while the mountains catch the last light.' },
+    { slot: 'schnaps', title: 'A welcome', text: 'A glass of the house’s own Untermoos schnapps. And room for everything that follows: four bedrooms, ten beds.' },
+  ],
+  roomsLink: 'All rooms and amenities',
+  seasonsEyebrow: 'Two seasons', seasonsTitle: 'Winter or summer: the Alpbachtal on your doorstep.',
+  winter: {
+    eyebrow: 'Winter', title: 'Four ski mountains, one tiled stove.',
+    text: 'The Ski Juwel Alpbachtal Wildschönau – 114 km of pistes on four mountains – is about 25 minutes away. SkiWelt Wilder Kaiser, Zillertal and Kitzbühel make easy day trips. The Schönau cross-country trail starts in Breitenbach itself.',
+    list: ['Ski season 4 December 2026 to 4 April 2027 (planned)', 'Alpbachtal Card: free regional and ski buses, about 70 km of cross-country trails, guided snowshoe walks', 'Christmas markets in Rattenberg, Kufstein and Innsbruck'],
+  },
+  summer: {
+    eyebrow: 'Summer', title: 'Lakes, alpine pastures, lifts included.',
+    text: 'With the Alpbachtal Card you ride four mountain lifts for free in summer, swim in Lake Reintal and use all regional buses. Lake Berglstein and the Kundl Gorge are about ten minutes from the house.',
+    list: ['Unlimited rides: Wiedersbergerhorn, Reitherkogel, Markbachjoch and Schatzberg', 'Swimming at Lake Reintal, Reith bathing lake and the Münster and Brixlegg lidos', '18-hole golf in Westendorf, about 35 minutes'],
+  },
+  locEyebrow: 'Location', locTitle: 'Quiet. And close to everything.',
+  locText: 'Untermoos sits at 640 metres in a hamlet above the Inn valley – away from through traffic, yet central between the Alpbachtal, the Kitzbühel Alps and Kufstein. Innsbruck is just under an hour away, Munich just under an hour and a half.',
+  locLink: 'Region & getting here',
+  inclEyebrow: 'Included', inclTitle: 'One price. No small print.',
+  inclText: 'No energy surcharge, no linen fee, no separate cleaning charge. Only the local tourist tax is added.',
+  incl: ['Final cleaning', 'Bed linen & towels', 'Electricity, heating & firewood', 'Wi-Fi', 'Parking at the house', 'Alpbachtal Card – four mountain lifts in summer'],
+  extrasTitle: 'On request we arrange',
+  extras: ['A private chef for an evening', 'Groceries waiting on arrival', 'Ski passes & ski hire', 'Transfers from airport or station', 'Baby equipment'],
+  hostEyebrow: 'Your hosts', hostTitle: 'A house with people behind it.',
+  hostText: 'The farmhouse was renovated by a sculptor who grew up here. Sculptures stand in the garden, and a glass of the house’s own Untermoos schnapps waits on the table when you arrive.',
+  hostText2: 'Your hosts look after you in person: on arrival, with tips for hikes and tables, and whenever something is missing. They answer enquiries within 24 hours.',
+  occEyebrow: 'Who it is for', occTitle: 'Made for groups who want to be together.',
+  occ: [
+    { k: 'familie', title: 'Family & generations', text: 'A ground-floor bedroom for grandparents, a playground and fenced garden for children and dogs.' },
+    { k: 'freunde', title: 'Friends & ski week', text: 'Four ski areas within reach, a ski room, the Stube and a darts corner. In winter from about €59 per person per night.' },
+    { k: 'team', title: 'Team offsite', text: 'Midweek in low and mid season: the Stube as a workshop room for ten, Wi-Fi, catering on request.' },
+    { k: 'feste', title: 'Celebrations & reunions', text: 'Milestone birthdays, anniversaries, reunions: one house, one table, no strangers at the next table.' },
+  ],
+  occLink: 'All occasions',
+  priceEyebrow: 'Rates', priceTitle: (n: string) => `The whole house from ${n} per night.`,
+  priceText: 'For up to ten guests, everything included except the tourist tax. Directly with your hosts, without platform fees.',
+  priceLink: 'Rates & availability',
+};
+
+const jsonLd = [rentalJsonLd(lang, C.description), faqJsonLd(FAQ[lang])];
+---
+<Base lang={lang} route="home" title={C.title} description={C.description} jsonLd={jsonLd}>
+  <Hero lang={lang} eyebrow={C.eyebrow} title="Untermoos" leadWinter={C.leadWinter} leadSummer={C.leadSummer} meta={C.meta}>
+    <Fragment slot="actions">
+      <a class="btn btn--light" href={url('rates', lang, 'anfrage')}>{C.ctaPrimary} <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="btn btn--ghost hero-ghost" href={url('house', lang)}>{C.ctaSecondary}</a>
+    </Fragment>
+  </Hero>
+
+  <section class="section intro" style="padding-bottom: var(--space-xl)">
+    <div class="wrap grid">
+      <div class="intro__head reveal">
+        <p class="eyebrow">{C.introEyebrow}</p>
+        <h2>{C.introTitle}</h2>
+      </div>
+      <div class="intro__body stack reveal">
+        <p class="lead">{C.introLead}</p>
+        <p class="measure">{C.introText}</p>
+      </div>
+    </div>
+    <div class="wrap">
+      <ul class="facts" role="list">
+        {C.facts.map((f) => (
+          <li class="reveal">
+            <span class="facts__n num">{f.n}{f.u && <span class="facts__u">{f.u}</span>}</span>
+            <span class="facts__l">{f.l}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--tight rooms">
+    <div class="wrap">
+      <div class="head rooms__head reveal">
+        <p class="eyebrow">{C.roomsEyebrow}</p>
+        <h2>{C.roomsTitle}</h2>
+      </div>
+      <div class="rooms__grid">
+        {C.rooms.map((r, i) => (
+          <article class={`room room--${i + 1}`}>
+            <Photo slot={r.slot as any} lang={lang} ratio={i === 0 ? '3/2' : '4/3'} sizes={i === 0 ? '(min-width: 980px) 58vw, 100vw' : '(min-width: 980px) 34vw, 100vw'} />
+            <div class="room__text reveal">
+              <h3>{r.title}</h3>
+              <p class="muted">{r.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p class="rooms__more"><a class="link-arrow" href={url('house', lang)}>{C.roomsLink} <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
+  <section class="section section--dark seasons">
+    <div class="wrap">
+      <div class="head seasons__head reveal">
+        <p class="eyebrow">{C.seasonsEyebrow}</p>
+        <h2>{C.seasonsTitle}</h2>
+      </div>
+      <div class="seasons__grid">
+        {[{ s: C.winter, slot: 'winter-detail', key: 'winter' }, { s: C.summer, slot: 'view', key: 'summer' }].map(({ s, slot, key }) => (
+          <article class="season-card" data-season-card={key}>
+            <Photo slot={slot as any} lang={lang} ratio="3/2" sizes="(min-width: 980px) 45vw, 100vw" />
+            <div class="season-card__body stack reveal">
+              <p class="eyebrow eyebrow--plain season-card__eyebrow">{s.eyebrow}</p>
+              <h3>{s.title}</h3>
+              <p class="muted">{s.text}</p>
+              <ul class="ticks" role="list">{s.list.map((li) => <li>{li}</li>)}</ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section location">
+    <div class="wrap">
+      <div class="grid location__head">
+        <div class="reveal" style="grid-column: 1 / span 6">
+          <p class="eyebrow">{C.locEyebrow}</p>
+          <h2>{C.locTitle}</h2>
+        </div>
+        <div class="stack reveal" style="grid-column: 7 / -1; align-self: end">
+          <p class="measure">{C.locText}</p>
+          <p><a class="link-arrow" href={url('region', lang)}>{C.locLink} <span aria-hidden="true">→</span></a></p>
+        </div>
+      </div>
+      <TimeMap lang={lang} />
+    </div>
+  </section>
+
+  <section class="section section--moss included">
+    <div class="wrap grid">
+      <div class="included__head reveal">
+        <p class="eyebrow included__eyebrow">{C.inclEyebrow}</p>
+        <h2>{C.inclTitle}</h2>
+        <p class="lead lead--s">{C.inclText}</p>
+      </div>
+      <div class="included__lists">
+        <ul class="ticks ticks--light" role="list">{C.incl.map((x) => <li>{x}</li>)}</ul>
+        <div>
+          <p class="footer-label">{C.extrasTitle}</p>
+          <ul class="plain" role="list">{C.extras.map((x) => <li>{x}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section hosts">
+    <div class="wrap grid">
+      <div class="hosts__media">
+        <Photo slot="hosts" lang={lang} ratio="4/5" sizes="(min-width: 980px) 24vw, 60vw" widths={[425]} class="hosts__portrait" />
+        <Photo slot="sculpture" lang={lang} ratio="1/1" sizes="(min-width: 980px) 18vw, 40vw" widths={[550]} class="hosts__sculpture" />
+      </div>
+      <div class="hosts__text stack reveal">
+        <p class="eyebrow">{C.hostEyebrow}</p>
+        <h2>{C.hostTitle}</h2>
+        <p class="lead lead--s">{C.hostText}</p>
+        <p class="muted measure">{C.hostText2}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight occasions">
+    <div class="wrap">
+      <div class="head occasions__head reveal">
+        <p class="eyebrow">{C.occEyebrow}</p>
+        <h2>{C.occTitle}</h2>
+      </div>
+      <div class="occasions__grid">
+        {C.occ.map((o) => (
+          <a class="occ reveal" href={url('occasions', lang, o.k)}>
+            <h3>{o.title}</h3>
+            <p class="muted">{o.text}</p>
+            <span class="occ__arrow" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark price-band">
+    <div class="wrap grid">
+      <div class="price-band__main reveal">
+        <p class="eyebrow price-band__eyebrow">{C.priceEyebrow}</p>
+        <h2>{C.priceTitle(fmtEUR(FROM_PRICE, lang))}</h2>
+        <p class="muted measure">{C.priceText}</p>
+        <a class="btn btn--light" href={url('rates', lang)}>{C.priceLink} <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+      <div class="price-band__table reveal">
+        <SeasonTable lang={lang} compact />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap"><Faq lang={lang} /></div>
+  </section>
+
+  <CtaBand lang={lang} />
+</Base>
+
+<style>
+  :global(.hero-ghost) { color: var(--kalk) !important; border-color: var(--linie-hell) !important; }
+  :global(.hero-ghost:hover) { background: var(--kalk) !important; color: var(--laerche) !important; }
+
+  .intro__head { grid-column: 1 / span 5; display: grid; gap: var(--space-xs); align-content: start; }
+  .intro__head h2 { font-size: var(--step-4); }
+  .intro__body { grid-column: 7 / -1; --flow: var(--space-m); }
+  .facts { list-style: none; margin: var(--space-xl) 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--laerche); }
+  .facts li { display: grid; gap: 0.5rem; padding: var(--space-s) var(--space-s) 0 0; border-right: 1px solid var(--linie); }
+  .facts li + li { padding-left: var(--space-s); }
+  .facts li:last-child { border-right: 0; }
+  .facts__n { font-family: var(--font-display); font-size: var(--step-4); line-height: 1; font-weight: 300; letter-spacing: -0.02em; }
+  .facts__u { font-size: 0.34em; margin-left: 0.2em; letter-spacing: 0.04em; vertical-align: 1.35em; font-family: var(--font-text); font-weight: 600; text-transform: uppercase; }
+  .facts__l { font-size: var(--step--1); color: var(--fels); line-height: 1.35; }
+  @media (max-width: 980px) {
+    .intro__head, .intro__body { grid-column: 1 / -1; }
+    .intro__body { margin-top: var(--space-m); }
+    .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .facts li:nth-child(3n) { border-right: 0; }
+    .facts li:nth-child(3n + 1) { padding-left: 0; }
+    .facts li:nth-child(n + 4) { border-top: 1px solid var(--linie); margin-top: var(--space-s); }
+  }
+  @media (max-width: 520px) {
+    .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .facts li { border-right: 0 !important; padding-left: 0 !important; }
+    .facts li:nth-child(even) { padding-left: var(--space-s) !important; border-left: 1px solid var(--linie); }
+    .facts li:nth-child(n + 3) { border-top: 1px solid var(--linie); margin-top: var(--space-s); }
+  }
+
+  .rooms__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(12px, 2vw, 32px); row-gap: var(--space-l); }
+  .room { display: grid; gap: var(--space-s); align-content: start; }
+  .room--1 { grid-column: 1 / span 7; grid-row: span 2; }
+  .room--2 { grid-column: 9 / -1; }
+  .room--3 { grid-column: 9 / -1; }
+  .room__text { display: grid; gap: 0.4rem; max-width: 40ch; }
+  .room__text h3 { font-size: var(--step-2); }
+  .rooms__more { margin-top: var(--space-l); }
+  @media (max-width: 860px) {
+    .room--1, .room--2, .room--3 { grid-column: 1 / -1; grid-row: auto; }
+    .room--2 { grid-column: 3 / -1; }
+  }
+
+  .seasons__head .eyebrow, .season-card__eyebrow { color: var(--zirbe); }
+  .seasons__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-l); }
+  .season-card { display: grid; gap: var(--space-m); align-content: start; }
+  .season-card__body { --flow: var(--space-s); }
+  .season-card h3 { font-size: var(--step-3); }
+  :global(html[data-season='summer']) .season-card[data-season-card='summer'],
+  :global(html[data-season='winter']) .season-card[data-season-card='winter'] { order: -1; }
+  @media (max-width: 860px) { .seasons__grid { grid-template-columns: 1fr; } }
+
+  .ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
+  .ticks li { position: relative; padding-left: 1.6rem; }
+  .ticks li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 0.8rem; height: 1px; background: var(--geranie); }
+  .ticks--light li::before { background: var(--zirbe); }
+  .plain { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.45rem; }
+
+  .location__head { margin-bottom: var(--space-l); row-gap: var(--space-m); }
+  @media (max-width: 860px) { .location__head > div { grid-column: 1 / -1 !important; } }
+
+  .included__head { grid-column: 1 / span 6; display: grid; gap: var(--space-s); align-content: start; }
+  .included__eyebrow { color: var(--zirbe); }
+  .included__eyebrow::before { background: var(--zirbe); }
+  .included__lists { grid-column: 8 / -1; display: grid; gap: var(--space-l); font-size: var(--step-1); font-family: var(--font-display); }
+  .included__lists .plain { font-size: var(--step-0); font-family: var(--font-text); color: rgb(236 238 232 / 0.86); }
+  @media (max-width: 860px) {
+    .included__head, .included__lists { grid-column: 1 / -1; }
+    .included__lists { margin-top: var(--space-l); }
+  }
+
+  .hosts { background: var(--papier); }
+  .hosts__media { grid-column: 1 / span 5; position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: end; }
+  .hosts__media :global(.hosts__portrait) { grid-column: 1 / span 4; grid-row: 1; max-width: 340px; width: 100%; }
+  .hosts__media :global(.hosts__sculpture) { grid-column: 4 / span 3; grid-row: 1; width: 100%; max-width: 230px; justify-self: end; transform: translateY(18%); box-shadow: 0 0 0 10px var(--papier); }
+  .hosts__text { grid-column: 7 / -1; align-self: center; --flow: var(--space-s); }
+  @media (max-width: 900px) {
+    .hosts__media, .hosts__text { grid-column: 1 / -1; }
+    .hosts__text { margin-top: calc(var(--space-l) + 8%); }
+  }
+  .occasions__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--laerche); }
+  .occ { display: grid; grid-template-rows: auto 1fr auto; gap: var(--space-s); padding: var(--space-m) var(--space-m) var(--space-m) 0; text-decoration: none; border-right: 1px solid var(--linie); min-height: 18rem; transition: background 0.4s var(--ease); }
+  .occ + .occ { padding-left: var(--space-m); }
+  .occ:last-child { border-right: 0; }
+  .occ h3 { font-size: var(--step-2); }
+  .occ__arrow { font-size: 1.4rem; transition: transform 0.35s var(--ease); }
+  .occ:hover .occ__arrow { transform: translateX(6px); color: var(--geranie); }
+  @media (max-width: 980px) {
+    .hosts { background: var(--papier); }
+  .hosts__media { grid-column: 1 / span 5; position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: end; }
+  .hosts__media :global(.hosts__portrait) { grid-column: 1 / span 4; grid-row: 1; max-width: 340px; width: 100%; }
+  .hosts__media :global(.hosts__sculpture) { grid-column: 4 / span 3; grid-row: 1; width: 100%; max-width: 230px; justify-self: end; transform: translateY(18%); box-shadow: 0 0 0 10px var(--papier); }
+  .hosts__text { grid-column: 7 / -1; align-self: center; --flow: var(--space-s); }
+  @media (max-width: 900px) {
+    .hosts__media, .hosts__text { grid-column: 1 / -1; }
+    .hosts__text { margin-top: calc(var(--space-l) + 8%); }
+  }
+  .occasions__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .occ { min-height: 0; }
+    .occ:nth-child(2n) { border-right: 0; }
+    .occ:nth-child(2n + 1) { padding-left: 0; }
+    .occ:nth-child(n + 3) { border-top: 1px solid var(--linie); }
+  }
+  @media (max-width: 560px) {
+    .hosts { background: var(--papier); }
+  .hosts__media { grid-column: 1 / span 5; position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: end; }
+  .hosts__media :global(.hosts__portrait) { grid-column: 1 / span 4; grid-row: 1; max-width: 340px; width: 100%; }
+  .hosts__media :global(.hosts__sculpture) { grid-column: 4 / span 3; grid-row: 1; width: 100%; max-width: 230px; justify-self: end; transform: translateY(18%); box-shadow: 0 0 0 10px var(--papier); }
+  .hosts__text { grid-column: 7 / -1; align-self: center; --flow: var(--space-s); }
+  @media (max-width: 900px) {
+    .hosts__media, .hosts__text { grid-column: 1 / -1; }
+    .hosts__text { margin-top: calc(var(--space-l) + 8%); }
+  }
+  .occasions__grid { grid-template-columns: 1fr; }
+    .occ { border-right: 0; padding-left: 0 !important; }
+    .occ + .occ { border-top: 1px solid var(--linie); }
+  }
+
+  .price-band__main { grid-column: 1 / span 6; display: grid; gap: var(--space-s); justify-items: start; align-content: start; }
+  .price-band__main h2 { font-size: var(--step-4); }
+  .price-band__eyebrow { color: var(--zirbe); }
+  .price-band__table { grid-column: 8 / -1; align-self: end; }
+  @media (max-width: 860px) {
+    .price-band__main, .price-band__table { grid-column: 1 / -1; }
+    .price-band__table { margin-top: var(--space-l); }
+  }
+</style>

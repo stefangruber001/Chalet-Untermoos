@@ -1,0 +1,200 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Photo from '../components/Photo.astro';
+import FloorPlan from '../components/FloorPlan.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { url, ROUTES, type Lang } from '../i18n/routes';
+import { PROPERTY, ROOMS, AMENITIES } from '../data/property';
+import { RULES } from '../data/rates';
+import { getPhoto } from '../data/photos';
+import { rentalJsonLd, breadcrumbJsonLd } from '../data/jsonld';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const de = lang === 'de';
+const p = PROPERTY;
+
+const C = de ? {
+  title: 'Das Haus – 300 m², 4 Schlafzimmer, Stube mit Kachelofen | Untermoos',
+  description: 'Raum für Raum: Tiroler Bauernstube mit Kachelofen, Küche mit Holzherd, vier Schlafzimmer für zehn Gäste, zwei Bäder, Holzbalkon, Garten. Mit Grundrissen.',
+  eyebrow: 'Das Haus', heroTitle: '300 m² Geschichte.',
+  leadWinter: 'Stube, Kachelofen und Holzherd – geheizt wird wie früher mit Holz. Vier Schlafzimmer, zwei Bäder, Platz für zehn.',
+  leadSummer: 'Zwei Holzbalkone, ein Garten mit Liegestühlen, drinnen die dicken alten Mauern. Vier Schlafzimmer, zwei Bäder, Platz für zehn.',
+  planEyebrow: 'Grundriss', planTitle: 'Zwei Etagen, vier Schlafzimmer, ein Hausgang in der Mitte.',
+  planText: 'Unten wohnen, kochen und zusammensitzen, dazu ein Schlafzimmer ohne Treppe. Oben drei Schlafzimmer, der Schreibtisch im Hausgang und der Balkon über die ganze Front.',
+  floors: { eg: 'Erdgeschoss', og: 'Obergeschoss' },
+  beds: (n: number) => (n === 1 ? '1 Bett' : `${n} Betten`),
+  warmthEyebrow: 'Wärme aus Holz', warmthTitle: 'Geheizt wird wie früher.',
+  warmthText: 'In der Stube wärmt der Kachelofen mit seiner Ofenbank, in der Küche der alte Holzherd, auf dem man heute noch kocht und bäckt. Dazu kommt ein Pelletofen im Hausgang. Das Brennholz ist im Preis enthalten.',
+  outsideEyebrow: 'Draußen', outsideTitle: 'Garten, Balkon, Bergblick.',
+  outsideText: 'Sonnenterrasse mit Holztisch und Bänken, Liegestühle im Garten, Grill, Spielplatz und ein eingezäunter Bereich für Hunde. Geparkt wird direkt am Haus.',
+  amenities: 'Ausstattung', know: 'Gut zu wissen',
+  knowList: [
+    ['Anreise', '15 – 20 Uhr'], ['Abreise', 'bis 10 Uhr'], ['Gäste', 'bis 10, Babybett auf Anfrage'],
+    ['Hunde', `bis ${p.dogsMax}, € ${RULES.dogPerNight} pro Hund und Nacht`], ['Rauchen', 'Nichtraucherhaus'],
+    ['Parken', 'direkt am Haus'], ['E-Auto', 'Laden möglich, nach Verbrauch'], ['Seehöhe', `${p.elevationM} m, ganzjährig erreichbar`],
+  ],
+  rates: 'Preise & Verfügbarkeit',
+} : {
+  title: 'The house – 300 m², 4 bedrooms, Stube with tiled stove | Untermoos',
+  description: 'Room by room: a Tyrolean Stube with tiled stove, a kitchen with wood-fired range, four bedrooms for ten guests, two bathrooms, timber balcony, garden. With floor plans.',
+  eyebrow: 'The house', heroTitle: '300 m² of history.',
+  leadWinter: 'A Stube, a tiled stove and a wood-fired range – heated with wood, as it always was. Four bedrooms, two bathrooms, room for ten.',
+  leadSummer: 'Two timber balconies, a garden with deck chairs and thick old walls inside. Four bedrooms, two bathrooms, room for ten.',
+  planEyebrow: 'Floor plan', planTitle: 'Two floors, four bedrooms, a hallway down the middle.',
+  planText: 'Downstairs: living, cooking and gathering, plus a bedroom without stairs. Upstairs: three bedrooms, the desk in the hallway and the balcony across the full front.',
+  floors: { eg: 'Ground floor', og: 'First floor' },
+  beds: (n: number) => (n === 1 ? '1 bed' : `${n} beds`),
+  warmthEyebrow: 'Warmth from wood', warmthTitle: 'Heated the way it always was.',
+  warmthText: 'In the Stube the tiled stove and its bench keep you warm; in the kitchen the old wood-fired range is still used for cooking and baking. A pellet stove in the hallway does the rest. Firewood is included in the price.',
+  outsideEyebrow: 'Outside', outsideTitle: 'Garden, balcony, mountain view.',
+  outsideText: 'A sun terrace with a wooden table and benches, deck chairs in the garden, a barbecue, a playground and a fenced area for dogs. Parking is right at the house.',
+  amenities: 'Amenities', know: 'Good to know',
+  knowList: [
+    ['Check-in', '3 pm – 8 pm'], ['Check-out', 'by 10 am'], ['Guests', 'up to 10, baby cot on request'],
+    ['Dogs', `up to ${p.dogsMax}, €${RULES.dogPerNight} per dog per night`], ['Smoking', 'non-smoking house'],
+    ['Parking', 'right at the house'], ['Electric car', 'charging possible, billed by use'], ['Altitude', `${p.elevationM} m, accessible all year`],
+  ],
+  rates: 'Rates & availability',
+};
+const floors = ['eg', 'og'] as const;
+const jsonLd = [
+  rentalJsonLd(lang, C.description),
+  breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }, { name: C.eyebrow, path: ROUTES.house[lang] }]),
+];
+---
+<Base lang={lang} route="house" title={C.title} description={C.description} jsonLd={jsonLd}>
+  <Hero lang={lang} compact eyebrow={C.eyebrow} title={C.heroTitle} leadWinter={C.leadWinter} leadSummer={C.leadSummer}
+    winterSlot="winter-detail" summerSlot="exterior-angle" winterPos="50% 50%" summerPos="55% 40%" />
+
+  <section class="section plan-section">
+    <div class="wrap">
+      <div class="grid plan-head">
+        <div class="head reveal" style="grid-column: 1 / span 6; margin-bottom: 0">
+          <p class="eyebrow">{C.planEyebrow}</p>
+          <h2>{C.planTitle}</h2>
+        </div>
+        <p class="measure muted reveal" style="grid-column: 8 / -1; align-self: end">{C.planText}</p>
+      </div>
+      <FloorPlan lang={lang} />
+    </div>
+  </section>
+
+  <section class="section section--tight rooms-list">
+    <div class="wrap">
+      {floors.map((fl) => (
+        <div class="floor-block">
+          <p class="eyebrow eyebrow--plain floor-block__title">{C.floors[fl]}</p>
+          <div class="room-rows">
+            {ROOMS.filter((r) => r.floor === fl).map((r) => (
+              <article class:list={['room-row', { 'room-row--photo': r.key !== 'stube' && Boolean(getPhoto(r.key as any)) }]}>
+                {r.key !== 'stube' && getPhoto(r.key as any) && <Photo slot={r.key as any} lang={lang} ratio="3/2" sizes="(min-width: 980px) 30vw, 100vw" />}
+                <div class="room-row__text">
+                  <h3>{r[lang].title}</h3>
+                  <p class="muted">{r[lang].text}</p>
+                  {r.beds > 0 && <span class="room-row__beds">{C.beds(r.beds)}</span>}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section--dark warmth">
+    <div class="wrap grid">
+      <div class="warmth__media"><Photo slot="stube" lang={lang} ratio="4/5" sizes="(min-width: 980px) 42vw, 100vw" position="50% 50%" /></div>
+      <div class="warmth__text stack reveal">
+        <p class="eyebrow warmth__eyebrow">{C.warmthEyebrow}</p>
+        <h2>{C.warmthTitle}</h2>
+        <p class="lead lead--s">{C.warmthText}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section outside">
+    <div class="wrap">
+      <div class="grid outside__head">
+        <div class="head reveal" style="grid-column: 1 / span 6; margin-bottom: 0">
+          <p class="eyebrow">{C.outsideEyebrow}</p>
+          <h2>{C.outsideTitle}</h2>
+        </div>
+        <p class="measure muted reveal" style="grid-column: 8 / -1; align-self: end">{C.outsideText}</p>
+      </div>
+      <div class="mosaic">
+        <Photo slot="entrance" lang={lang} ratio="4/3" class="mosaic__a" sizes="(min-width: 980px) 58vw, 100vw" />
+        <Photo slot="garden" lang={lang} ratio="4/5" class="mosaic__b" sizes="(min-width: 980px) 38vw, 100vw" position="62% 50%" />
+        <Photo slot="deckchair" lang={lang} ratio="4/5" class="mosaic__c" sizes="(min-width: 980px) 38vw, 100vw" />
+        <Photo slot="exterior" lang={lang} ratio="4/3" class="mosaic__d" sizes="(min-width: 980px) 58vw, 100vw" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap grid">
+      <div class="amen stack reveal">
+        <p class="eyebrow">{C.amenities}</p>
+        <ul class="amen__list" role="list">{AMENITIES[lang].map((a) => <li>{a}</li>)}</ul>
+      </div>
+      <div class="know reveal">
+        <p class="eyebrow">{C.know}</p>
+        <dl class="know__list">{C.knowList.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+        <p><a class="link-arrow" href={url('rates', lang)}>{C.rates} <span aria-hidden="true">→</span></a></p>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</Base>
+
+<style>
+  .plan-head { margin-bottom: var(--space-l); row-gap: var(--space-m); }
+  @media (max-width: 860px) { .plan-head > *, .outside__head > * { grid-column: 1 / -1 !important; } }
+
+  .floor-block { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: var(--space-m); padding-block: var(--space-m); border-top: 1px solid var(--laerche); }
+  .floor-block + .floor-block { margin-top: var(--space-l); }
+  .floor-block__title { padding-top: 0.4rem; align-self: start; }
+  .room-rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-m) var(--space-l); }
+  .room-row { display: grid; gap: var(--space-s); align-content: start; }
+  .room-row h3 { font-size: var(--step-2); }
+  .room-row__text { display: grid; gap: 0.4rem; max-width: 46ch; }
+  .room-row__beds { justify-self: start; font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; border: 1px solid var(--linie); border-radius: 999px; padding: 0.3rem 0.7rem; margin-top: 0.3rem; }
+  @media (max-width: 860px) {
+    .floor-block { grid-template-columns: 1fr; }
+    .room-rows { grid-template-columns: 1fr; }
+  }
+
+  .warmth__media { grid-column: 1 / span 5; }
+  .warmth__text { grid-column: 7 / -1; align-self: center; --flow: var(--space-s); }
+  .warmth__eyebrow { color: var(--zirbe); }
+  @media (max-width: 900px) {
+    .warmth__media, .warmth__text { grid-column: 1 / -1; }
+    .warmth__text { margin-top: var(--space-l); }
+  }
+
+  .outside__head { margin-bottom: var(--space-l); row-gap: var(--space-m); }
+  .mosaic { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 24px); }
+  .mosaic :global(.mosaic__a) { grid-column: 1 / span 7; }
+  .mosaic :global(.mosaic__b) { grid-column: 8 / -1; grid-row: span 2; align-self: start; }
+  .mosaic :global(.mosaic__c) { grid-column: 1 / span 4; }
+  .mosaic :global(.mosaic__d) { grid-column: 5 / span 3; align-self: end; aspect-ratio: 3 / 4 !important; }
+  @media (max-width: 760px) {
+    .mosaic :global(.mosaic__a), .mosaic :global(.mosaic__b), .mosaic :global(.mosaic__c), .mosaic :global(.mosaic__d) { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 4 / 3 !important; }
+  }
+
+  .amen { grid-column: 1 / span 6; --flow: var(--space-m); }
+  .amen__list { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: var(--space-l); }
+  .amen__list li { break-inside: avoid; padding: 0.55rem 0; border-bottom: 1px solid var(--linie); }
+  .know { grid-column: 8 / -1; display: grid; gap: var(--space-m); align-content: start; }
+  .know__list { margin: 0; display: grid; }
+  .know__list div { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 1rem; padding: 0.6rem 0; border-bottom: 1px solid var(--linie); }
+  .know__list dt { font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--fels); padding-top: 0.2rem; }
+  .know__list dd { margin: 0; }
+  @media (max-width: 900px) {
+    .amen, .know { grid-column: 1 / -1; }
+    .know { margin-top: var(--space-l); }
+  }
+  @media (max-width: 520px) { .amen__list { columns: 1; } }
+</style>

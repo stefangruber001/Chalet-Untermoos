@@ -1,0 +1,54 @@
+---
+import { NAV, ROUTES, url, type Lang, type RouteKey } from '../i18n/routes';
+import { UI } from '../i18n/ui';
+import { PROPERTY } from '../data/property';
+
+interface Props { lang: Lang; route: RouteKey }
+const { lang, route } = Astro.props;
+const t = UI[lang];
+const p = PROPERTY;
+const other: Lang = lang === 'de' ? 'en' : 'de';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="footer-word" aria-hidden="true">Untermoos</p>
+    <div class="footer-grid">
+      <div>
+        <span class="footer-label">{t.footer.address}</span>
+        <address class="footer-list" style="font-style:normal">
+          <span>{p.address.street}</span>
+          <span>{p.address.postalCode} {p.address.locality}</span>
+          <span>{t.footer.region}</span>
+          <span class="num" style="color:var(--fels-hell);margin-top:.4rem">{p.coordsLabel} · {p.elevationM} m</span>
+        </address>
+      </div>
+      <div>
+        <span class="footer-label">{t.footer.contact}</span>
+        <ul class="footer-list">
+          <li><a href={`mailto:${p.host.email}`}>{p.host.email}</a></li>
+          <li><a href={`tel:${p.host.phone.replace(/\s/g, '')}`}>{p.host.phoneDisplay}</a></li>
+          <li style="color:var(--fels-hell)">{t.footer.reply}</li>
+        </ul>
+      </div>
+      <div>
+        <span class="footer-label">{t.footer.explore}</span>
+        <ul class="footer-list">
+          {NAV.map((key) => <li><a href={url(key, lang)}>{t.nav[key as keyof typeof t.nav]}</a></li>)}
+        </ul>
+      </div>
+      <div>
+        <span class="footer-label">{t.footer.legal}</span>
+        <ul class="footer-list">
+          <li><a href={url('imprint', lang)}>{t.footer.imprint}</a></li>
+          <li><a href={url('privacy', lang)}>{t.footer.privacy}</a></li>
+          <li><a href={ROUTES[route][other]} hreflang={other} lang={other}>{t.langSwitch.label}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© {year} Untermoos · {p.address.locality}</span>
+      <span>{lang === 'de' ? 'Ein Tiroler Bauernhaus, seit rund 200 Jahren.' : 'A Tyrolean farmhouse for some 200 years.'}</span>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,83 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { ROUTES, type Lang, type RouteKey } from '../i18n/routes';
+import { UI, fmtEUR } from '../i18n/ui';
+import { FROM_PRICE } from '../data/rates';
+import { url } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+  route: RouteKey;
+  title: string;
+  description: string;
+  jsonLd?: object[];
+  noindex?: boolean;
+  ogImage?: string;
+  bar?: boolean; // sticky mobile enquiry bar
+}
+const { lang, route, title, description, jsonLd = [], noindex = false, ogImage = lang === 'de' ? '/og-untermoos.jpg' : '/og-untermoos-en.jpg', bar = true } = Astro.props;
+const site = Astro.site!.toString().replace(/\/$/, '');
+const canonical = site + ROUTES[route][lang];
+const alternates = [
+  { hreflang: 'de', href: site + ROUTES[route].de },
+  { hreflang: 'en', href: site + ROUTES[route].en },
+  { hreflang: 'x-default', href: site + ROUTES[route].de },
+];
+const t = UI[lang];
+---
+<!doctype html>
+<html lang={lang} data-season="winter">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {!noindex && alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#181b17" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/newsreader-roman.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/albert-sans.woff2" as="font" type="font/woff2" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Untermoos" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={site + ogImage} />
+    <meta property="og:locale" content={lang === 'de' ? 'de_AT' : 'en_GB'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>
+      // Season: saved choice, else by booking intent (Oct–Mar → winter, Apr–Sep → summer).
+      (function () {
+        var s;
+        try { s = localStorage.getItem('untermoos-season'); } catch (e) {}
+        if (s !== 'summer' && s !== 'winter') { var m = new Date().getMonth(); s = m >= 3 && m <= 8 ? 'summer' : 'winter'; }
+        document.documentElement.setAttribute('data-season', s);
+      })();
+    </script>
+    {jsonLd.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
+  </head>
+  <body data-bar={bar ? undefined : 'off'}>
+    <a class="skip-link" href="#main">{t.skip}</a>
+    <Header lang={lang} route={route} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} route={route} />
+    {bar && <div class="mobile-bar" data-mobile-bar>
+      <div class="mobile-bar__price">
+        <span>{t.from}</span>
+        <strong>{fmtEUR(FROM_PRICE, lang)} <span class="small">{t.perNight}</span></strong>
+      </div>
+      <a class="btn btn--light" href={url('rates', lang, 'anfrage')}>{t.enquireLong}</a>
+    </div>}
+    <script>
+      import '../scripts/site.ts';
+    </script>
+  </body>
+</html>

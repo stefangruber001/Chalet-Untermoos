@@ -1,0 +1,6 @@
+# Untermoos – all crawlers welcome, including AI assistants that help guests plan a stay.
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://www.ferienhaus-untermoos.at/sitemap.xml

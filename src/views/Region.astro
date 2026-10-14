@@ -1,0 +1,217 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Photo from '../components/Photo.astro';
+import TimeMap from '../components/TimeMap.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { ROUTES, type Lang } from '../i18n/routes';
+import { breadcrumbJsonLd } from '../data/jsonld';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const de = lang === 'de';
+
+const C = de ? {
+  title: 'Alpbachtal & Umgebung – Skifahren, Seen, Wandern | Untermoos',
+  description: 'Von Untermoos in 25 bis 55 Minuten zu vier Skigebieten, in zehn Minuten zum Badesee. Alpbachtal Card mit vier Bergbahnen im Sommer, Langlauf ab Breitenbach, Anreise per Bahn bis Wörgl.',
+  eyebrow: 'Region', heroTitle: 'Alpbachtal & Inntal.',
+  leadWinter: 'Vier Skiberge in 25 bis 55 Minuten, Langlauf ab Breitenbach, Advent in Rattenberg – und abends zurück an den Kachelofen.',
+  leadSummer: 'Badeseen, Moore und Almen rund ums Haus. Mit der Alpbachtal Card fahren vier Bergbahnen gratis.',
+  locEyebrow: 'Lage & Fahrzeiten', locTitle: 'Ruhig gelegen. Schnell überall.',
+  locText: 'Untermoos liegt auf 640 Metern in einem Weiler über dem Inntal, im Gemeindegebiet von Breitenbach – mitten zwischen Alpbachtal, Kitzbüheler Alpen und Kufstein.',
+  winterEyebrow: 'Winter', winterTitle: 'Vier Skigebiete, eine Loipe vor der Tür.',
+  skiCols: ['Skigebiet', 'Fakten', 'Fahrzeit'],
+  ski: [
+    ['Ski Juwel Alpbachtal Wildschönau', '114 Pistenkilometer auf vier Bergen, bis 2.030 m. Saison 4. Dezember 2026 bis 4. April 2027 (geplant), Nachtskilauf in Reith.', 'ca. 25 min'],
+    ['SkiWelt Wilder Kaiser – Brixental', 'Einstieg in Söll, Itter oder Hopfgarten. Saison 5. Dezember 2026 bis 4. April 2027.', 'ca. 30 min'],
+    ['Zillertal', 'Einstieg in Fügen.', 'ca. 40 min'],
+    ['Kitzbühel', 'Die Streif, die Altstadt, der Hahnenkamm.', 'ca. 55 min'],
+  ],
+  winterList: [
+    'Langlauf: Die Schönauer Loipe startet in Breitenbach (klassisch und Skating, rund 14 km). Im Alpbachtal sind es rund 70 km gespurte Loipen.',
+    'Mit der Alpbachtal Card: Regio- und Skibusse gratis, Eislaufplatz Alpbach, geführte Schneeschuh- und Fackelwanderungen, Museen, Vorteile beim Skiverleih.',
+    'Advent: Adventmärkte in Rattenberg, Kufstein und Innsbruck.',
+  ],
+  summerEyebrow: 'Sommer', summerTitle: 'Seen, Moore, Bergbahnen inklusive.',
+  summerText: 'Mit der Alpbachtal Card – sie ist im Preis enthalten – fahren Sie im Sommer unbegrenzt mit vier Bergbahnen, nutzen alle Regiobusse und baden in den Seen und Freibädern der Region.',
+  summerList: [
+    'Bergbahnen: Wiedersbergerhornbahn (Alpbach), Reitherkogelbahn (Reith), Markbachjochbahn (Niederau), Schatzbergbahn (Auffach).',
+    'Baden: Reintaler See (Mai bis September), Reither Badesee, Freibäder Münster und Brixlegg. Der Berglsteiner See liegt rund zehn Minuten vom Haus.',
+    'Wandern: Die Kundler Klamm, rund drei Kilometer durch die Schlucht (im Winter geschlossen). Moore, Wiesen und Wald liegen rund um den Weiler.',
+    'Kultur: Rattenberg, die kleinste Stadt Österreichs, das Museum Tiroler Bauernhöfe in Kramsach und das Augustinermuseum in Rattenberg.',
+    'Golf: 18 Loch im Golfclub Kitzbüheler Alpen in Westendorf, rund 35 Minuten.',
+  ],
+  tasteEyebrow: 'Einkaufen & Genießen', tasteTitle: 'Was auf den Tisch kommt.',
+  tasteList: [
+    'Supermarkt und Gasthäuser im Ort, wenige Fahrminuten entfernt.',
+    'Hofladen Bauernhof Kruckenhaus in Breitenbach für Produkte vom Hof.',
+    'Auf Wunsch kocht ein Private Chef einen Abend für Sie in der Stube.',
+  ],
+  arriveEyebrow: 'Anreise', arriveTitle: 'Mit Auto, Bahn oder Flugzeug.',
+  arrive: [
+    ['Auto', 'Über die Inntalautobahn A12. In Österreich brauchen Sie eine Vignette, digital erhältlich. Parkplätze direkt am Haus.'],
+    ['Bahn', 'Bahnhof Wörgl (ICE, Railjet, Nightjet), ca. 15 Minuten mit dem Auto. Von den Bahnhöfen der Region fahren Sie mit Buchungsbestätigung gratis mit dem Regiobus ins Alpbachtal.'],
+    ['Flug', 'Innsbruck ca. 50 Minuten, Salzburg ca. 1 h 30, München ca. 1 h 45. Einen Transfer organisieren wir auf Wunsch.'],
+  ],
+} : {
+  title: 'Alpbachtal & surroundings – skiing, lakes, hiking | Untermoos',
+  description: 'From Untermoos it is 25 to 55 minutes to four ski areas and ten minutes to a swimming lake. Alpbachtal Card with four mountain lifts in summer, cross-country trail from Breitenbach, rail to Wörgl.',
+  eyebrow: 'Region', heroTitle: 'Alpbachtal & the Inn valley.',
+  leadWinter: 'Four ski mountains 25 to 55 minutes away, cross-country skiing from Breitenbach, Advent in Rattenberg – and back to the tiled stove at night.',
+  leadSummer: 'Swimming lakes, moorland and alpine pastures around the house. With the Alpbachtal Card four mountain lifts are free.',
+  locEyebrow: 'Location & drive times', locTitle: 'Quiet. And close to everything.',
+  locText: 'Untermoos sits at 640 metres in a hamlet above the Inn valley, in the municipality of Breitenbach – right between the Alpbachtal, the Kitzbühel Alps and Kufstein.',
+  winterEyebrow: 'Winter', winterTitle: 'Four ski areas, one trail on the doorstep.',
+  skiCols: ['Ski area', 'Facts', 'Drive'],
+  ski: [
+    ['Ski Juwel Alpbachtal Wildschönau', '114 km of pistes on four mountains, up to 2,030 m. Season 4 December 2026 to 4 April 2027 (planned), night skiing in Reith.', 'approx. 25 min'],
+    ['SkiWelt Wilder Kaiser – Brixental', 'Access from Söll, Itter or Hopfgarten. Season 5 December 2026 to 4 April 2027.', 'approx. 30 min'],
+    ['Zillertal', 'Access from Fügen.', 'approx. 40 min'],
+    ['Kitzbühel', 'The Streif, the old town, the Hahnenkamm.', 'approx. 55 min'],
+  ],
+  winterList: [
+    'Cross-country: the Schönau trail starts in Breitenbach (classic and skating, about 14 km). The Alpbachtal has about 70 km of groomed trails.',
+    'With the Alpbachtal Card: free regional and ski buses, the Alpbach ice rink, guided snowshoe and torchlight walks, museums, ski-hire savings.',
+    'Advent: Christmas markets in Rattenberg, Kufstein and Innsbruck.',
+  ],
+  summerEyebrow: 'Summer', summerTitle: 'Lakes, moorland, lifts included.',
+  summerText: 'With the Alpbachtal Card – included in your stay – you ride four mountain lifts as often as you like in summer, use all regional buses and swim in the region’s lakes and lidos.',
+  summerList: [
+    'Mountain lifts: Wiedersbergerhornbahn (Alpbach), Reitherkogelbahn (Reith), Markbachjochbahn (Niederau), Schatzbergbahn (Auffach).',
+    'Swimming: Lake Reintal (May to September), Reith bathing lake, the Münster and Brixlegg lidos. Lake Berglstein is about ten minutes from the house.',
+    'Hiking: the Kundl Gorge, about three kilometres through the ravine (closed in winter). Moorland, meadows and forest surround the hamlet.',
+    'Culture: Rattenberg, Austria’s smallest town, the Museum of Tyrolean Farmhouses in Kramsach and the Augustinian Museum in Rattenberg.',
+    'Golf: 18 holes at Golfclub Kitzbüheler Alpen in Westendorf, about 35 minutes.',
+  ],
+  tasteEyebrow: 'Shopping & food', tasteTitle: 'What comes to the table.',
+  tasteList: [
+    'Supermarket and inns in the village, a few minutes’ drive away.',
+    'The Kruckenhaus farm shop in Breitenbach for produce straight from the farm.',
+    'On request a private chef cooks an evening for you in the Stube.',
+  ],
+  arriveEyebrow: 'Getting here', arriveTitle: 'By car, rail or air.',
+  arrive: [
+    ['Car', 'Via the A12 Inn valley motorway. Austria requires a motorway vignette, available digitally. Parking right at the house.'],
+    ['Rail', 'Wörgl station (ICE, Railjet, Nightjet), about 15 minutes by car. From the region’s stations the regional bus into the Alpbachtal is free with your booking confirmation.'],
+    ['Air', 'Innsbruck about 50 minutes, Salzburg about 1 h 30, Munich about 1 h 45. We arrange a transfer on request.'],
+  ],
+};
+const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }, { name: C.eyebrow, path: ROUTES.region[lang] }])];
+---
+<Base lang={lang} route="region" title={C.title} description={C.description} jsonLd={jsonLd}>
+  <Hero lang={lang} compact eyebrow={C.eyebrow} title={C.heroTitle} leadWinter={C.leadWinter} leadSummer={C.leadSummer}
+    winterSlot="view-2" summerSlot="view" winterPos="50% 60%" summerPos="50% 55%" />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid split-head">
+        <div class="head reveal" style="grid-column: 1 / span 6; margin-bottom: 0">
+          <p class="eyebrow">{C.locEyebrow}</p>
+          <h2>{C.locTitle}</h2>
+        </div>
+        <p class="measure muted reveal" style="grid-column: 8 / -1; align-self: end">{C.locText}</p>
+      </div>
+      <TimeMap lang={lang} />
+    </div>
+  </section>
+
+  <section class="section section--dark" id="winter">
+    <div class="wrap">
+      <div class="head reveal">
+        <p class="eyebrow eyebrow--zirbe">{C.winterEyebrow}</p>
+        <h2>{C.winterTitle}</h2>
+      </div>
+      <div class="table-wrap">
+        <table class="ski">
+          <thead><tr>{C.skiCols.map((c, i) => <th scope="col" class={i === 2 ? 'r' : ''}>{c}</th>)}</tr></thead>
+          <tbody>{C.ski.map(([a, b, c]) => <tr><td class="ski__name">{a}</td><td class="ski__facts">{b}</td><td class="r num ski__time">{c}</td></tr>)}</tbody>
+        </table>
+      </div>
+      <ul class="ticks ticks--light region-list" role="list">{C.winterList.map((x) => <li>{x}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section" id="sommer">
+    <div class="wrap grid">
+      <div class="summer__text stack reveal">
+        <p class="eyebrow">{C.summerEyebrow}</p>
+        <h2>{C.summerTitle}</h2>
+        <p class="lead lead--s">{C.summerText}</p>
+        <ul class="ticks" role="list">{C.summerList.map((x) => <li>{x}</li>)}</ul>
+      </div>
+      <div class="summer__media">
+        <Photo slot="moor" lang={lang} ratio="3/4" class="summer__a" sizes="(min-width: 980px) 30vw, 60vw" />
+        <Photo slot="trail" lang={lang} ratio="3/4" class="summer__b" sizes="(min-width: 980px) 22vw, 40vw" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight band">
+    <div class="band__row">
+      <Photo slot="meadow" lang={lang} ratio="3/4" sizes="(min-width: 980px) 25vw, 50vw" />
+      <Photo slot="moor-2" lang={lang} ratio="3/4" sizes="(min-width: 980px) 25vw, 50vw" />
+      <Photo slot="view" lang={lang} ratio="3/4" sizes="(min-width: 980px) 25vw, 50vw" position="45% 50%" />
+      <Photo slot="deckchair" lang={lang} ratio="3/4" sizes="(min-width: 980px) 25vw, 50vw" position="55% 50%" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid">
+      <div class="taste stack reveal">
+        <p class="eyebrow">{C.tasteEyebrow}</p>
+        <h2>{C.tasteTitle}</h2>
+        <ul class="ticks" role="list">{C.tasteList.map((x) => <li>{x}</li>)}</ul>
+      </div>
+      <div class="arrive reveal">
+        <p class="eyebrow">{C.arriveEyebrow}</p>
+        <h2>{C.arriveTitle}</h2>
+        <dl class="arrive__list">{C.arrive.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</Base>
+
+<style>
+  .split-head { margin-bottom: var(--space-l); row-gap: var(--space-m); }
+  @media (max-width: 860px) { .split-head > * { grid-column: 1 / -1 !important; } }
+  .eyebrow--zirbe { color: var(--zirbe); }
+
+  .ski { width: 100%; border-collapse: collapse; min-width: 620px; }
+  .ski th { text-align: left; font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; color: var(--fels-hell); font-weight: 600; padding: 0 1rem 0.8rem 0; border-bottom: 1px solid var(--kalk); }
+  .ski td { padding: 1.1rem 1rem 1.1rem 0; border-bottom: 1px solid var(--linie-hell); vertical-align: baseline; }
+  .ski .r { text-align: right; }
+  .ski__name { font-family: var(--font-display); font-size: var(--step-1); width: 32%; }
+  .ski__facts { color: var(--fels-hell); font-size: var(--step--1); }
+  .ski__time { white-space: nowrap; font-weight: 600; font-size: var(--step--1); color: var(--zirbe); }
+  .region-list { margin-top: var(--space-l); max-width: 70ch; }
+
+  .ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; }
+  .ticks li { position: relative; padding-left: 1.6rem; }
+  .ticks li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 0.8rem; height: 1px; background: var(--geranie); }
+  .ticks--light li::before { background: var(--zirbe); }
+
+  .summer__text { grid-column: 1 / span 6; --flow: var(--space-s); }
+  .summer__media { grid-column: 8 / -1; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: end; }
+  .summer__media :global(.summer__a) { grid-column: 1 / span 4; grid-row: 1; }
+  .summer__media :global(.summer__b) { grid-column: 3 / span 3; grid-row: 1; transform: translateY(30%); box-shadow: 0 0 0 10px var(--kalk); }
+  @media (max-width: 900px) {
+    .summer__text, .summer__media { grid-column: 1 / -1; }
+    .summer__media { margin-top: var(--space-l); margin-bottom: 18%; }
+  }
+
+  .band__row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(8px, 1vw, 16px); padding-inline: var(--gutter); max-width: var(--max); margin-inline: auto; }
+  @media (max-width: 760px) { .band__row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+  .taste { grid-column: 1 / span 5; --flow: var(--space-s); }
+  .arrive { grid-column: 7 / -1; display: grid; gap: var(--space-s); align-content: start; }
+  .arrive__list { margin: var(--space-xs) 0 0; display: grid; }
+  .arrive__list div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 1rem; padding: 0.9rem 0; border-bottom: 1px solid var(--linie); }
+  .arrive__list dt { font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--fels); padding-top: 0.25rem; }
+  .arrive__list dd { margin: 0; }
+  @media (max-width: 900px) {
+    .taste, .arrive { grid-column: 1 / -1; }
+    .arrive { margin-top: var(--space-xl); }
+  }
+</style>

@@ -1,0 +1,156 @@
+---
+import type { Lang } from '../i18n/routes';
+import { url } from '../i18n/routes';
+import { PROPERTY } from '../data/property';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const de = lang === 'de';
+const T = de ? {
+  title: 'Ihre Anfrage', intro: 'Wählen Sie Zeitraum und Gruppe – Sie sehen sofort einen unverbindlichen Richtpreis. Wir antworten innerhalb von 24 Stunden mit einem persönlichen Angebot.',
+  arrival: 'Anreise', departure: 'Abreise', adults: 'Erwachsene & Jugendliche ab 15', children: 'Kinder unter 15', dogs: 'Hunde',
+  occasion: 'Anlass', occasions: ['Familienurlaub', 'Freunde & Skiwoche', 'Team-Offsite', 'Feier / Familientreffen', 'Anderer Anlass'],
+  extras: 'Gerne organisieren wir', extraList: ['Private Chef / Catering für einen Abend', 'Lebensmittel-Vorbestellung zur Anreise', 'Skipässe & Skiverleih', 'Flughafen- oder Bahntransfer', 'Babyausstattung'],
+  name: 'Name', email: 'E-Mail', phone: 'Telefon (optional)', message: 'Nachricht (optional)',
+  messagePh: 'Wer kommt mit, worauf freuen Sie sich, was sollen wir vorbereiten?',
+  consent: 'Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden.', privacy: 'Datenschutz',
+  submit: 'Anfrage senden', estimate: 'Richtpreis', nights: 'Nächte', accommodation: 'Ganzes Haus', dogsLine: 'Hunde', tax: 'Ortstaxe (Durchlaufposten)',
+  discount: 'Vorteil', total: 'Richtpreis gesamt', note: 'Unverbindlich. Inklusive Endreinigung, Bettwäsche, Handtücher, Energie, WLAN und Alpbachtal Card. Verfügbarkeit bestätigen wir persönlich.',
+  pick: 'Bitte Anreise und Abreise wählen.', guestsMax: 'Maximal 10 Gäste.',
+  minStay: 'In diesem Zeitraum gilt ein Mindestaufenthalt von {n} Nächten – wir finden gerne eine Lösung.',
+  sending: 'Wird gesendet …', sent: 'Danke – Ihre Anfrage ist angekommen.', sentText: 'Sie erhalten innerhalb von 24 Stunden ein persönliches Angebot per E-Mail.',
+  fallbackTitle: 'Fast geschafft – bitte senden Sie uns diese Anfrage per E-Mail.', fallbackText: 'Der direkte Versand ist gerade nicht verfügbar. Kopieren Sie den Text oder öffnen Sie ihn in Ihrem E-Mail-Programm:',
+  copy: 'Text kopieren', copied: 'Kopiert', openMail: 'E-Mail öffnen', required: 'Pflichtfeld',
+} : {
+  title: 'Your enquiry', intro: 'Choose your dates and group – you will see an indicative price straight away. We reply within 24 hours with a personal offer.',
+  arrival: 'Arrival', departure: 'Departure', adults: 'Adults & teens 15+', children: 'Children under 15', dogs: 'Dogs',
+  occasion: 'Occasion', occasions: ['Family holiday', 'Friends & ski week', 'Team offsite', 'Celebration / family reunion', 'Other'],
+  extras: 'We are happy to arrange', extraList: ['Private chef / catering for an evening', 'Groceries waiting on arrival', 'Ski passes & ski hire', 'Airport or rail transfer', 'Baby equipment'],
+  name: 'Name', email: 'Email', phone: 'Phone (optional)', message: 'Message (optional)',
+  messagePh: 'Who is coming, what are you looking forward to, what should we prepare?',
+  consent: 'I agree that my details are used to process this enquiry.', privacy: 'Privacy',
+  submit: 'Send enquiry', estimate: 'Indicative price', nights: 'nights', accommodation: 'Whole house', dogsLine: 'Dogs', tax: 'Tourist tax (collected for the region)',
+  discount: 'Saving', total: 'Indicative total', note: 'Non-binding. Includes final cleaning, bed linen, towels, energy, Wi-Fi and the Alpbachtal Card. We confirm availability personally.',
+  pick: 'Please choose arrival and departure.', guestsMax: 'Maximum 10 guests.',
+  minStay: 'A minimum stay of {n} nights applies in this period – we are happy to find a solution.',
+  sending: 'Sending …', sent: 'Thank you – your enquiry has arrived.', sentText: 'You will receive a personal offer by email within 24 hours.',
+  fallbackTitle: 'Almost there – please send us this enquiry by email.', fallbackText: 'Direct sending is not available right now. Copy the text or open it in your email app:',
+  copy: 'Copy text', copied: 'Copied', openMail: 'Open email', required: 'required',
+};
+const i18n = JSON.stringify({ ...T, lang, email: PROPERTY.host.email });
+---
+<section class="enquiry" id="anfrage" aria-labelledby="enquiry-title">
+  <form class="enquiry__form" data-enquiry novalidate>
+    <div class="enquiry__head">
+      <p class="eyebrow">{de ? 'Anfrage & Richtpreis' : 'Enquiry & indicative price'}</p>
+      <h2 id="enquiry-title">{T.title}</h2>
+      <p class="muted measure">{T.intro}</p>
+    </div>
+    <div class="enquiry__grid">
+      <div class="field"><label for="f-arrival">{T.arrival}</label><input id="f-arrival" name="arrival" type="date" required /></div>
+      <div class="field"><label for="f-departure">{T.departure}</label><input id="f-departure" name="departure" type="date" required /></div>
+      <div class="field"><label for="f-adults">{T.adults}</label>
+        <select id="f-adults" name="adults">{Array.from({ length: 10 }, (_, i) => <option value={i + 1} selected={i + 1 === 8}>{i + 1}</option>)}</select>
+      </div>
+      <div class="field"><label for="f-children">{T.children}</label>
+        <select id="f-children" name="children">{Array.from({ length: 10 }, (_, i) => <option value={i}>{i}</option>)}</select>
+      </div>
+      <div class="field"><label for="f-dogs">{T.dogs}</label>
+        <select id="f-dogs" name="dogs"><option value="0">0</option><option value="1">1</option><option value="2">2</option></select>
+      </div>
+      <div class="field"><label for="f-occasion">{T.occasion}</label>
+        <select id="f-occasion" name="occasion">{T.occasions.map((o) => <option>{o}</option>)}</select>
+      </div>
+    </div>
+
+    <p class="enquiry__inline" data-est-inline aria-hidden="true"></p>
+
+    <fieldset class="enquiry__extras">
+      <legend>{T.extras}</legend>
+      {T.extraList.map((x, i) => (
+        <label class="check" for={`f-x${i}`}><input id={`f-x${i}`} type="checkbox" name="extras" value={x} />{x}</label>
+      ))}
+    </fieldset>
+
+    <div class="enquiry__grid">
+      <div class="field"><label for="f-name">{T.name}</label><input id="f-name" name="name" autocomplete="name" required /></div>
+      <div class="field"><label for="f-email">{T.email}</label><input id="f-email" name="email" type="email" autocomplete="email" required /></div>
+      <div class="field"><label for="f-phone">{T.phone}</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" /></div>
+      <div class="field field--wide"><label for="f-message">{T.message}</label><textarea id="f-message" name="message" placeholder={T.messagePh}></textarea></div>
+      <div class="hp" aria-hidden="true"><label for="f-company">Company</label><input id="f-company" name="company" tabindex="-1" autocomplete="off" /></div>
+    </div>
+
+    <label class="check" for="f-consent"><input id="f-consent" type="checkbox" name="consent" required />
+      <span>{T.consent} <a href={url('privacy', lang)}>{T.privacy}</a></span>
+    </label>
+    <p class="enquiry__error small" data-error role="alert" hidden></p>
+    <button class="btn enquiry__submit" type="submit">{T.submit} <span class="arrow" aria-hidden="true">→</span></button>
+  </form>
+
+  <aside class="estimate" aria-live="polite" data-estimate>
+    <p class="eyebrow eyebrow--plain">{T.estimate}</p>
+    <div class="estimate__total"><span data-est-total>–</span></div>
+    <p class="small" data-est-summary>{T.pick}</p>
+    <dl class="estimate__lines" data-est-lines></dl>
+    <p class="estimate__warn small" data-est-warn hidden></p>
+    <p class="small estimate__note">{T.note}</p>
+  </aside>
+
+  <div class="enquiry__done" data-done hidden tabindex="-1">
+    <p class="eyebrow">{de ? 'Gesendet' : 'Sent'}</p>
+    <h3 data-done-title>{T.sent}</h3>
+    <p data-done-text>{T.sentText}</p>
+    <div data-fallback hidden>
+      <pre class="enquiry__mail" data-mail-text></pre>
+      <div class="enquiry__mail-actions">
+        <button type="button" class="btn btn--ghost" data-copy>{T.copy}</button>
+        <a class="btn" data-mailto href={`mailto:${PROPERTY.host.email}`}>{T.openMail}</a>
+      </div>
+      <p class="small muted">{PROPERTY.host.email} · {PROPERTY.host.phoneDisplay}</p>
+    </div>
+  </div>
+  <script type="application/json" data-enquiry-i18n set:html={i18n}></script>
+</section>
+
+<script>
+  import { initEnquiry } from '../scripts/enquiry';
+  initEnquiry();
+</script>
+
+<style>
+  .enquiry { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: var(--space-l); align-items: start; }
+  .enquiry__form { display: grid; gap: var(--space-m); background: var(--papier); padding: clamp(1.2rem, 3vw, 2.6rem); border: 1px solid var(--linie); }
+  .enquiry__head { display: grid; gap: var(--space-xs); }
+  .enquiry__head h2 { font-size: var(--step-3); }
+  .enquiry__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-s); }
+  .field--wide { grid-column: 1 / -1; }
+  .enquiry__extras { border: 0; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem var(--space-s); }
+  .enquiry__extras legend { font-size: var(--step--2); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fels); margin-bottom: 0.7rem; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .enquiry__submit { justify-self: start; }
+  .enquiry__inline { display: none; font-family: var(--font-display); font-size: var(--step-1); border-left: 2px solid var(--geranie); padding-left: 0.8rem; }
+  .enquiry__inline:not(:empty) { display: block; }
+  @media (min-width: 981px) { .enquiry__inline:not(:empty) { display: none; } }
+  .enquiry__error { color: var(--geranie); font-weight: 600; }
+  .estimate { position: sticky; top: 6rem; background: var(--nacht); color: var(--kalk); padding: clamp(1.2rem, 3vw, 2.4rem); display: grid; gap: var(--space-s); }
+  .estimate .eyebrow { color: var(--zirbe); }
+  .estimate__total { font-family: var(--font-display); font-size: var(--step-4); line-height: 1; font-weight: 300; letter-spacing: -0.02em; font-variant-numeric: lining-nums tabular-nums; }
+  .estimate__lines { display: grid; gap: 0.45rem; margin: 0; font-size: var(--step--1); }
+  .estimate__lines:empty { display: none; }
+  .estimate__lines div { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--linie-hell); padding-bottom: 0.45rem; }
+  .estimate__lines dt { color: var(--fels-hell); }
+  .estimate__lines dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .estimate__warn { color: var(--zirbe); }
+  .estimate__note { color: var(--fels-hell); }
+  .enquiry__done { grid-column: 1 / -1; background: var(--papier); border: 1px solid var(--linie); padding: clamp(1.2rem, 3vw, 2.6rem); display: grid; gap: var(--space-s); }
+  .enquiry__done h3 { font-size: var(--step-3); }
+  .enquiry__mail { white-space: pre-wrap; font-family: var(--font-text); font-size: var(--step--1); background: var(--kalk); padding: var(--space-s); border: 1px solid var(--linie); max-height: 22rem; overflow: auto; margin: 0; }
+  .enquiry__mail-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+  @media (max-width: 980px) {
+    .enquiry { grid-template-columns: 1fr; }
+    .estimate { position: static; }
+  }
+  @media (max-width: 560px) {
+    .enquiry__grid, .enquiry__extras { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,66 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import type { Lang } from '../i18n/routes';
+import { PROPERTY } from '../data/property';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const de = lang === 'de';
+const p = PROPERTY;
+const h = p.host;
+---
+{de ? (
+  <LegalPage lang="de" route="privacy" title="Datenschutz | Untermoos" description="Datenschutzerklärung des Ferienhauses Untermoos: keine Cookies, kein Tracking, Anfragen nur zur Bearbeitung Ihrer Buchungsanfrage."
+    eyebrow="Rechtliches" heading="Datenschutz" updated="Stand: Oktober 2026">
+    <h2>Kurz gesagt</h2>
+    <p>Diese Website setzt keine Cookies, verwendet keine Analyse- oder Werbe-Tools und lädt keine Inhalte von Drittanbietern; Schriften und Bilder kommen von unserem eigenen Server. Personenbezogene Daten verarbeiten wir nur, wenn Sie uns eine Anfrage senden – und nur, um diese zu beantworten.</p>
+
+    <h2>Verantwortlich</h2>
+    <address>{h.company} · {h.name}<br />{p.address.street}, {p.address.postalCode} {p.address.locality}, Österreich<br /><a href={`mailto:${h.email}`}>{h.email}</a> · {h.phoneDisplay}</address>
+
+    <h2>Hosting und Server-Protokolle</h2>
+    <p>Die Website wird über Cloudflare Pages ausgeliefert (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA). Beim Aufruf verarbeitet Cloudflare technisch notwendige Daten wie IP-Adresse, Datum und Uhrzeit, aufgerufene Seite und Browsertyp, um die Website sicher und schnell auszuliefern und Angriffe abzuwehren. Rechtsgrundlage ist unser berechtigtes Interesse an einem sicheren Betrieb (Art. 6 Abs. 1 lit. f DSGVO). Cloudflare ist nach dem EU-US Data Privacy Framework zertifiziert; die Übermittlung in die USA stützt sich auf den Angemessenheitsbeschluss der EU-Kommission (Art. 45 DSGVO). Mit Cloudflare besteht ein Auftragsverarbeitungsvertrag.</p>
+
+    <h2>Anfrageformular und E-Mail</h2>
+    <p>Wenn Sie das Anfrageformular nutzen, verarbeiten wir Ihre Angaben: Name, E-Mail-Adresse, optional Telefonnummer, Reisezeitraum, Anzahl der Gäste und Hunde, Anlass, gewünschte Services und Ihre Nachricht. Zweck ist die Beantwortung Ihrer Anfrage und die Vorbereitung eines Angebots; Rechtsgrundlage sind vorvertragliche Maßnahmen auf Ihre Anfrage (Art. 6 Abs. 1 lit. b DSGVO).</p>
+    <p>Die Anfrage wird über eine Server-Funktion bei Cloudflare an den E-Mail-Dienst Resend (Plus Five Five, Inc., USA) übergeben, der sie an unser Postfach zustellt. Resend ist nach dem EU-US Data Privacy Framework zertifiziert; mit Resend besteht ein Auftragsverarbeitungsvertrag. Unser Postfach wird bei Apple iCloud geführt. Wenn Sie uns direkt per E-Mail schreiben, gilt das Gleiche.</p>
+    <p>Anfragen, aus denen keine Buchung entsteht, löschen wir spätestens zwölf Monate nach dem letzten Kontakt. Kommt es zur Buchung, bewahren wir die Daten so lange auf, wie es gesetzlich vorgeschrieben ist (insbesondere sieben Jahre nach § 132 Bundesabgabenordnung).</p>
+
+    <h2>Gästeregistrierung</h2>
+    <p>Für gebuchte Aufenthalte sind wir gesetzlich verpflichtet, die Daten unserer Gäste zu erfassen (Meldegesetz) und die Ortstaxe abzuführen (Tiroler Aufenthaltsabgabegesetz). Dazu übermitteln wir die vorgeschriebenen Angaben an die zuständigen Stellen, insbesondere die Gemeinde und den Tourismusverband Alpbachtal, über den Sie auch die Alpbachtal Card erhalten. Rechtsgrundlage ist die Erfüllung rechtlicher Pflichten (Art. 6 Abs. 1 lit. c DSGVO).</p>
+
+    <h2>Lokale Speicherung im Browser</h2>
+    <p>Wenn Sie oben zwischen Sommer und Winter umschalten, merkt sich Ihr Browser diese Wahl im lokalen Speicher (Schlüssel „untermoos-season“). Die Information verlässt Ihr Gerät nicht, wird nicht an uns übertragen und kann jederzeit in den Browser-Einstellungen gelöscht werden.</p>
+
+    <h2>Ihre Rechte</h2>
+    <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch (Art. 15 bis 21 DSGVO). Schreiben Sie uns dazu einfach an <a href={`mailto:${h.email}`}>{h.email}</a>.</p>
+    <p>Wenn Sie der Ansicht sind, dass die Verarbeitung Ihrer Daten gegen das Datenschutzrecht verstößt, können Sie sich bei der Österreichischen Datenschutzbehörde beschweren: Barichgasse 40–42, 1030 Wien, <a href="mailto:dsb@dsb.gv.at">dsb@dsb.gv.at</a>, <a href="https://www.dsb.gv.at" rel="noopener">www.dsb.gv.at</a>.</p>
+  </LegalPage>
+) : (
+  <LegalPage lang="en" route="privacy" title="Privacy | Untermoos" description="Privacy policy of the Untermoos holiday house: no cookies, no tracking, enquiries used only to answer your booking request."
+    eyebrow="Legal" heading="Privacy" updated="Last updated: October 2026">
+    <h2>In short</h2>
+    <p>This website sets no cookies, uses no analytics or advertising tools and loads no third-party content; fonts and images are served from our own server. We only process personal data when you send us an enquiry – and only to answer it.</p>
+
+    <h2>Controller</h2>
+    <address>{h.company} · {h.name}<br />{p.address.street}, {p.address.postalCode} {p.address.locality}, Austria<br /><a href={`mailto:${h.email}`}>{h.email}</a> · {h.phoneDisplay}</address>
+
+    <h2>Hosting and server logs</h2>
+    <p>The website is delivered via Cloudflare Pages (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA). When you visit, Cloudflare processes technically necessary data such as IP address, date and time, the page requested and browser type, in order to deliver the site securely and quickly and to fend off attacks. The legal basis is our legitimate interest in secure operation (Art. 6(1)(f) GDPR). Cloudflare is certified under the EU-US Data Privacy Framework; transfers to the USA rely on the European Commission’s adequacy decision (Art. 45 GDPR). A data processing agreement is in place with Cloudflare.</p>
+
+    <h2>Enquiry form and email</h2>
+    <p>When you use the enquiry form, we process the details you provide: name, email address, optionally phone number, travel dates, number of guests and dogs, occasion, requested services and your message. The purpose is to answer your enquiry and prepare an offer; the legal basis is steps taken at your request prior to entering into a contract (Art. 6(1)(b) GDPR).</p>
+    <p>The enquiry is passed by a server function at Cloudflare to the email service Resend (Plus Five Five, Inc., USA), which delivers it to our mailbox. Resend is certified under the EU-US Data Privacy Framework; a data processing agreement is in place with Resend. Our mailbox is hosted by Apple iCloud. The same applies if you email us directly.</p>
+    <p>Enquiries that do not lead to a booking are deleted no later than twelve months after the last contact. If you book, we keep the data for as long as the law requires (in particular seven years under § 132 of the Austrian Federal Fiscal Code).</p>
+
+    <h2>Guest registration</h2>
+    <p>For booked stays we are legally required to record our guests’ details (Austrian Registration Act) and to pay the local tourist tax (Tyrolean Tourist Tax Act). For this we transmit the required details to the competent bodies, in particular the municipality and the Alpbachtal tourism board, through which you also receive the Alpbachtal Card. The legal basis is compliance with legal obligations (Art. 6(1)(c) GDPR).</p>
+
+    <h2>Local storage in your browser</h2>
+    <p>If you switch between summer and winter at the top of the page, your browser remembers this choice in local storage (key “untermoos-season”). This information never leaves your device, is not transmitted to us and can be deleted at any time in your browser settings.</p>
+
+    <h2>Your rights</h2>
+    <p>You have the right of access, rectification, erasure, restriction of processing, data portability and objection (Art. 15 to 21 GDPR). Simply write to us at <a href={`mailto:${h.email}`}>{h.email}</a>.</p>
+    <p>If you believe that the processing of your data infringes data protection law, you can lodge a complaint with the Austrian Data Protection Authority: Barichgasse 40–42, 1030 Vienna, <a href="mailto:dsb@dsb.gv.at">dsb@dsb.gv.at</a>, <a href="https://www.dsb.gv.at" rel="noopener">www.dsb.gv.at</a>.</p>
+  </LegalPage>
+)}
