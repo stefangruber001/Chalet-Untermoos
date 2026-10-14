@@ -63,6 +63,8 @@ const jsonLd = [
   },
 ];
 const widths = [480, 768, 1080, 1440];
+/** Widths a photo can deliver without upscaling – small phone photos keep their native width. */
+const fit = (w: number) => [...new Set([...widths.filter((x) => x < w), Math.min(w, Math.max(...widths))])];
 ---
 <Base lang={lang} route="gallery" title={C.title} description={C.description} jsonLd={jsonLd}>
   <section class="gal-intro">
@@ -86,7 +88,7 @@ const widths = [480, 768, 1080, 1440];
           <div class="gal-mosaic">
             {s.items.slice(0, 3).map((it, k) => (
               <a class:list={['gal-item', { 'gal-item--lead': k === 0 }]} href={it.full} data-i={it.i} data-cap={it.alt} data-sec={s.title}>
-                <Picture src={it.img} alt={it.alt} formats={['avif', 'webp']} widths={widths.filter((w) => w <= it.img.width)}
+                <Picture src={it.img} alt={it.alt} formats={['avif', 'webp']} widths={fit(it.img.width)}
                   sizes={k === 0 ? '(min-width: 980px) 62vw, 100vw' : '(min-width: 980px) 31vw, 50vw'}
                   loading={it.i === 0 ? 'eager' : 'lazy'} fetchpriority={it.i === 0 ? 'high' : 'auto'} decoding="async" />
               </a>
@@ -97,7 +99,7 @@ const widths = [480, 768, 1080, 1440];
           <div class:list={['gal-rows', { 'gal-rows--pair': !s.mosaic && s.items.length <= 2 }]}>
             {(s.mosaic ? s.items.slice(3) : s.items).map((it) => (
               <a class="gal-item" href={it.full} data-i={it.i} data-cap={it.alt} data-sec={s.title} style={`--ar:${it.ar}`}>
-                <Picture src={it.img} alt={it.alt} formats={['avif', 'webp']} widths={widths.filter((w) => w <= it.img.width)}
+                <Picture src={it.img} alt={it.alt} formats={['avif', 'webp']} widths={fit(it.img.width)}
                   sizes="(min-width: 980px) 34vw, 50vw" loading="lazy" decoding="async" />
               </a>
             ))}

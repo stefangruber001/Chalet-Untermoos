@@ -7,6 +7,7 @@ import CtaBand from '../components/CtaBand.astro';
 import SectionNav from '../components/SectionNav.astro';
 import NextPage from '../components/NextPage.astro';
 import { ROUTES, type Lang } from '../i18n/routes';
+import { PROPERTY } from '../data/property';
 import { breadcrumbJsonLd } from '../data/jsonld';
 
 interface Props { lang: Lang }
@@ -15,86 +16,90 @@ const de = lang === 'de';
 
 const C = de ? {
   title: 'Alpbachtal & Umgebung – Skifahren, Seen, Wandern | Untermoos',
-  description: 'Von Untermoos in 25 bis 55 Minuten zu vier Skigebieten, in zehn Minuten zum Badesee. Alpbachtal Card mit vier Bergbahnen im Sommer, Langlauf ab Breitenbach, Anreise per Bahn bis Wörgl.',
+  description: 'Von Untermoos 18 km zur SkiWelt, 23 km zum Ski Juwel Alpbachtal, 11 km zu zwei Badeseen. Alpbachtal Card mit vier Bergbahnen im Sommer, Loipe 2 km vom Haus, Anreise per Bahn bis Wörgl.',
   eyebrow: 'Region', heroTitle: 'Alpbachtal & Inntal.',
-  leadWinter: 'Vier Skiberge in 25 bis 55 Minuten, Langlauf ab Breitenbach, Advent in Rattenberg – und abends zurück an den Kachelofen.',
+  leadWinter: 'Vier Skigebiete in 25 bis 45 Minuten, die Loipe 2 km vom Haus, Advent in Rattenberg – und abends zurück an den Kachelofen.',
   leadSummer: 'Badeseen, Moore und Almen rund ums Haus. Mit der Alpbachtal Card fahren vier Bergbahnen gratis.',
   locEyebrow: 'Lage & Fahrzeiten', locTitle: 'Ruhig gelegen. Schnell überall.',
-  locText: 'Untermoos liegt auf 640 Metern in einem Weiler über dem Inntal, im Gemeindegebiet von Breitenbach – mitten zwischen Alpbachtal, Kitzbüheler Alpen und Kufstein.',
+  locText: `Untermoos liegt auf ${PROPERTY.elevationM} Metern in einem Weiler über dem Inntal, im Gemeindegebiet von Breitenbach – mitten zwischen Alpbachtal, Kitzbüheler Alpen und Kufstein. Ins Dorf sind es 4 km, zur Bushaltestelle 250 m.`,
   winterEyebrow: 'Winter', winterTitle: 'Vier Skigebiete, eine Loipe vor der Tür.',
-  skiCols: ['Skigebiet', 'Fakten', 'Fahrzeit'],
+  skiCols: ['Skigebiet', 'Fakten', 'Entfernung'],
   ski: [
-    ['Ski Juwel Alpbachtal Wildschönau', '114 Pistenkilometer auf vier Bergen, bis 2.030 m. Saison 4. Dezember 2026 bis 4. April 2027 (geplant), Nachtskilauf in Reith.', 'ca. 25 min'],
-    ['SkiWelt Wilder Kaiser – Brixental', 'Einstieg in Söll, Itter oder Hopfgarten. Saison 5. Dezember 2026 bis 4. April 2027.', 'ca. 30 min'],
+    ['Ski Juwel Alpbachtal Wildschönau', '114 Pistenkilometer auf vier Bergen, bis 2.030 m. Saison 4. Dezember 2026 bis 4. April 2027 (geplant), Nachtskilauf in Reith.', '23 km · ca. 25 min'],
+    ['SkiWelt Wilder Kaiser – Brixental', 'Einstieg in Söll, Itter oder Hopfgarten. Saison 5. Dezember 2026 bis 4. April 2027.', '18 km · ca. 25 min'],
     ['Zillertal', 'Einstieg in Fügen.', 'ca. 40 min'],
-    ['Kitzbühel', 'Die Streif, die Altstadt, der Hahnenkamm.', 'ca. 55 min'],
+    ['Kitzbühel', 'Die Streif, die Altstadt, der Hahnenkamm.', '37 km · ca. 45 min'],
   ],
   winterList: [
-    'Langlauf: Die Schönauer Loipe startet in Breitenbach (klassisch und Skating, rund 14 km). Im Alpbachtal sind es rund 70 km gespurte Loipen.',
+    'Langlauf: Die nächste Loipe beginnt 2 km vom Haus, die Schönauer Loipe startet in Breitenbach (klassisch und Skating, rund 14 km). Im Alpbachtal sind es rund 70 km gespurte Loipen.',
     'Mit der Alpbachtal Card: Regio- und Skibusse gratis, Eislaufplatz Alpbach, geführte Schneeschuh- und Fackelwanderungen, Museen, Vorteile beim Skiverleih.',
+    'Eislaufen: Eisarena Kundl, 5,7 km vom Haus.',
     'Advent: Adventmärkte in Rattenberg, Kufstein und Innsbruck.',
   ],
   summerEyebrow: 'Sommer', summerTitle: 'Seen, Moore, Bergbahnen inklusive.',
   summerText: 'Mit der Alpbachtal Card – sie ist im Preis enthalten – fahren Sie im Sommer unbegrenzt mit vier Bergbahnen, nutzen alle Regiobusse und baden in den Seen und Freibädern der Region.',
   summerList: [
     'Bergbahnen: Wiedersbergerhornbahn (Alpbach), Reitherkogelbahn (Reith), Markbachjochbahn (Niederau), Schatzbergbahn (Auffach).',
-    'Baden: Reintaler See (Mai bis September), Reither Badesee, Freibäder Münster und Brixlegg. Der Berglsteiner See liegt rund zehn Minuten vom Haus.',
-    'Wandern: Die Kundler Klamm, rund drei Kilometer durch die Schlucht (im Winter geschlossen). Moore, Wiesen und Wald liegen rund um den Weiler.',
-    'Kultur: Rattenberg, die kleinste Stadt Österreichs, das Museum Tiroler Bauernhöfe in Kramsach und das Augustinermuseum in Rattenberg.',
-    'Golf: 18 Loch im Golfclub Kitzbüheler Alpen in Westendorf, rund 35 Minuten.',
+    'Baden: die Naturseen Reintaler See (Badesaison Mai bis September) und Berglsteiner See, beide 11 km vom Haus; dazu der Reither Badesee und die Freibäder Münster und Brixlegg.',
+    'Wandern & Radfahren: Die Kundler Klamm, 7 km vom Haus, führt rund drei Kilometer durch die Schlucht (im Winter geschlossen). Moore, Wiesen und Wald rund um den Weiler – ideal für ausgedehnte Rad- und Wandertouren und erholsame Spaziergänge.',
+    'Kultur: die Wallfahrtskirche Mariastein (6,5 km), das Museum Tiroler Bauernhöfe in Kramsach (10 km) und Rattenberg, die kleinste Stadt Österreichs, mit dem Augustinermuseum.',
+    'Golf & Tennis: 27 Loch im Golfclub Wilder Kaiser in Ellmau (27 km), Tennisplätze 2,8 km vom Haus.',
   ],
   tasteEyebrow: 'Einkaufen & Genießen', tasteTitle: 'Was auf den Tisch kommt.',
   tasteList: [
-    'Supermarkt und Gasthäuser im Ort, wenige Fahrminuten entfernt.',
+    'Im Dorf Breitenbach, 4 km entfernt: Supermarkt, Bäckerei und zwei Gasthäuser.',
+    'Gleich nebenan: die Bildhauerei Ruprechter und der Alpwerk-Shop mit Zirbenprodukten.',
     'Hofladen Bauernhof Kruckenhaus in Breitenbach für Produkte vom Hof.',
     'Auf Wunsch kocht ein Private Chef einen Abend für Sie in der Stube.',
   ],
   arriveEyebrow: 'Anreise', arriveTitle: 'Mit Auto, Bahn oder Flugzeug.',
   arrive: [
     ['Auto', 'Über die Inntalautobahn A12. In Österreich brauchen Sie eine Vignette, digital erhältlich. Parkplätze direkt am Haus.'],
-    ['Bahn', 'Bahnhof Wörgl (ICE, Railjet, Nightjet), ca. 15 Minuten mit dem Auto. Von den Bahnhöfen der Region fahren Sie mit Buchungsbestätigung gratis mit dem Regiobus ins Alpbachtal.'],
+    ['Bahn', 'Bahnhof Wörgl (ICE, Railjet, Nightjet), ca. 15 Minuten mit dem Auto. Von den Bahnhöfen der Region fahren Sie mit Buchungsbestätigung gratis mit dem Regiobus ins Alpbachtal; die Bushaltestelle liegt 250 m vom Haus.'],
     ['Flug', 'Innsbruck ca. 50 Minuten, Salzburg ca. 1 h 30, München ca. 1 h 45. Einen Transfer organisieren wir auf Wunsch.'],
   ],
 } : {
   title: 'Alpbachtal & surroundings – skiing, lakes, hiking | Untermoos',
-  description: 'From Untermoos it is 25 to 55 minutes to four ski areas and ten minutes to a swimming lake. Alpbachtal Card with four mountain lifts in summer, cross-country trail from Breitenbach, rail to Wörgl.',
+  description: 'From Untermoos it is 18 km to SkiWelt, 23 km to the Ski Juwel Alpbachtal and 11 km to two swimming lakes. Alpbachtal Card with four mountain lifts in summer, a cross-country trail 2 km away, rail to Wörgl.',
   eyebrow: 'Region', heroTitle: 'Alpbachtal & the Inn valley.',
-  leadWinter: 'Four ski mountains 25 to 55 minutes away, cross-country skiing from Breitenbach, Advent in Rattenberg – and back to the tiled stove at night.',
+  leadWinter: 'Four ski areas 25 to 45 minutes away, a cross-country trail 2 km from the house, Advent in Rattenberg – and back to the tiled stove at night.',
   leadSummer: 'Swimming lakes, moorland and alpine pastures around the house. With the Alpbachtal Card four mountain lifts are free.',
   locEyebrow: 'Location & drive times', locTitle: 'Quiet. And close to everything.',
-  locText: 'Untermoos sits at 640 metres in a hamlet above the Inn valley, in the municipality of Breitenbach – right between the Alpbachtal, the Kitzbühel Alps and Kufstein.',
+  locText: `Untermoos sits at ${PROPERTY.elevationM} metres in a hamlet above the Inn valley, in the municipality of Breitenbach – right between the Alpbachtal, the Kitzbühel Alps and Kufstein. The village is 4 km away, the bus stop 250 m.`,
   winterEyebrow: 'Winter', winterTitle: 'Four ski areas, one trail on the doorstep.',
-  skiCols: ['Ski area', 'Facts', 'Drive'],
+  skiCols: ['Ski area', 'Facts', 'Distance'],
   ski: [
-    ['Ski Juwel Alpbachtal Wildschönau', '114 km of pistes on four mountains, up to 2,030 m. Season 4 December 2026 to 4 April 2027 (planned), night skiing in Reith.', 'approx. 25 min'],
-    ['SkiWelt Wilder Kaiser – Brixental', 'Access from Söll, Itter or Hopfgarten. Season 5 December 2026 to 4 April 2027.', 'approx. 30 min'],
+    ['Ski Juwel Alpbachtal Wildschönau', '114 km of pistes on four mountains, up to 2,030 m. Season 4 December 2026 to 4 April 2027 (planned), night skiing in Reith.', '23 km · approx. 25 min'],
+    ['SkiWelt Wilder Kaiser – Brixental', 'Access from Söll, Itter or Hopfgarten. Season 5 December 2026 to 4 April 2027.', '18 km · approx. 25 min'],
     ['Zillertal', 'Access from Fügen.', 'approx. 40 min'],
-    ['Kitzbühel', 'The Streif, the old town, the Hahnenkamm.', 'approx. 55 min'],
+    ['Kitzbühel', 'The Streif, the old town, the Hahnenkamm.', '37 km · approx. 45 min'],
   ],
   winterList: [
-    'Cross-country: the Schönau trail starts in Breitenbach (classic and skating, about 14 km). The Alpbachtal has about 70 km of groomed trails.',
+    'Cross-country: the nearest trail starts 2 km from the house, and the Schönau trail starts in Breitenbach (classic and skating, about 14 km). The Alpbachtal has about 70 km of groomed trails.',
     'With the Alpbachtal Card: free regional and ski buses, the Alpbach ice rink, guided snowshoe and torchlight walks, museums, ski-hire savings.',
+    'Ice skating: Eisarena Kundl, 5.7 km from the house.',
     'Advent: Christmas markets in Rattenberg, Kufstein and Innsbruck.',
   ],
   summerEyebrow: 'Summer', summerTitle: 'Lakes, moorland, lifts included.',
   summerText: 'With the Alpbachtal Card – included in your stay – you ride four mountain lifts as often as you like in summer, use all regional buses and swim in the region’s lakes and lidos.',
   summerList: [
     'Mountain lifts: Wiedersbergerhornbahn (Alpbach), Reitherkogelbahn (Reith), Markbachjochbahn (Niederau), Schatzbergbahn (Auffach).',
-    'Swimming: Lake Reintal (May to September), Reith bathing lake, the Münster and Brixlegg lidos. Lake Berglstein is about ten minutes from the house.',
-    'Hiking: the Kundl Gorge, about three kilometres through the ravine (closed in winter). Moorland, meadows and forest surround the hamlet.',
-    'Culture: Rattenberg, Austria’s smallest town, the Museum of Tyrolean Farmhouses in Kramsach and the Augustinian Museum in Rattenberg.',
-    'Golf: 18 holes at Golfclub Kitzbüheler Alpen in Westendorf, about 35 minutes.',
+    'Swimming: the natural lakes Reintal (season May to September) and Berglstein, both 11 km from the house; plus the Reith bathing lake and the Münster and Brixlegg lidos.',
+    'Hiking & cycling: the Kundl Gorge, 7 km from the house, runs about three kilometres through the ravine (closed in winter). Moorland, meadows and forest surround the hamlet – made for long bike rides, hikes and easy walks.',
+    'Culture: the Mariastein pilgrimage church (6.5 km), the Museum of Tyrolean Farmhouses in Kramsach (10 km) and Rattenberg, Austria’s smallest town, with its Augustinian Museum.',
+    'Golf & tennis: 27 holes at Golfclub Wilder Kaiser in Ellmau (27 km), tennis courts 2.8 km from the house.',
   ],
   tasteEyebrow: 'Shopping & food', tasteTitle: 'What comes to the table.',
   tasteList: [
-    'Supermarket and inns in the village, a few minutes’ drive away.',
+    'In Breitenbach village, 4 km away: a supermarket, a bakery and two inns.',
+    'Right next door: the Ruprechter sculpture workshop and the Alpwerk shop with Swiss stone pine products.',
     'The Kruckenhaus farm shop in Breitenbach for produce straight from the farm.',
     'On request a private chef cooks an evening for you in the Stube.',
   ],
   arriveEyebrow: 'Getting here', arriveTitle: 'By car, rail or air.',
   arrive: [
     ['Car', 'Via the A12 Inn valley motorway. Austria requires a motorway vignette, available digitally. Parking right at the house.'],
-    ['Rail', 'Wörgl station (ICE, Railjet, Nightjet), about 15 minutes by car. From the region’s stations the regional bus into the Alpbachtal is free with your booking confirmation.'],
+    ['Rail', 'Wörgl station (ICE, Railjet, Nightjet), about 15 minutes by car. From the region’s stations the regional bus into the Alpbachtal is free with your booking confirmation; the bus stop is 250 m from the house.'],
     ['Air', 'Innsbruck about 50 minutes, Salzburg about 1 h 30, Munich about 1 h 45. We arrange a transfer on request.'],
   ],
 };
@@ -194,6 +199,16 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
   .ski__name { font-family: var(--font-display); font-size: var(--step-1); width: 32%; }
   .ski__facts { color: var(--fels-hell); font-size: var(--step--1); }
   .ski__time { white-space: nowrap; font-weight: 600; font-size: var(--step--1); color: var(--zirbe); }
+  /* Phones: one card per ski area – name and distance on top, facts below (no clipped third column). */
+  @media (max-width: 720px) {
+    .ski { min-width: 0; }
+    .ski thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .ski tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 1rem; row-gap: 0.4rem; padding: 1rem 0; border-bottom: 1px solid var(--linie-hell); }
+    .ski td { display: block; padding: 0; border: 0; }
+    .ski__name { width: auto; }
+    .ski__facts { grid-column: 1 / -1; }
+    .ski__time { grid-column: 2; grid-row: 1; }
+  }
   .region-list { margin-top: var(--space-l); max-width: 70ch; }
 
   .ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; }

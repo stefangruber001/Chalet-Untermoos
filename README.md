@@ -30,7 +30,9 @@ Without the Resend variables the form still works: guests get a prepared email t
 
 ## Before go-live: facts to confirm with the hosts
 
-Bathrooms (2 or 3 since spring 2026) · check-in time (15:00 vs 16:00) · dog fee (€ 12) · baby cot · playground · welcome schnapps · prices and season dates (`src/data/rates.ts`) · cancellation terms (`src/views/Rates.astro`) · imprint details (UID number if VAT-registered) · consent of the people in the photos.
+Bathrooms (2 or 3 since spring 2026) · check-in time (15:00 vs 16:00) · dog fee (€ 12) · playground · spelling of the Alpwerk shop · prices and season dates (`src/data/rates.ts`) · cancellation terms (`src/views/Rates.astro`) · imprint details (UID number if VAT-registered) · consent of the people in the photos.
+
+Confirmed by the hosts' own house description (Oct 2026) and now on the site: baby cot and high chair on request, welcome Obstler, Bildhauerei Ruprechter next door, 650 m altitude, wood heating in Stube and kitchen, distances in km.
 
 ## Editing content
 
