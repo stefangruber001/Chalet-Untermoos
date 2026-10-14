@@ -28,7 +28,7 @@ export function rentalJsonLd(lang: Lang, description: string) {
     geo: { '@type': 'GeoCoordinates', latitude: p.geo.lat, longitude: p.geo.lng, elevation: p.elevationM },
     telephone: p.host.phone,
     email: p.host.email,
-    checkinTime: '15:00',
+    checkinTime: '16:00',
     checkoutTime: '10:00',
     petsAllowed: true,
     priceRange: lang === 'de' ? `ab € ${FROM_PRICE} pro Nacht (ganzes Haus)` : `from €${FROM_PRICE} per night (whole house)`,

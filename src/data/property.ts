@@ -19,13 +19,13 @@ export const PROPERTY = {
   elevationM: 650, // owner house description: "auf einer Anhöhe von 650 Metern" (older owner website: ca. 640 m)
   ageYears: 200, // owner/listing text: "200 Jahre altes Bauernhaus"
   areaM2: 300, // owner website
-  maxGuests: 10, // owner website (plus 1 baby cot per chalet.nu – confirm)
+  maxGuests: 10, // owner website; bedside crib / cot available (hosts 14 Oct 2026)
   beds: 10,
   bedrooms: 4, // 1 double on the ground floor, 3 rooms upstairs (2 + 2 + 4 beds)
-  bathrooms: 2, // owner homepage "2 Badezimmer, 4 WCs"; gallery: extra bathroom since spring 2026 → confirm 2 or 3
+  bathrooms: 2, // hosts 14 Oct 2026: "2 Badezimmer, 4 WC, 1 Waschraum" – ground floor + first floor (new since spring 2026)
   wcs: 4,
-  confirm: ['bathrooms', 'checkIn', 'petFee', 'playground'], // baby cot + high chair confirmed in the owner description
-  checkIn: '15:00–20:00', // alpbachtal.at listing (former agency listing: 16:00) – confirm
+  confirm: ['petFee'], // bathrooms, check-in, playground and bedside crib / cot confirmed by the hosts on 14 Oct 2026
+  checkIn: '16:00', // hosts 14 Oct 2026: from 16:00, earlier check-in possible by arrangement
   checkOut: 'bis 10:00',
   dogsMax: 2,
   touristTaxPerPersonNight: 3.5, // TVB Alpbachtal, since 1 Dec 2023; children exempt until end of the year they turn 15
@@ -63,13 +63,13 @@ export const ROOMS = [
   },
   {
     key: 'bath', floor: 'eg', beds: 0,
-    de: { title: 'Bad, WC & Speisekammer', text: 'Badezimmer mit Badewanne, Dusche, Waschbecken und WC, dazu ein separates WC. Nebenan Waschmaschine und Wäschetrockner sowie eine Speisekammer mit Abstellraum.' },
-    en: { title: 'Bathroom, WC & pantry', text: 'A bathroom with bathtub, shower, washbasin and WC, plus a separate WC. Next door: washing machine and tumble dryer, and a pantry with storage room.' },
+    de: { title: 'Bad, WC & Speisekammer', text: 'Badezimmer mit Badewanne, Dusche, Waschbecken und WC, dazu ein separates WC. Nebenan der Waschraum mit Waschmaschine und Wäschetrockner sowie eine Speisekammer mit Abstellraum.' },
+    en: { title: 'Bathroom, WC & pantry', text: 'A bathroom with bathtub, shower, washbasin and WC, plus a separate WC. Next door: the laundry room with washing machine and tumble dryer, and a pantry with storage room.' },
   },
   {
     key: 'bedroom-2', floor: 'og', beds: 4,
-    de: { title: 'Familienzimmer', text: 'Das größte Zimmer: Doppelbett und zwei Einzelbetten, genug Platz für zwei Erwachsene und zwei Kinder. Ein Babybett kann dazugestellt werden.' },
-    en: { title: 'Family room', text: 'The largest room: a double bed and two single beds, with plenty of space for two adults and two children. A baby cot can be added.' },
+    de: { title: 'Familienzimmer', text: 'Das größte Zimmer: Doppelbett und zwei Einzelbetten, genug Platz für zwei Erwachsene und zwei Kinder. Ein Beistell- oder Kinderbett kann dazugestellt werden.' },
+    en: { title: 'Family room', text: 'The largest room: a double bed and two single beds, with plenty of space for two adults and two children. A bedside crib or cot can be added.' },
   },
   {
     key: 'bedroom-3', floor: 'og', beds: 2,
@@ -83,8 +83,8 @@ export const ROOMS = [
   },
   {
     key: 'balcony', floor: 'og', beds: 0,
-    de: { title: 'Balkon, Hausgang & neues Bad', text: 'Der Holzbalkon läuft über die ganze Front. Im oberen Hausgang steht eine gemütliche Eckbank mit Tisch und zwei Stühlen; seit Frühjahr 2026 gibt es zusätzlich ein Bad mit Dusche und WC.' },
-    en: { title: 'Balcony, hallway & new bathroom', text: 'The timber balcony runs the full width of the house. The upstairs hallway has a cosy corner bench with a table and two chairs, and since spring 2026 there is an additional bathroom with shower and WC.' },
+    de: { title: 'Balkon, Hausgang & zweites Bad', text: 'Der Holzbalkon läuft über die ganze Front. Im oberen Hausgang steht eine gemütliche Eckbank mit Tisch und zwei Stühlen; seit Frühjahr 2026 ist hier das zweite Bad, mit Dusche und WC.' },
+    en: { title: 'Balcony, hallway & second bathroom', text: 'The timber balcony runs the full width of the house. The upstairs hallway has a cosy corner bench with a table and two chairs, and since spring 2026 the second bathroom, with shower and WC, is up here.' },
   },
 ] as const;
 
@@ -92,14 +92,14 @@ export const ROOMS = [
 export const AMENITIES = {
   de: [
     'Kachelofen mit Ofenbank', 'Alter Holzherd', 'Pelletofen im Hausgang', 'Heizpaneele in allen Schlafzimmern', 'Voll ausgestattete Küche', 'Geschirrspüler',
-    'Kaffeemaschine', 'Speisekammer', 'Waschmaschine & Wäschetrockner', 'WLAN (kostenlos)', 'Sat-TV & Stereoanlage', 'Bücherkasten zum Schmökern', 'Dartecke',
+    'Kaffeemaschine', 'Speisekammer', 'Waschraum mit Waschmaschine & Trockner', 'WLAN (kostenlos)', 'Sat-TV & Stereoanlage', 'Bücherkasten zum Schmökern', 'Dartecke',
     'Holzbalkon über die ganze Front', 'Eckbank im oberen Hausgang', 'Sonnenterrasse', 'Garten mit Holz-Sitzgarnitur und Sonnenschirm', 'Liegestühle', 'Weber-Grill', 'Spielplatz', 'Eingezäunter Bereich für Hunde',
-    'Parkplätze direkt am Haus', 'Skiraum', 'Bettwäsche & Handtücher', 'Babybett & Hochstuhl auf Anfrage', 'Nichtraucherhaus', 'E-Auto laden möglich (nach Verbrauch)',
+    'Parkplätze direkt am Haus', 'Skiraum', 'Bettwäsche & Handtücher', 'Beistell- oder Kinderbett & Hochstuhl auf Wunsch', 'Nichtraucherhaus', 'E-Auto laden möglich (nach Verbrauch)',
   ],
   en: [
     'Tiled stove with stove bench', 'Old wood-fired range', 'Pellet stove in the hallway', 'Heating panels in every bedroom', 'Fully equipped kitchen', 'Dishwasher',
-    'Coffee machine', 'Pantry', 'Washing machine & tumble dryer', 'Free Wi-Fi', 'Satellite TV & stereo', 'Old bookcase full of books', 'Darts corner',
+    'Coffee machine', 'Pantry', 'Laundry room with washing machine & dryer', 'Free Wi-Fi', 'Satellite TV & stereo', 'Old bookcase full of books', 'Darts corner',
     'Timber balcony across the full front', 'Corner bench in the upstairs hallway', 'Sun terrace', 'Garden with wooden seating and parasol', 'Deck chairs', 'Weber barbecue', 'Playground', 'Fenced area for dogs',
-    'Parking right at the house', 'Ski room', 'Bed linen & towels', 'Baby cot & high chair on request', 'Non-smoking house', 'EV charging possible (billed by use)',
+    'Parking right at the house', 'Ski room', 'Bed linen & towels', 'Bedside crib or cot & high chair on request', 'Non-smoking house', 'EV charging possible (billed by use)',
   ],
 } as const;
