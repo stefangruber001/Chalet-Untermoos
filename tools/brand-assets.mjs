@@ -35,7 +35,7 @@ const og = (claim, tag, place) => `<!doctype html><html><head><style>${fonts}
   .word { font-family: N; font-weight: 560; font-size: 40px; line-height: 1; letter-spacing: .17em; text-transform: uppercase; }
   .place { margin-top: 10px; font-size: 19px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: rgb(253 247 244 / .92); }
   .txt { position: absolute; left: 60px; bottom: 54px; display: grid; gap: 26px; justify-items: start; }
-  h1 { font-family: N; font-weight: 440; font-size: 88px; line-height: .98; letter-spacing: -.02em; text-shadow: 0 2px 18px rgb(0 0 0 / .28); }
+  h1 { font-family: N; font-weight: 440; font-size: 82px; line-height: .98; letter-spacing: -.02em; text-shadow: 0 2px 18px rgb(0 0 0 / .28); }
   .tag { background: #8c1d2b; color: #fdf7f4; font-size: 37px; font-weight: 600; letter-spacing: .005em; padding: 12px 24px 14px; line-height: 1.1; box-shadow: 0 6px 22px rgb(0 0 0 / .22); }
 </style></head><body>
   <div class="photo"></div><div class="shade"></div>
@@ -49,8 +49,8 @@ const icon = `<!doctype html><html><head><style>* { margin: 0 } body { width: 18
 const browser = await chromium.launch({ executablePath: process.env.CHROME || undefined });
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
 for (const [file, claim, tag, place] of [
-  ['og-untermoos.jpg', 'Ein Haus für<br>Ihre Leute.', `Ganzes Haus ab € ${FROM} / Nacht`, 'Bauernhaus · Alpbachtal · Tirol'],
-  ['og-untermoos-en.jpg', 'A house for<br>your people.', `Whole house from €${FROM} / night`, 'Farmhouse · Alpbachtal · Tyrol'],
+  ['og-untermoos.jpg', 'Das ganze<br>Bauernhaus.<br>Nur für Sie.', `Bis 10 Gäste · ab € ${FROM} / Nacht`, 'Bauernhaus · Alpbachtal · Tirol'],
+  ['og-untermoos-en.jpg', 'The whole<br>farmhouse.<br>Just for you.', `Up to 10 guests · from €${FROM} / night`, 'Farmhouse · Alpbachtal · Tyrol'],
 ]) {
   await page.setContent(og(claim, tag, place), { waitUntil: 'load' });
   await page.evaluate(() => document.fonts.ready);
