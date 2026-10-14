@@ -8,6 +8,7 @@ import CtaBand from '../components/CtaBand.astro';
 import SeasonTable from '../components/SeasonTable.astro';
 import Carousel from '../components/Carousel.astro';
 import NextPage from '../components/NextPage.astro';
+import Reviews from '../components/Reviews.astro';
 import { url, type Lang } from '../i18n/routes';
 import { fmtEUR } from '../i18n/ui';
 import { PROPERTY, ROOMS } from '../data/property';
@@ -296,6 +297,8 @@ const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id
       </div>
     </div>
   </section>
+
+  <Reviews lang={lang} />
 
   <section class="section section--tight occasions">
     <div class="wrap">

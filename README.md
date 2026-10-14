@@ -30,7 +30,7 @@ Without the Resend variables the form still works: guests get a prepared email t
 
 ## Before go-live: facts to confirm with the hosts
 
-Bathrooms (2 or 3 since spring 2026) · check-in time (15:00 vs 16:00) · dog fee (€ 12) · playground · spelling of the Alpwerk shop · prices and season dates (`src/data/rates.ts`) · cancellation terms (`src/views/Rates.astro`) · imprint details (UID number if VAT-registered) · consent of the people in the photos.
+Bathrooms (2 or 3 since spring 2026) · check-in time (15:00 vs 16:00) · dog fee (€ 12) · playground · spelling of the Alpwerk shop · prices and season dates (`src/data/rates.ts`) · cancellation terms (`src/views/Rates.astro`) · imprint details (UID number if VAT-registered) · consent of the people in the photos · first real guest reviews for `src/data/reviews.ts` (the sample reviews never go live).
 
 Confirmed by the hosts' own house description (Oct 2026) and now on the site: baby cot and high chair on request, welcome Obstler, Bildhauerei Ruprechter next door, 650 m altitude, wood heating in Stube and kitchen, distances in km.
 
@@ -41,6 +41,7 @@ Confirmed by the hosts' own house description (Oct 2026) and now on the site: ba
 | Prices, seasons, discounts, dog fee, tourist tax | `src/data/rates.ts` |
 | Facts, rooms, amenities, contact | `src/data/property.ts` |
 | FAQ | `src/data/faq.ts` |
+| Guest reviews (home page) | `src/data/reviews.ts` – the three entries marked `sample` are placeholders: they show a “Beispiel” tag in local previews and are never built on Cloudflare. Add real reviews (with the guest’s consent) and remove the samples. |
 | Travel times | `src/data/places.ts` |
 | Page copy (DE + EN side by side) | `src/views/*.astro` |
 | Photos (slot → file) | `src/assets/photos/<slot>.jpg`, alt texts in `src/data/photos.ts` |
