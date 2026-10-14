@@ -1,0 +1,11 @@
+---
+/** The Untermoos crest: the door-panel frame with the stag from the front door (symbol #um-stag lives in Base). */
+interface Props { class?: string; title?: string; tone?: 'red' | 'light' }
+const { class: cls = '', title, tone = 'red' } = Astro.props;
+---
+<svg class:list={['crest', `crest--${tone}`, cls]} viewBox="0 0 100 128" role={title ? 'img' : undefined} aria-hidden={title ? undefined : 'true'} focusable="false">
+  {title && <title>{title}</title>}
+  <rect class="crest__bg" width="100" height="128" />
+  <rect class="crest__line" x="7" y="7" width="86" height="114" />
+  <use class="crest__stag" href="#um-stag" x="18.3" y="27" width="63.4" height="74" />
+</svg>

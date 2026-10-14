@@ -173,7 +173,7 @@ const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id
   <Hero lang={lang} eyebrow={C.eyebrow} title="Untermoos" leadWinter={C.leadWinter} leadSummer={C.leadSummer} meta={C.meta}>
     <Fragment slot="actions">
       <a class="btn btn--light" href={url('rates', lang, 'anfrage')}>{C.ctaPrimary} <span class="arrow" aria-hidden="true">→</span></a>
-      <a class="btn btn--ghost hero-ghost" href={url('house', lang)}>{C.ctaSecondary}</a>
+      <a class="btn btn--line-light" href={url('house', lang)}>{C.ctaSecondary}</a>
     </Fragment>
   </Hero>
 
@@ -221,7 +221,7 @@ const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id
         <h2>{C.seasonsTitle}</h2>
       </div>
       <div class="seasons__grid">
-        {[{ s: C.winter, slot: 'winter-detail', key: 'winter' }, { s: C.summer, slot: 'view', key: 'summer' }].map(({ s, slot, key }) => (
+        {[{ s: C.winter, slot: 'winter-detail', key: 'winter' }, { s: C.summer, slot: 'moor', key: 'summer' }].map(({ s, slot, key }) => (
           <article class="season-card" data-season-card={key}>
             <Photo slot={slot as any} lang={lang} ratio="3/2" sizes="(min-width: 980px) 45vw, 100vw" />
             <div class="season-card__body stack reveal">
@@ -252,7 +252,7 @@ const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id
     </div>
   </section>
 
-  <section class="section section--moss included">
+  <section class="section section--red included">
     <div class="wrap grid">
       <div class="included__head reveal">
         <p class="eyebrow included__eyebrow">{C.inclEyebrow}</p>
@@ -326,37 +326,35 @@ const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id
 </Base>
 
 <style>
-  :global(.hero-ghost) { color: var(--kalk) !important; border-color: var(--linie-hell) !important; }
-  :global(.hero-ghost:hover) { background: var(--kalk) !important; color: var(--laerche) !important; }
 
   .intro__head { grid-column: 1 / span 5; display: grid; gap: var(--space-xs); align-content: start; }
   .intro__head h2 { font-size: var(--step-4); }
   .intro__body { grid-column: 7 / -1; --flow: var(--space-m); }
-  .facts { list-style: none; margin: var(--space-xl) 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--laerche); }
-  .facts li { display: grid; gap: 0.5rem; padding: var(--space-s) var(--space-s) 0 0; border-right: 1px solid var(--linie); }
+  .facts { list-style: none; margin: var(--space-xl) 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+  .facts li { display: grid; gap: 0.5rem; padding: var(--space-s) var(--space-s) 0 0; border-right: 1px solid var(--line); }
   .facts li + li { padding-left: var(--space-s); }
   .facts li:last-child { border-right: 0; }
-  .facts__n { font-family: var(--font-display); font-size: var(--step-4); line-height: 1; font-weight: 300; letter-spacing: -0.02em; }
+  .facts__n { font-family: var(--font-display); font-size: var(--step-4); line-height: 1; font-weight: 500; font-variation-settings: 'opsz' 30; color: var(--rot); letter-spacing: -0.02em; }
   .facts__u { font-size: 0.34em; margin-left: 0.2em; letter-spacing: 0.04em; vertical-align: 1.35em; font-family: var(--font-text); font-weight: 600; text-transform: uppercase; }
-  .facts__l { font-size: var(--step--1); color: var(--fels); line-height: 1.35; }
+  .facts__l { font-size: var(--step--1); color: var(--ink-2); line-height: 1.35; }
   @media (max-width: 980px) {
     .intro__head, .intro__body { grid-column: 1 / -1; }
     .intro__body { margin-top: var(--space-m); }
     .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .facts li:nth-child(3n) { border-right: 0; }
     .facts li:nth-child(3n + 1) { padding-left: 0; }
-    .facts li:nth-child(n + 4) { border-top: 1px solid var(--linie); margin-top: var(--space-s); }
+    .facts li:nth-child(n + 4) { border-top: 1px solid var(--line); margin-top: var(--space-s); }
   }
   @media (max-width: 520px) {
     .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .facts li { border-right: 0 !important; padding-left: 0 !important; }
-    .facts li:nth-child(even) { padding-left: var(--space-s) !important; border-left: 1px solid var(--linie); }
-    .facts li:nth-child(n + 3) { border-top: 1px solid var(--linie); margin-top: var(--space-s); }
+    .facts li:nth-child(even) { padding-left: var(--space-s) !important; border-left: 1px solid var(--line); }
+    .facts li:nth-child(n + 3) { border-top: 1px solid var(--line); margin-top: var(--space-s); }
   }
 
   .rooms__more { margin-top: var(--space-m); display: flex; flex-wrap: wrap; gap: 0.8rem 2rem; }
 
-  .seasons__head .eyebrow, .season-card__eyebrow { color: var(--zirbe); }
+  .seasons__head .eyebrow, .season-card__eyebrow { color: var(--messing); }
   .seasons__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-l); }
   .season-card { display: grid; gap: var(--space-m); align-content: start; }
   .season-card__body { --flow: var(--space-s); }
@@ -367,44 +365,44 @@ const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id
 
   .ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
   .ticks li { position: relative; padding-left: 1.6rem; }
-  .ticks li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 0.8rem; height: 1px; background: var(--geranie); }
-  .ticks--light li::before { background: var(--zirbe); }
+  .ticks li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 0.8rem; height: 1px; background: var(--rot); }
+  .ticks--light li::before { background: var(--messing); }
   .plain { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.45rem; }
 
   .location__head { margin-bottom: var(--space-l); row-gap: var(--space-m); }
   @media (max-width: 860px) { .location__head > div { grid-column: 1 / -1 !important; } }
 
   .included__head { grid-column: 1 / span 6; display: grid; gap: var(--space-s); align-content: start; }
-  .included__eyebrow { color: var(--zirbe); }
-  .included__eyebrow::before { background: var(--zirbe); }
+  .included__eyebrow { color: var(--messing); }
+  .included__eyebrow::before { background: var(--messing); }
   .included__lists { grid-column: 8 / -1; display: grid; gap: var(--space-l); font-size: var(--step-1); font-family: var(--font-display); }
-  .included__lists .plain { font-size: var(--step-0); font-family: var(--font-text); color: rgb(236 238 232 / 0.86); }
+  .included__lists .plain { font-size: var(--step-0); font-family: var(--font-text); color: rgb(248 240 234 / 0.86); }
   @media (max-width: 860px) {
     .included__head, .included__lists { grid-column: 1 / -1; }
     .included__lists { margin-top: var(--space-l); }
   }
 
-  .hosts { background: var(--papier); }
+  .hosts { background: var(--paper-2); }
   .hosts__media { grid-column: 1 / span 5; position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: end; }
   .hosts__media :global(.hosts__portrait) { grid-column: 1 / span 4; grid-row: 1; max-width: 340px; width: 100%; }
-  .hosts__media :global(.hosts__sculpture) { grid-column: 4 / span 3; grid-row: 1; width: 100%; max-width: 230px; justify-self: end; transform: translateY(18%); box-shadow: 0 0 0 10px var(--papier); }
+  .hosts__media :global(.hosts__sculpture) { grid-column: 4 / span 3; grid-row: 1; width: 100%; max-width: 230px; justify-self: end; transform: translateY(18%); box-shadow: 0 0 0 10px var(--paper-2); }
   .hosts__text { grid-column: 7 / -1; align-self: center; --flow: var(--space-s); }
   @media (max-width: 900px) {
     .hosts__media, .hosts__text { grid-column: 1 / -1; }
     .hosts__text { margin-top: calc(var(--space-l) + 8%); }
   }
-  .occasions__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--laerche); }
-  .occ { display: grid; grid-template-rows: auto 1fr auto; gap: var(--space-s); padding: var(--space-m) var(--space-m) var(--space-m) 0; text-decoration: none; border-right: 1px solid var(--linie); min-height: 18rem; transition: background 0.4s var(--ease); }
+  .occasions__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+  .occ { display: grid; grid-template-rows: auto 1fr auto; gap: var(--space-s); padding: var(--space-m) var(--space-m) var(--space-m) 0; text-decoration: none; border-right: 1px solid var(--line); min-height: 18rem; transition: background 0.4s var(--ease); }
   .occ + .occ { padding-left: var(--space-m); }
   .occ:last-child { border-right: 0; }
   .occ h3 { font-size: var(--step-2); }
   .occ__arrow { font-size: 1.4rem; transition: transform 0.35s var(--ease); }
-  .occ:hover .occ__arrow { transform: translateX(6px); color: var(--geranie); }
+  .occ:hover .occ__arrow { transform: translateX(6px); color: var(--rot); }
   @media (max-width: 980px) {
-    .hosts { background: var(--papier); }
+    .hosts { background: var(--paper-2); }
   .hosts__media { grid-column: 1 / span 5; position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: end; }
   .hosts__media :global(.hosts__portrait) { grid-column: 1 / span 4; grid-row: 1; max-width: 340px; width: 100%; }
-  .hosts__media :global(.hosts__sculpture) { grid-column: 4 / span 3; grid-row: 1; width: 100%; max-width: 230px; justify-self: end; transform: translateY(18%); box-shadow: 0 0 0 10px var(--papier); }
+  .hosts__media :global(.hosts__sculpture) { grid-column: 4 / span 3; grid-row: 1; width: 100%; max-width: 230px; justify-self: end; transform: translateY(18%); box-shadow: 0 0 0 10px var(--paper-2); }
   .hosts__text { grid-column: 7 / -1; align-self: center; --flow: var(--space-s); }
   @media (max-width: 900px) {
     .hosts__media, .hosts__text { grid-column: 1 / -1; }
@@ -414,13 +412,13 @@ const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id
     .occ { min-height: 0; }
     .occ:nth-child(2n) { border-right: 0; }
     .occ:nth-child(2n + 1) { padding-left: 0; }
-    .occ:nth-child(n + 3) { border-top: 1px solid var(--linie); }
+    .occ:nth-child(n + 3) { border-top: 1px solid var(--line); }
   }
   @media (max-width: 560px) {
-    .hosts { background: var(--papier); }
+    .hosts { background: var(--paper-2); }
   .hosts__media { grid-column: 1 / span 5; position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: end; }
   .hosts__media :global(.hosts__portrait) { grid-column: 1 / span 4; grid-row: 1; max-width: 340px; width: 100%; }
-  .hosts__media :global(.hosts__sculpture) { grid-column: 4 / span 3; grid-row: 1; width: 100%; max-width: 230px; justify-self: end; transform: translateY(18%); box-shadow: 0 0 0 10px var(--papier); }
+  .hosts__media :global(.hosts__sculpture) { grid-column: 4 / span 3; grid-row: 1; width: 100%; max-width: 230px; justify-self: end; transform: translateY(18%); box-shadow: 0 0 0 10px var(--paper-2); }
   .hosts__text { grid-column: 7 / -1; align-self: center; --flow: var(--space-s); }
   @media (max-width: 900px) {
     .hosts__media, .hosts__text { grid-column: 1 / -1; }
@@ -428,12 +426,12 @@ const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id
   }
   .occasions__grid { grid-template-columns: 1fr; }
     .occ { border-right: 0; padding-left: 0 !important; }
-    .occ + .occ { border-top: 1px solid var(--linie); }
+    .occ + .occ { border-top: 1px solid var(--line); }
   }
 
   .price-band__main { grid-column: 1 / span 6; display: grid; gap: var(--space-s); justify-items: start; align-content: start; }
   .price-band__main h2 { font-size: var(--step-4); }
-  .price-band__eyebrow { color: var(--zirbe); }
+  .price-band__eyebrow { color: var(--messing); }
   .price-band__table { grid-column: 8 / -1; align-self: end; }
   @media (max-width: 860px) {
     .price-band__main, .price-band__table { grid-column: 1 / -1; }

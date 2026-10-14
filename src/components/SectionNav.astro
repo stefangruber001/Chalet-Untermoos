@@ -34,19 +34,25 @@ const { label, items } = Astro.props;
 
 <style>
   .section-nav {
-    position: sticky; top: 4.4rem; z-index: 30;
-    background: rgb(236 238 232 / 0.94); backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px);
-    border-bottom: 1px solid var(--linie);
+    position: sticky; top: calc(var(--hdr-h) + var(--safe-top)); z-index: 30;
+    background: rgb(249 245 241 / 0.96); backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px);
+    border-bottom: 1px solid var(--line);
+    transition: top 0.45s var(--ease);
   }
-  .section-nav ul { position: relative; list-style: none; margin: 0; padding: 0.65rem 0; display: flex; gap: 0.4rem; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
+  /* when the header slides away the bar moves up; its colour fills a phone's top inset */
+  :global(html[data-hdr-hide]) .section-nav { top: var(--safe-top); }
+  .section-nav::before { content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: var(--safe-top); background: inherit; }
+  .section-nav ul { position: relative; list-style: none; margin: 0; padding: 0.5rem 0; display: flex; gap: 0.45rem; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
   .section-nav ul::-webkit-scrollbar { display: none; }
+  /* fade at the right edge hints that more chips scroll into view */
+  @media (max-width: 980px) { .section-nav ul { -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent); mask-image: linear-gradient(90deg, #000 86%, transparent); padding-right: 2rem; } }
   .section-nav a {
-    display: inline-flex; align-items: center; gap: 0.45rem; white-space: nowrap; text-decoration: none;
-    font-size: var(--step--1); font-weight: 500; padding: 0.42rem 0.85rem; border: 1px solid var(--linie); border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap; text-decoration: none; min-height: 2.5rem;
+    font-size: var(--step--1); font-weight: 500; padding: 0.45rem 0.95rem; border: 1px solid var(--line-strong); border-radius: var(--radius);
     transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
   }
-  .section-nav a span { font-size: var(--step--2); color: var(--fels); }
-  .section-nav a:hover { border-color: var(--laerche); }
-  .section-nav a[aria-current] { background: var(--laerche); color: var(--kalk); border-color: var(--laerche); }
-  .section-nav a[aria-current] span { color: var(--fels-hell); }
+  .section-nav a span { font-size: var(--step--2); color: var(--ink-2); }
+  .section-nav a:hover { border-color: var(--rot); color: var(--rot); }
+  .section-nav a[aria-current] { background: var(--rot); color: var(--creme); border-color: var(--rot); }
+  .section-nav a[aria-current] span { color: var(--creme-2); }
 </style>

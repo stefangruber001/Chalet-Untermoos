@@ -48,26 +48,26 @@ const order = ['festive', 'peak', 'winter', 'summer', 'shoulder', 'low'] as cons
 
 <style>
   .season-compact { display: grid; margin: 0; }
-  .season-compact div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--linie-hell); }
-  .season-compact dt { color: var(--fels-hell); font-size: var(--step--1); }
+  .season-compact div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--line-light); }
+  .season-compact dt { color: var(--creme-2); font-size: var(--step--1); }
   .season-compact dd { margin: 0; font-family: var(--font-display); font-size: var(--step-1); line-height: 1; }
   .table-wrap { overflow-x: auto; }
   .season-table { width: 100%; border-collapse: collapse; font-size: var(--step--1); min-width: 560px; }
-  .season-table th { text-align: left; font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; color: var(--fels); font-weight: 600; padding: 0 0.8rem 0.8rem 0; border-bottom: 1px solid var(--laerche); }
-  .season-table td { padding: 0.95rem 0.8rem 0.95rem 0; border-bottom: 1px solid var(--linie); vertical-align: baseline; }
+  .season-table th { text-align: left; font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); font-weight: 600; padding: 0 0.8rem 0.8rem 0; border-bottom: 1px solid var(--ink); }
+  .season-table td { padding: 0.95rem 0.8rem 0.95rem 0; border-bottom: 1px solid var(--line); vertical-align: baseline; }
   .season-table .r { text-align: right; }
   .season-table .price { font-family: var(--font-display); font-size: var(--step-1); }
   @media (max-width: 640px) {
     /* Phone: one compact row per period – dates and price on top, season and minimum stay below. No sideways scrolling. */
     .table-wrap { overflow: visible; }
-    .season-table { min-width: 0; border-top: 1px solid var(--laerche); }
+    .season-table { min-width: 0; border-top: 1px solid var(--ink); }
     .season-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
     .season-table tbody, .season-table tr { display: block; }
-    .season-table tr { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 0.5rem; row-gap: 0.15rem; padding: 0.85rem 0; border-bottom: 1px solid var(--linie); }
+    .season-table tr { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 0.5rem; row-gap: 0.15rem; padding: 0.85rem 0; border-bottom: 1px solid var(--line); }
     .season-table td { padding: 0; border: 0; }
     .season-table td:nth-child(1) { grid-column: 1 / 3; grid-row: 1; font-weight: 600; }
-    .season-table td:nth-child(2) { grid-column: 1; grid-row: 2; color: var(--fels); }
-    .season-table td:nth-child(3) { grid-column: 2; grid-row: 2; text-align: left; color: var(--fels); }
+    .season-table td:nth-child(2) { grid-column: 1; grid-row: 2; color: var(--ink-2); }
+    .season-table td:nth-child(3) { grid-column: 2; grid-row: 2; text-align: left; color: var(--ink-2); }
     .season-table td:nth-child(3)::before { content: '· '; }
     .season-table td.price { grid-column: 3; grid-row: 1 / 3; align-self: center; font-size: var(--step-2); }
   }

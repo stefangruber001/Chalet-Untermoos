@@ -25,14 +25,14 @@ const { lang, route, title, description, eyebrow, heading, updated } = Astro.pro
   .legal__head { grid-column: 1 / span 4; display: grid; gap: var(--space-xs); align-content: start; position: sticky; top: 7rem; align-self: start; }
   .legal__head h1 { font-size: var(--step-3); }
   .legal__body { grid-column: 6 / -1; max-width: 68ch; }
-  .prose :global(h2) { font-size: var(--step-1); line-height: 1.25; margin: var(--space-l) 0 var(--space-2xs); padding-top: var(--space-s); border-top: 1px solid var(--linie); }
+  .prose :global(h2) { font-size: var(--step-1); line-height: 1.25; margin: var(--space-l) 0 var(--space-2xs); padding-top: var(--space-s); border-top: 1px solid var(--line); }
   .prose :global(h2:first-child) { margin-top: 0; }
-  .prose :global(p), .prose :global(ul), .prose :global(address) { margin: 0 0 var(--space-xs); color: var(--laerche); }
+  .prose :global(p), .prose :global(ul), .prose :global(address) { margin: 0 0 var(--space-xs); color: var(--ink); }
   .prose :global(address) { font-style: normal; }
   .prose :global(ul) { padding-left: 1.1rem; }
   .prose :global(li) { margin-bottom: 0.3rem; }
   .prose :global(dl) { display: grid; grid-template-columns: minmax(0, 13rem) minmax(0, 1fr); gap: 0.45rem 1.2rem; margin: 0 0 var(--space-xs); }
-  .prose :global(dt) { color: var(--fels); font-size: var(--step--1); padding-top: 0.12rem; }
+  .prose :global(dt) { color: var(--ink-2); font-size: var(--step--1); padding-top: 0.12rem; }
   .prose :global(dd) { margin: 0; }
   @media (max-width: 900px) {
     .legal__head, .legal__body { grid-column: 1 / -1; position: static; }

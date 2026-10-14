@@ -87,14 +87,14 @@ const i18n = JSON.stringify({ ...T, lang, email: PROPERTY.host.email });
     <button class="btn enquiry__submit" type="submit">{T.submit} <span class="arrow" aria-hidden="true">→</span></button>
   </form>
 
-  <aside class="estimate" aria-live="polite" data-estimate>
+  <div class="estimate" aria-live="polite" data-estimate>
     <p class="eyebrow eyebrow--plain">{T.estimate}</p>
     <div class="estimate__total"><span data-est-total>–</span></div>
     <p class="small" data-est-summary>{T.pick}</p>
     <dl class="estimate__lines" data-est-lines></dl>
     <p class="estimate__warn small" data-est-warn hidden></p>
     <p class="small estimate__note">{T.note}</p>
-  </aside>
+  </div>
 
   <div class="enquiry__done" data-done hidden tabindex="-1">
     <p class="eyebrow">{de ? 'Gesendet' : 'Sent'}</p>
@@ -119,32 +119,32 @@ const i18n = JSON.stringify({ ...T, lang, email: PROPERTY.host.email });
 
 <style>
   .enquiry { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: var(--space-l); align-items: start; }
-  .enquiry__form { display: grid; gap: var(--space-m); background: var(--papier); padding: clamp(1.2rem, 3vw, 2.6rem); border: 1px solid var(--linie); }
+  .enquiry__form { display: grid; gap: var(--space-m); background: var(--paper-2); padding: clamp(1.2rem, 3vw, 2.6rem); border: 1px solid var(--line); }
   .enquiry__head { display: grid; gap: var(--space-xs); }
   .enquiry__head h2 { font-size: var(--step-3); }
   .enquiry__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-s); }
   .field--wide { grid-column: 1 / -1; }
   .enquiry__extras { border: 0; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem var(--space-s); }
-  .enquiry__extras legend { font-size: var(--step--2); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fels); margin-bottom: 0.7rem; }
+  .enquiry__extras legend { font-size: var(--step--2); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 0.7rem; }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   .enquiry__submit { justify-self: start; }
-  .enquiry__inline { display: none; font-family: var(--font-display); font-size: var(--step-1); border-left: 2px solid var(--geranie); padding-left: 0.8rem; }
+  .enquiry__inline { display: none; font-family: var(--font-display); font-size: var(--step-1); border-left: 2px solid var(--rot); padding-left: 0.8rem; }
   .enquiry__inline:not(:empty) { display: block; }
   @media (min-width: 981px) { .enquiry__inline:not(:empty) { display: none; } }
-  .enquiry__error { color: var(--geranie); font-weight: 600; }
-  .estimate { position: sticky; top: 6rem; background: var(--nacht); color: var(--kalk); padding: clamp(1.2rem, 3vw, 2.4rem); display: grid; gap: var(--space-s); }
-  .estimate .eyebrow { color: var(--zirbe); }
-  .estimate__total { font-family: var(--font-display); font-size: var(--step-4); line-height: 1; font-weight: 300; letter-spacing: -0.02em; font-variant-numeric: lining-nums tabular-nums; }
+  .enquiry__error { color: var(--rot); font-weight: 600; }
+  .estimate { position: sticky; top: 6rem; background: var(--wein); color: var(--paper); padding: clamp(1.2rem, 3vw, 2.4rem); display: grid; gap: var(--space-s); }
+  .estimate .eyebrow { color: var(--messing); }
+  .estimate__total { font-family: var(--font-display); font-size: var(--step-4); line-height: 1; font-weight: 500; font-variation-settings: 'opsz' 30; letter-spacing: -0.02em; font-variant-numeric: lining-nums tabular-nums; }
   .estimate__lines { display: grid; gap: 0.45rem; margin: 0; font-size: var(--step--1); }
   .estimate__lines:empty { display: none; }
-  .estimate__lines div { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--linie-hell); padding-bottom: 0.45rem; }
-  .estimate__lines dt { color: var(--fels-hell); }
+  .estimate__lines div { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line-light); padding-bottom: 0.45rem; }
+  .estimate__lines dt { color: var(--creme-2); }
   .estimate__lines dd { margin: 0; font-variant-numeric: tabular-nums; }
-  .estimate__warn { color: var(--zirbe); }
-  .estimate__note { color: var(--fels-hell); }
-  .enquiry__done { grid-column: 1 / -1; background: var(--papier); border: 1px solid var(--linie); padding: clamp(1.2rem, 3vw, 2.6rem); display: grid; gap: var(--space-s); }
+  .estimate__warn { color: var(--messing); }
+  .estimate__note { color: var(--creme-2); }
+  .enquiry__done { grid-column: 1 / -1; background: var(--paper-2); border: 1px solid var(--line); padding: clamp(1.2rem, 3vw, 2.6rem); display: grid; gap: var(--space-s); }
   .enquiry__done h3 { font-size: var(--step-3); }
-  .enquiry__mail { white-space: pre-wrap; font-family: var(--font-text); font-size: var(--step--1); background: var(--kalk); padding: var(--space-s); border: 1px solid var(--linie); max-height: 22rem; overflow: auto; margin: 0; }
+  .enquiry__mail { white-space: pre-wrap; font-family: var(--font-text); font-size: var(--step--1); background: var(--paper); padding: var(--space-s); border: 1px solid var(--line); max-height: 22rem; overflow: auto; margin: 0; }
   .enquiry__mail-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; }
   @media (max-width: 980px) {
     .enquiry { grid-template-columns: 1fr; }

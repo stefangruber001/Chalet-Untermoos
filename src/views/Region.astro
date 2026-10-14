@@ -129,7 +129,7 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
   <section class="section section--dark" id="winter">
     <div class="wrap">
       <div class="head reveal">
-        <p class="eyebrow eyebrow--zirbe">{C.winterEyebrow}</p>
+        <p class="eyebrow eyebrow--messing">{C.winterEyebrow}</p>
         <h2>{C.winterTitle}</h2>
       </div>
       <div class="table-wrap">
@@ -190,20 +190,20 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
 <style>
   .split-head { margin-bottom: var(--space-l); row-gap: var(--space-m); }
   @media (max-width: 860px) { .split-head > * { grid-column: 1 / -1 !important; } }
-  .eyebrow--zirbe { color: var(--zirbe); }
+  .eyebrow--messing { color: var(--messing); }
 
   .ski { width: 100%; border-collapse: collapse; min-width: 620px; }
-  .ski th { text-align: left; font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; color: var(--fels-hell); font-weight: 600; padding: 0 1rem 0.8rem 0; border-bottom: 1px solid var(--kalk); }
-  .ski td { padding: 1.1rem 1rem 1.1rem 0; border-bottom: 1px solid var(--linie-hell); vertical-align: baseline; }
+  .ski th { text-align: left; font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; color: var(--creme-2); font-weight: 600; padding: 0 1rem 0.8rem 0; border-bottom: 1px solid var(--paper); }
+  .ski td { padding: 1.1rem 1rem 1.1rem 0; border-bottom: 1px solid var(--line-light); vertical-align: baseline; }
   .ski .r { text-align: right; }
   .ski__name { font-family: var(--font-display); font-size: var(--step-1); width: 32%; }
-  .ski__facts { color: var(--fels-hell); font-size: var(--step--1); }
-  .ski__time { white-space: nowrap; font-weight: 600; font-size: var(--step--1); color: var(--zirbe); }
+  .ski__facts { color: var(--creme-2); font-size: var(--step--1); }
+  .ski__time { white-space: nowrap; font-weight: 600; font-size: var(--step--1); color: var(--messing); }
   /* Phones: one card per ski area – name and distance on top, facts below (no clipped third column). */
   @media (max-width: 720px) {
     .ski { min-width: 0; }
     .ski thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-    .ski tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 1rem; row-gap: 0.4rem; padding: 1rem 0; border-bottom: 1px solid var(--linie-hell); }
+    .ski tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 1rem; row-gap: 0.4rem; padding: 1rem 0; border-bottom: 1px solid var(--line-light); }
     .ski td { display: block; padding: 0; border: 0; }
     .ski__name { width: auto; }
     .ski__facts { grid-column: 1 / -1; }
@@ -213,13 +213,13 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
 
   .ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; }
   .ticks li { position: relative; padding-left: 1.6rem; }
-  .ticks li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 0.8rem; height: 1px; background: var(--geranie); }
-  .ticks--light li::before { background: var(--zirbe); }
+  .ticks li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 0.8rem; height: 1px; background: var(--rot); }
+  .ticks--light li::before { background: var(--messing); }
 
   .summer__text { grid-column: 1 / span 6; --flow: var(--space-s); }
   .summer__media { grid-column: 8 / -1; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: end; }
   .summer__media :global(.summer__a) { grid-column: 1 / span 4; grid-row: 1; }
-  .summer__media :global(.summer__b) { grid-column: 3 / span 3; grid-row: 1; transform: translateY(30%); box-shadow: 0 0 0 10px var(--kalk); }
+  .summer__media :global(.summer__b) { grid-column: 3 / span 3; grid-row: 1; transform: translateY(30%); box-shadow: 0 0 0 10px var(--paper); }
   @media (max-width: 900px) {
     .summer__text, .summer__media { grid-column: 1 / -1; }
     .summer__media { margin-top: var(--space-l); margin-bottom: 18%; }
@@ -231,8 +231,8 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
   .taste { grid-column: 1 / span 5; --flow: var(--space-s); }
   .arrive { grid-column: 7 / -1; display: grid; gap: var(--space-s); align-content: start; }
   .arrive__list { margin: var(--space-xs) 0 0; display: grid; }
-  .arrive__list div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 1rem; padding: 0.9rem 0; border-bottom: 1px solid var(--linie); }
-  .arrive__list dt { font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--fels); padding-top: 0.25rem; }
+  .arrive__list div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 1rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
+  .arrive__list dt { font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--ink-2); padding-top: 0.25rem; }
   .arrive__list dd { margin: 0; }
   @media (max-width: 900px) {
     .taste, .arrive { grid-column: 1 / -1; }

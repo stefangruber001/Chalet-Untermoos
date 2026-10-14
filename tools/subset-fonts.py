@@ -22,15 +22,15 @@ UNICODES = (
 
 JOBS = [
     # (source file inside package, output name, axis limits)
-    # Display serif: optical size pinned to a display cut (56) – used for headlines/leads only.
-    ("newsreader/files/newsreader-latin-opsz-normal.woff2", "newsreader-roman.woff2", {"opsz": 56, "wght": (300, 500)}),
-    ("newsreader/files/newsreader-latin-opsz-italic.woff2", "newsreader-italic.woff2", {"opsz": 56, "wght": (300, 420)}),
+    # Display serif Bodoni Moda: full optical-size axis (headlines use high-contrast cuts, leads the text cut).
+    ("bodoni-moda/files/bodoni-moda-latin-standard-normal.woff2", "bodoni-moda-normal.woff2", {"wght": (400, 700)}),
+    ("bodoni-moda/files/bodoni-moda-latin-standard-italic.woff2", "bodoni-moda-italic.woff2", {"wght": (400, 700)}),
     ("albert-sans/files/albert-sans-latin-wght-normal.woff2", "albert-sans.woff2", {"wght": (380, 700)}),
 ]
 # Latin-ext subset files are merged in by using the latin-ext source as well where needed.
 EXT = {
-    "newsreader-roman.woff2": "newsreader/files/newsreader-latin-ext-opsz-normal.woff2",
-    "newsreader-italic.woff2": "newsreader/files/newsreader-latin-ext-opsz-italic.woff2",
+    "bodoni-moda-normal.woff2": "bodoni-moda/files/bodoni-moda-latin-ext-standard-normal.woff2",
+    "bodoni-moda-italic.woff2": "bodoni-moda/files/bodoni-moda-latin-ext-standard-italic.woff2",
     "albert-sans.woff2": "albert-sans/files/albert-sans-latin-ext-wght-normal.woff2",
 }
 

@@ -172,32 +172,32 @@ const sizes = size === 'l' ? '(min-width: 860px) 44vw, 84vw' : '(min-width: 860p
   .carousel__track.is-dragging a { pointer-events: none; }
   .carousel__slide { scroll-snap-align: start; min-width: 0; }
   .carousel__card { display: grid; gap: 0.55rem; align-content: start; color: inherit; text-decoration: none; }
-  .carousel__media { position: relative; display: block; overflow: hidden; background: var(--laerche); }
+  .carousel__media { position: relative; display: block; overflow: hidden; background: var(--ink); }
   .carousel__media :global(picture), .carousel__media :global(img) { display: block; width: 100%; height: 100%; }
   .carousel__media :global(img) { object-fit: cover; object-position: var(--pos, 50% 50%); transition: transform 0.8s var(--ease); -webkit-user-drag: none; user-select: none; }
   .carousel__card--link:hover .carousel__media :global(img) { transform: scale(1.04); }
-  .carousel__meta { margin-top: 0.35rem; font-size: var(--step--2); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fels); }
+  .carousel__meta { margin-top: 0.35rem; font-size: var(--step--2); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
   .carousel__title { font-family: var(--font-display); font-size: var(--step-1); line-height: 1.18; display: flex; align-items: baseline; gap: 0.5rem; }
   .carousel__title .arrow { font-size: 0.8em; transition: transform 0.35s var(--ease); }
   .carousel__card--link:hover .carousel__title .arrow { transform: translateX(4px); }
-  .carousel__card--link:hover .carousel__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; text-decoration-color: var(--geranie); }
-  .carousel__text { font-size: var(--step--1); line-height: 1.5; color: var(--fels); max-width: 42ch; }
-  .carousel__cap { margin-top: 0.1rem; font-size: var(--step--1); line-height: 1.4; color: var(--fels); }
-  .carousel__end { display: grid; align-content: end; gap: 0.4rem; padding: clamp(18px, 2.4vw, 32px); background: var(--nacht); color: var(--kalk); text-decoration: none; transition: background 0.35s var(--ease); }
-  .carousel__end:hover { background: var(--moos); }
-  .carousel__end-n { font-family: var(--font-display); font-size: var(--step-5); font-weight: 300; line-height: 0.85; letter-spacing: -0.03em; }
+  .carousel__card--link:hover .carousel__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; text-decoration-color: var(--rot); }
+  .carousel__text { font-size: var(--step--1); line-height: 1.5; color: var(--ink-2); max-width: 42ch; }
+  .carousel__cap { margin-top: 0.1rem; font-size: var(--step--1); line-height: 1.4; color: var(--ink-2); }
+  .carousel__end { display: grid; align-content: end; gap: 0.4rem; padding: clamp(18px, 2.4vw, 32px); background: var(--wein); color: var(--paper); text-decoration: none; transition: background 0.35s var(--ease); }
+  .carousel__end:hover { background: var(--rot); }
+  .carousel__end-n { font-family: var(--font-display); font-size: var(--step-5); font-weight: 500; font-variation-settings: 'opsz' 30; line-height: 0.85; letter-spacing: -0.03em; }
   .carousel__end-t { font-size: var(--step--1); font-weight: 600; letter-spacing: 0.06em; }
   .carousel__controls { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: clamp(0.8rem, 2vw, 1.6rem); margin-top: var(--space-s); }
-  .carousel__count { font-size: var(--step--2); font-weight: 600; letter-spacing: 0.16em; color: var(--fels); }
-  .carousel__rail { position: relative; height: 2px; background: var(--linie); overflow: hidden; }
-  .carousel__thumb { position: absolute; top: 0; bottom: 0; left: 0; width: 30%; background: var(--laerche); }
+  .carousel__count { font-size: var(--step--2); font-weight: 600; letter-spacing: 0.16em; color: var(--ink-2); }
+  .carousel__rail { position: relative; height: 2px; background: var(--line); overflow: hidden; }
+  .carousel__thumb { position: absolute; top: 0; bottom: 0; left: 0; width: 30%; background: var(--ink); }
   .carousel__btns { display: flex; gap: 0.5rem; }
   .carousel__btn {
-    width: 2.9rem; height: 2.9rem; border-radius: 50%; border: 1px solid var(--linie); background: transparent; cursor: pointer;
-    font-size: 1.05rem; color: var(--laerche); display: grid; place-items: center;
+    width: 2.9rem; height: 2.9rem; border-radius: 50%; border: 1px solid var(--line); background: transparent; cursor: pointer;
+    font-size: 1.05rem; color: var(--ink); display: grid; place-items: center;
     transition: background 0.3s var(--ease), color 0.3s var(--ease), opacity 0.3s var(--ease);
   }
-  .carousel__btn:hover:not(:disabled) { background: var(--laerche); color: var(--kalk); }
+  .carousel__btn:hover:not(:disabled) { background: var(--ink); color: var(--paper); }
   .carousel__btn:disabled { opacity: 0.3; cursor: default; }
   @media (max-width: 860px) {
     .carousel--m, .carousel--l { --card: 82vw; }

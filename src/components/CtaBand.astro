@@ -1,26 +1,35 @@
 ---
 import { url, type Lang } from '../i18n/routes';
+import { PROPERTY } from '../data/property';
 
 interface Props { lang: Lang; title?: string; text?: string }
 const { lang } = Astro.props;
 const de = lang === 'de';
+const host = PROPERTY.host;
 const title = Astro.props.title ?? (de ? 'Ihr Zeitraum ist frei?' : 'Are your dates free?');
 const text = Astro.props.text ?? (de ? 'Fragen Sie an – wir antworten innerhalb von 24 Stunden mit einem persönlichen Angebot.' : 'Send an enquiry – we reply within 24 hours with a personal offer.');
 ---
-<section class="cta-band" aria-labelledby="cta-title">
-  <canvas class="cta-band__art" data-ridge aria-hidden="true"></canvas>
+<section class="cta-band section--red" aria-labelledby="cta-title">
+  <svg class="cta-band__stag" viewBox="0 0 85.66 100" aria-hidden="true" focusable="false"><use href="#um-stag" /></svg>
   <div class="wrap cta-band__inner">
+    <p class="eyebrow">{de ? 'Direkt bei den Gastgebern' : 'Directly with your hosts'}</p>
     <h2 id="cta-title">{title}</h2>
     <p class="lead lead--s">{text}</p>
-    <div><a class="btn btn--light" href={url('rates', lang, 'anfrage')}>{de ? 'Verfügbarkeit anfragen' : 'Check availability'} <span class="arrow" aria-hidden="true">→</span></a></div>
+    <div class="cta-band__actions">
+      <a class="btn btn--light" href={url('rates', lang, 'anfrage')}>{de ? 'Verfügbarkeit anfragen' : 'Check availability'} <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="cta-band__phone num" href={`tel:${host.phone.replace(/\s/g, '')}`}>{host.phoneDisplay}</a>
+    </div>
   </div>
 </section>
 
 <style>
-  .cta-band { position: relative; isolation: isolate; background: var(--nacht); color: var(--kalk); overflow: clip; }
-  .cta-band__art { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.9; }
-  .cta-band::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgb(24 27 23 / 0.75), rgb(24 27 23 / 0.2) 60%, rgb(24 27 23 / 0.6)); }
+  .cta-band { position: relative; isolation: isolate; overflow: clip; }
+  .cta-band__stag { position: absolute; z-index: -1; right: -4%; bottom: -12%; height: 128%; width: auto; fill: rgb(248 240 234 / 0.07); }
   .cta-band__inner { padding-block: var(--space-2xl); display: grid; gap: var(--space-s); justify-items: start; }
   .cta-band h2 { font-size: var(--step-4); max-width: 14ch; }
-  .cta-band p { max-width: 40ch; color: rgb(236 238 232 / 0.9); }
+  .cta-band p.lead { max-width: 40ch; color: rgb(248 240 234 / 0.92); }
+  .cta-band__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.6rem; margin-top: var(--space-xs); }
+  .cta-band__phone { font-size: var(--step-0); font-weight: 600; letter-spacing: 0.03em; text-decoration: none; border-bottom: 1px solid rgb(248 240 234 / 0.5); min-height: 2.75rem; display: inline-flex; align-items: center; }
+  .cta-band__phone:hover { border-color: var(--messing); color: var(--messing); }
+  @media (max-width: 720px) { .cta-band__stag { right: -28%; height: 92%; bottom: -6%; } }
 </style>

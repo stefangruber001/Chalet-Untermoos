@@ -143,7 +143,7 @@ const jsonLd = [
 ];
 ---
 <Base lang={lang} route="rates" title={C.title} description={C.description} jsonLd={jsonLd}>
-  <Hero lang={lang} compact art eyebrow={C.eyebrow} title={C.heroTitle} leadWinter={C.leadWinter} leadSummer={C.leadSummer} meta={C.meta}>
+  <Hero lang={lang} compact eyebrow={C.eyebrow} winterSlot="kachelofen" summerSlot="table" winterPos="50% 55%" summerPos="55% 50%" title={C.heroTitle} leadWinter={C.leadWinter} leadSummer={C.leadSummer} meta={C.meta}>
     <a slot="actions" class="btn btn--light" href="#anfrage">{C.cta} <span class="arrow" aria-hidden="true">↓</span></a>
   </Hero>
 
@@ -187,7 +187,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="section section--moss adv" id="vorteile" aria-labelledby="adv-title">
+  <section class="section section--red adv" id="vorteile" aria-labelledby="adv-title">
     <div class="wrap">
       <div class="head">
         <p class="eyebrow adv__eyebrow">{C.advEyebrow}</p>
@@ -256,48 +256,48 @@ const jsonLd = [
   .rates__head { grid-column: 1 / span 4; align-self: start; position: sticky; top: 7rem; }
   .rates__table { grid-column: 6 / -1; display: grid; gap: var(--space-l); }
   .pp { display: grid; gap: 0.2rem; }
-  .pp .footer-label { color: var(--fels); }
-  .pp__list { margin: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--laerche); }
+  .pp .footer-label { color: var(--ink-2); }
+  .pp__list { margin: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
   .pp__list div { display: grid; gap: 0.3rem; padding: 0.9rem 0.8rem 0 0; }
-  .pp__list dt { font-size: var(--step--2); letter-spacing: 0.04em; color: var(--fels); line-height: 1.3; }
+  .pp__list dt { font-size: var(--step--2); letter-spacing: 0.04em; color: var(--ink-2); line-height: 1.3; }
   .pp__list dd { margin: 0; font-family: var(--font-display); font-size: var(--step-2); line-height: 1; order: -1; }
 
-  .inc { background: var(--papier); }
+  .inc { background: var(--paper-2); }
   .inc__col { grid-column: 1 / span 6; --flow: var(--space-s); }
   .add__col { grid-column: 8 / -1; --flow: var(--space-s); }
   .ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.65rem; }
   .ticks li { position: relative; padding-left: 1.6rem; }
-  .ticks li::before { content: ''; position: absolute; left: 0; top: 0.78em; width: 0.8rem; height: 1px; background: var(--geranie); }
-  .kv { margin: 0; display: grid; border-top: 1px solid var(--linie); }
-  .kv div { display: grid; grid-template-columns: minmax(0, 9rem) minmax(0, 1fr); gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--linie); }
+  .ticks li::before { content: ''; position: absolute; left: 0; top: 0.78em; width: 0.8rem; height: 1px; background: var(--rot); }
+  .kv { margin: 0; display: grid; border-top: 1px solid var(--line); }
+  .kv div { display: grid; grid-template-columns: minmax(0, 9rem) minmax(0, 1fr); gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--line); }
   .kv dt { font-weight: 600; font-size: var(--step--1); }
-  .kv dd { margin: 0; color: var(--fels); font-size: var(--step--1); }
+  .kv dd { margin: 0; color: var(--ink-2); font-size: var(--step--1); }
 
-  .adv__eyebrow { color: var(--zirbe); }
+  .adv__eyebrow { color: var(--messing); }
   .adv__list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-m); }
-  .adv__list li { display: grid; gap: 0.35rem; padding-top: var(--space-s); border-top: 1px solid var(--linie-hell); }
-  .adv__n { font-family: var(--font-display); font-size: var(--step-5); font-weight: 300; line-height: 0.9; letter-spacing: -0.03em; }
+  .adv__list li { display: grid; gap: 0.35rem; padding-top: var(--space-s); border-top: 1px solid var(--line-light); }
+  .adv__n { font-family: var(--font-display); font-size: var(--step-5); font-weight: 500; font-variation-settings: 'opsz' 30; line-height: 0.9; letter-spacing: -0.03em; }
   .adv__t { font-family: var(--font-display); font-size: var(--step-1); }
-  .adv__d { color: rgb(236 238 232 / 0.78); font-size: var(--step--1); }
-  .adv__note { margin-top: var(--space-m); color: rgb(236 238 232 / 0.72); }
+  .adv__d { color: rgb(248 240 234 / 0.78); font-size: var(--step--1); }
+  .adv__note { margin-top: var(--space-m); color: rgb(248 240 234 / 0.72); }
 
   .steps__list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-m); counter-reset: s; }
-  .steps__list li { display: grid; gap: 0.5rem; align-content: start; padding-top: var(--space-s); border-top: 1px solid var(--laerche); }
-  .steps__n { font-size: var(--step--2); font-weight: 600; letter-spacing: 0.16em; color: var(--geranie); }
+  .steps__list li { display: grid; gap: 0.5rem; align-content: start; padding-top: var(--space-s); border-top: 1px solid var(--ink); }
+  .steps__n { font-size: var(--step--2); font-weight: 600; letter-spacing: 0.16em; color: var(--rot); }
   .steps__list h3 { font-size: var(--step-1); }
 
-  .terms { background: var(--papier); }
+  .terms { background: var(--paper-2); }
   .terms__head { grid-column: 1 / span 4; align-self: start; }
-  .terms__list { grid-column: 6 / -1; margin: 0; border-top: 1px solid var(--linie); }
-  .terms__list div { display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); gap: var(--space-s); padding: 1.05rem 0; border-bottom: 1px solid var(--linie); }
+  .terms__list { grid-column: 6 / -1; margin: 0; border-top: 1px solid var(--line); }
+  .terms__list div { display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); gap: var(--space-s); padding: 1.05rem 0; border-bottom: 1px solid var(--line); }
   .terms__list dt { font-family: var(--font-display); font-size: var(--step-1); line-height: 1.2; }
-  .terms__list dd { margin: 0; color: var(--fels); }
+  .terms__list dd { margin: 0; color: var(--ink-2); }
 
-  .contact { background: var(--kalk); border-top: 1px solid var(--linie); }
+  .contact { background: var(--paper); border-top: 1px solid var(--line); }
   .contact__text { grid-column: 1 / span 6; --flow: var(--space-xs); }
   .contact__lines { grid-column: 8 / -1; align-self: end; display: grid; gap: 0.4rem; justify-items: start; }
-  .contact__big { font-family: var(--font-display); font-size: var(--step-3); line-height: 1; text-decoration: none; font-weight: 320; letter-spacing: -0.01em; }
-  .contact__big:hover { color: var(--geranie); }
+  .contact__big { font-family: var(--font-display); font-size: var(--step-3); line-height: 1; text-decoration: none; font-weight: 400; letter-spacing: -0.01em; }
+  .contact__big:hover { color: var(--rot); }
   .contact__mail { font-size: var(--step-0); }
 
   .faq-section { padding-top: var(--space-xl); }

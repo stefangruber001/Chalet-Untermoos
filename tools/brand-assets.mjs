@@ -3,38 +3,44 @@
 //   → public/og-untermoos.jpg (DE), public/og-untermoos-en.jpg (EN), public/apple-touch-icon.png
 import { chromium } from 'playwright';
 import { readFileSync } from 'node:fs';
+
+const brand = readFileSync(new URL('../src/data/brand.ts', import.meta.url), 'utf8');
+const STAG = brand.match(/STAG_PATH =\n  '([^']+)'/)[1];
+const stag = (fill) => `<svg viewBox="0 0 85.66 100"><path fill="${fill}" d="${STAG}"/></svg>`;
+const crest = (h) => `<svg viewBox="0 0 100 128" style="height:${h}px;width:auto;display:block"><rect width="100" height="128" fill="#8c1d2b"/><rect x="7" y="7" width="86" height="114" fill="none" stroke="#f8f0ea" stroke-width="1.6"/><svg x="18.3" y="27" width="63.4" height="74" viewBox="0 0 85.66 100"><path fill="#f8f0ea" d="${STAG}"/></svg></svg>`;
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 // Assets are inlined as data URLs: pages created with setContent may not load file:// resources.
 const data = (p, type) => `data:${type};base64,${readFileSync(root + p).toString('base64')}`;
 const fonts = `
-  @font-face { font-family: N; src: url('${data('public/fonts/newsreader-roman.woff2', 'font/woff2')}') format('woff2'); font-weight: 300 500; }
+  @font-face { font-family: N; src: url('${data('public/fonts/bodoni-moda-normal.woff2', 'font/woff2')}') format('woff2'); font-weight: 400 700; }
+  @font-face { font-family: NI; src: url('${data('public/fonts/bodoni-moda-italic.woff2', 'font/woff2')}') format('woff2'); font-weight: 400 700; font-style: italic; }
   @font-face { font-family: A; src: url('${data('public/fonts/albert-sans.woff2', 'font/woff2')}') format('woff2'); font-weight: 380 700; }
   * { margin: 0; box-sizing: border-box; }`;
 const photo = data('src/assets/photos/hero-summer.jpg', 'image/jpeg');
 
 const og = (line, place) => `<!doctype html><html><head><style>${fonts}
-  body { width: 1200px; height: 630px; position: relative; overflow: hidden; background: #181b17; color: #eceee8; font-family: A; }
+  body { width: 1200px; height: 630px; position: relative; overflow: hidden; background: #4a1119; color: #f8f0ea; font-family: A; }
   .photo { position: absolute; inset: 0; background: url('${photo}') 50% 38% / cover; }
   .shade { position: absolute; inset: 0; background:
-    linear-gradient(90deg, rgb(20 22 19 / .9) 0%, rgb(20 22 19 / .68) 40%, rgb(20 22 19 / .12) 72%),
-    linear-gradient(180deg, rgb(20 22 19 / .1) 0%, rgb(20 22 19 / 0) 40%, rgb(20 22 19 / .7) 100%); }
-  .txt { position: absolute; left: 72px; bottom: 70px; display: grid; gap: 18px; }
-  .eyebrow { font-size: 17px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #cdb58c; display: flex; align-items: center; gap: 12px; }
-  .eyebrow::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #b0302a; }
-  h1 { font-family: N; font-weight: 300; font-size: 132px; line-height: .86; letter-spacing: -.035em; margin-left: -4px; }
-  p { font-family: N; font-weight: 340; font-size: 30px; color: rgb(236 238 232 / .92); }
-  svg { position: absolute; top: 56px; left: 72px; width: 46px; height: 46px; color: #eceee8; }
+    linear-gradient(90deg, rgb(34 8 13 / .9) 0%, rgb(34 8 13 / .66) 42%, rgb(34 8 13 / .08) 74%),
+    linear-gradient(180deg, rgb(34 8 13 / .2) 0%, rgb(34 8 13 / 0) 40%, rgb(34 8 13 / .72) 100%); }
+  .logo { position: absolute; top: 54px; left: 72px; display: flex; align-items: center; gap: 18px; }
+  .word { font-family: N; font-weight: 560; font-size: 30px; letter-spacing: .2em; text-transform: uppercase; }
+  .txt { position: absolute; left: 72px; bottom: 66px; display: grid; gap: 16px; }
+  .eyebrow { font-size: 17px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #d4b583; display: flex; align-items: center; gap: 14px; }
+  .eyebrow::before { content: ''; width: 34px; height: 1px; background: #d4b583; }
+  h1 { font-family: NI; font-style: italic; font-weight: 500; font-size: 128px; line-height: .9; letter-spacing: -.02em; margin-left: -4px; }
+  p { font-size: 30px; color: rgb(248 240 234 / .94); }
 </style></head><body>
   <div class="photo"></div><div class="shade"></div>
-  <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 13.2 16 5.5l13.5 7.7"/><path d="M8 11.2v10.3c0 3.6 2.6 6 8 6s8-2.4 8-6V11.2"/><path d="M13.2 17.6h5.6"/></svg>
+  <div class="logo">${crest(64)}<span class="word">Untermoos</span></div>
   <div class="txt"><span class="eyebrow">${place}</span><h1>Untermoos</h1><p>${line}</p></div>
 </body></html>`;
 
-const icon = `<!doctype html><html><head><style>* { margin: 0 } body { width: 180px; height: 180px; background: #181b17; display: grid; place-items: center; }</style></head><body>
-  <svg width="124" height="124" viewBox="0 0 32 32"><g fill="none" stroke="#eceee8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 13.6 16 7l11.5 6.6"/><path d="M9.2 12v8.6c0 3 2.2 5 6.8 5s6.8-2 6.8-5V12"/></g><circle cx="16" cy="17.6" r="1.4" fill="#b0302a"/></svg>
-</body></html>`;
+const icon = `<!doctype html><html><head><style>* { margin: 0 } body { width: 180px; height: 180px; background: #8c1d2b; display: grid; place-items: center; }
+  svg { width: 128px; height: auto; }</style></head><body>${stag('#f8f0ea')}</body></html>`;
 
 const browser = await chromium.launch({ executablePath: process.env.CHROME || undefined });
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });

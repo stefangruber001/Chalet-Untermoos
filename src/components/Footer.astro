@@ -2,6 +2,7 @@
 import { NAV, ROUTES, url, type Lang, type RouteKey } from '../i18n/routes';
 import { UI } from '../i18n/ui';
 import { PROPERTY } from '../data/property';
+import Crest from './Crest.astro';
 
 interface Props { lang: Lang; route: RouteKey }
 const { lang, route } = Astro.props;
@@ -12,7 +13,13 @@ const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
   <div class="wrap">
-    <p class="footer-word" aria-hidden="true">Untermoos</p>
+    <div class="footer-top">
+      <a class="footer-brand" href={url('home', lang)} aria-label="Untermoos – Start">
+        <Crest />
+        <span class="brand__text"><span class="brand__word">Untermoos</span><span class="brand__tag">{t.brandTag}</span></span>
+      </a>
+      <a class="btn btn--light" href={url('rates', lang, 'anfrage')}>{t.enquireLong} <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
     <div class="footer-grid">
       <div>
         <span class="footer-label">{t.footer.address}</span>
@@ -20,7 +27,7 @@ const year = new Date().getFullYear();
           <span>{p.address.street}</span>
           <span>{p.address.postalCode} {p.address.locality}</span>
           <span>{t.footer.region}</span>
-          <span class="num" style="color:var(--fels-hell);margin-top:.4rem">{p.coordsLabel} · {p.elevationM} m</span>
+          <span class="num" style="color:var(--creme-2)">{p.coordsLabel} · {p.elevationM} m</span>
         </address>
       </div>
       <div>
@@ -28,7 +35,7 @@ const year = new Date().getFullYear();
         <ul class="footer-list">
           <li><a href={`mailto:${p.host.email}`}>{p.host.email}</a></li>
           <li><a href={`tel:${p.host.phone.replace(/\s/g, '')}`}>{p.host.phoneDisplay}</a></li>
-          <li style="color:var(--fels-hell)">{t.footer.reply}</li>
+          <li style="color:var(--creme-2)">{t.footer.reply}</li>
         </ul>
       </div>
       <div>

@@ -6,6 +6,7 @@ import { ROUTES, type Lang, type RouteKey } from '../i18n/routes';
 import { UI, fmtEUR } from '../i18n/ui';
 import { FROM_PRICE } from '../data/rates';
 import { url } from '../i18n/routes';
+import { STAG_VIEWBOX, STAG_PATH } from '../data/brand';
 
 interface Props {
   lang: Lang;
@@ -37,11 +38,11 @@ const t = UI[lang];
     {!noindex && <link rel="canonical" href={canonical} />}
     {!noindex && alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
     {noindex && <meta name="robots" content="noindex" />}
-    <meta name="theme-color" content="#181b17" />
+    <meta name="theme-color" content="#4a1119" />
     <meta name="color-scheme" content="light" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="preload" href="/fonts/newsreader-roman.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/bodoni-moda-normal.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/albert-sans.woff2" as="font" type="font/woff2" crossorigin />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Untermoos" />
@@ -63,19 +64,20 @@ const t = UI[lang];
     {jsonLd.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
   </head>
   <body data-bar={bar ? undefined : 'off'}>
+    <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false"><symbol id="um-stag" viewBox={STAG_VIEWBOX}><path d={STAG_PATH} /></symbol></svg>
     <a class="skip-link" href="#main">{t.skip}</a>
     <Header lang={lang} route={route} />
     <main id="main">
       <slot />
     </main>
     <Footer lang={lang} route={route} />
-    {bar && <div class="mobile-bar" data-mobile-bar>
+    {bar && <aside class="mobile-bar" data-mobile-bar aria-label={t.enquireLong}>
       <div class="mobile-bar__price">
         <span>{t.from}</span>
-        <strong>{fmtEUR(FROM_PRICE, lang)} <span class="small">{t.perNight}</span></strong>
+        <strong class="num">{fmtEUR(FROM_PRICE, lang)} <span>{t.perNight}</span></strong>
       </div>
-      <a class="btn btn--light" href={url('rates', lang, 'anfrage')}>{t.enquireLong}</a>
-    </div>}
+      <a class="btn btn--light" href={url('rates', lang, 'anfrage')}>{t.enquire} <span class="arrow" aria-hidden="true">→</span></a>
+    </aside>}
     <script>
       import '../scripts/site.ts';
     </script>

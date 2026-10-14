@@ -150,7 +150,7 @@ const jsonLd = [
           <p><a class="link-arrow" href={url('gallery', lang)}>{C.all(allCount)} <span aria-hidden="true">→</span></a></p>
         </div>
       </div>
-      <Carousel lang={lang} id="interiors" label={C.galleryTitle} items={gallery.map((slot) => ({ slot }))} ratio="3/2" size="l" caption
+      <Carousel lang={lang} id="interiors" label={de ? 'Bilderreihe Innenräume' : 'Interiors photo strip'} items={gallery.map((slot) => ({ slot }))} ratio="3/2" size="l" caption
         end={{ href: url('gallery', lang), n: allCount, label: C.allShort(allCount) }} />
     </section>
   )}
@@ -194,7 +194,7 @@ const jsonLd = [
 
 
 <style>
-  .gallery { background: var(--papier); overflow: hidden; }
+  .gallery { background: var(--paper-2); overflow: hidden; }
   .gallery__head { margin-bottom: var(--space-l); row-gap: var(--space-m); }
   .gallery__side { grid-column: 9 / -1; align-self: end; display: grid; gap: var(--space-s); }
   @media (max-width: 860px) {
@@ -203,14 +203,14 @@ const jsonLd = [
   .plan-head { margin-bottom: var(--space-l); row-gap: var(--space-m); }
   @media (max-width: 860px) { .plan-head > *, .outside__head > *, .gallery__head > * { grid-column: 1 / -1 !important; } }
 
-  .floor-block { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: var(--space-m); padding-block: var(--space-m); border-top: 1px solid var(--laerche); }
+  .floor-block { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: var(--space-m); padding-block: var(--space-m); border-top: 1px solid var(--ink); }
   .floor-block + .floor-block { margin-top: var(--space-l); }
   .floor-block__title { padding-top: 0.4rem; align-self: start; }
   .room-rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-m) var(--space-l); }
   .room-row { display: grid; gap: var(--space-s); align-content: start; }
   .room-row h3 { font-size: var(--step-2); }
   .room-row__text { display: grid; gap: 0.4rem; max-width: 46ch; }
-  .room-row__beds { justify-self: start; font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; border: 1px solid var(--linie); border-radius: 999px; padding: 0.3rem 0.7rem; margin-top: 0.3rem; }
+  .room-row__beds { justify-self: start; font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; border: 1px solid var(--line); border-radius: 999px; padding: 0.3rem 0.7rem; margin-top: 0.3rem; }
   @media (max-width: 860px) {
     .floor-block { grid-template-columns: 1fr; }
     .room-rows { grid-template-columns: 1fr; }
@@ -218,7 +218,7 @@ const jsonLd = [
 
   .warmth__media { grid-column: 1 / span 5; }
   .warmth__text { grid-column: 7 / -1; align-self: center; --flow: var(--space-s); }
-  .warmth__eyebrow { color: var(--zirbe); }
+  .warmth__eyebrow { color: var(--messing); }
   @media (max-width: 900px) {
     .warmth__media, .warmth__text { grid-column: 1 / -1; }
     .warmth__text { margin-top: var(--space-l); }
@@ -236,11 +236,11 @@ const jsonLd = [
 
   .amen { grid-column: 1 / span 6; --flow: var(--space-m); }
   .amen__list { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: var(--space-l); }
-  .amen__list li { break-inside: avoid; padding: 0.55rem 0; border-bottom: 1px solid var(--linie); }
+  .amen__list li { break-inside: avoid; padding: 0.55rem 0; border-bottom: 1px solid var(--line); }
   .know { grid-column: 8 / -1; display: grid; gap: var(--space-m); align-content: start; }
   .know__list { margin: 0; display: grid; }
-  .know__list div { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 1rem; padding: 0.6rem 0; border-bottom: 1px solid var(--linie); }
-  .know__list dt { font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--fels); padding-top: 0.2rem; }
+  .know__list div { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 1rem; padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
+  .know__list dt { font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--ink-2); padding-top: 0.2rem; }
   .know__list dd { margin: 0; }
   @media (max-width: 900px) {
     .amen, .know { grid-column: 1 / -1; }
