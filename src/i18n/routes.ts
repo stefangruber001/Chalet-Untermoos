@@ -5,6 +5,7 @@ export const LANGS: Lang[] = ['de', 'en'];
 export const ROUTES = {
   home: { de: '/', en: '/en/' },
   house: { de: '/haus/', en: '/en/house/' },
+  gallery: { de: '/bilder/', en: '/en/photos/' },
   region: { de: '/region/', en: '/en/region/' },
   occasions: { de: '/anlaesse/', en: '/en/occasions/' },
   rates: { de: '/preise/', en: '/en/rates/' },
@@ -16,4 +17,4 @@ export type RouteKey = keyof typeof ROUTES;
 
 export const url = (key: RouteKey, lang: Lang, hash = '') => ROUTES[key][lang] + (hash ? `#${hash}` : '');
 
-export const NAV: RouteKey[] = ['house', 'region', 'occasions', 'rates'];
+export const NAV: RouteKey[] = ['house', 'gallery', 'region', 'occasions', 'rates'];

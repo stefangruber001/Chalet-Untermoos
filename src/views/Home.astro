@@ -43,7 +43,7 @@ const C = de ? {
     { slot: 'table', title: 'Vor der Haustür', text: 'Frühstück am Holztisch neben der roten Tür, abends ein Glas im Garten, während die Berge das letzte Licht fangen.' },
     { slot: 'bedroom-2', title: 'Zum Schlafen', text: 'Vier Schlafzimmer, zehn Betten: geschnitzte Holzbetten, bemalte Bauernkästen, Dielenböden. Zur Begrüßung wartet ein Glas vom hauseigenen Schnaps.' },
   ],
-  roomsLink: 'Alle Räume und die Ausstattung',
+  roomsLink: 'Alle Räume und die Ausstattung', photosLink: 'Alle Bilder',
   seasonsEyebrow: 'Zwei Jahreszeiten', seasonsTitle: 'Winter wie Sommer: das Alpbachtal vor der Tür.',
   winter: {
     eyebrow: 'Winter', title: 'Vier Skiberge, ein Kachelofen.',
@@ -102,7 +102,7 @@ const C = de ? {
     { slot: 'table', title: 'By the front door', text: 'Breakfast at the wooden table beside the red door, a glass in the garden at night while the mountains catch the last light.' },
     { slot: 'bedroom-2', title: 'To sleep', text: 'Four bedrooms, ten beds: carved wooden beds, painted farmhouse wardrobes, plank floors. A glass of the house’s own schnapps awaits you on arrival.' },
   ],
-  roomsLink: 'All rooms and amenities',
+  roomsLink: 'All rooms and amenities', photosLink: 'All photos',
   seasonsEyebrow: 'Two seasons', seasonsTitle: 'Winter or summer: the Alpbachtal on your doorstep.',
   winter: {
     eyebrow: 'Winter', title: 'Four ski mountains, one tiled stove.',
@@ -188,7 +188,7 @@ const jsonLd = [rentalJsonLd(lang, C.description), faqJsonLd(FAQ[lang])];
           </article>
         ))}
       </div>
-      <p class="rooms__more"><a class="link-arrow" href={url('house', lang)}>{C.roomsLink} <span aria-hidden="true">→</span></a></p>
+      <p class="rooms__more"><a class="link-arrow" href={url('house', lang)}>{C.roomsLink} <span aria-hidden="true">→</span></a><a class="link-arrow" href={url('gallery', lang)}>{C.photosLink} <span aria-hidden="true">→</span></a></p>
     </div>
   </section>
 
@@ -337,7 +337,7 @@ const jsonLd = [rentalJsonLd(lang, C.description), faqJsonLd(FAQ[lang])];
   .room--3 { grid-column: 9 / -1; }
   .room__text { display: grid; gap: 0.4rem; max-width: 40ch; }
   .room__text h3 { font-size: var(--step-2); }
-  .rooms__more { margin-top: var(--space-l); }
+  .rooms__more { margin-top: var(--space-l); display: flex; flex-wrap: wrap; gap: 0.8rem 2rem; }
   @media (max-width: 860px) {
     .room--1, .room--2, .room--3 { grid-column: 1 / -1; grid-row: auto; }
     .room--2 { grid-column: 3 / -1; }

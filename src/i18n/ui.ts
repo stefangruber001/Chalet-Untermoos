@@ -4,7 +4,7 @@ import type { Lang } from './routes';
 export const UI = {
   de: {
     skip: 'Zum Inhalt springen',
-    nav: { house: 'Das Haus', region: 'Region', occasions: 'Anlässe', rates: 'Preise & Anfrage' },
+    nav: { house: 'Das Haus', gallery: 'Bilder', region: 'Region', occasions: 'Anlässe', rates: 'Preise & Anfrage' },
     enquire: 'Anfragen',
     enquireLong: 'Verfügbarkeit anfragen',
     menu: 'Menü',
@@ -27,7 +27,7 @@ export const UI = {
   },
   en: {
     skip: 'Skip to content',
-    nav: { house: 'The house', region: 'Region', occasions: 'Occasions', rates: 'Rates & enquiry' },
+    nav: { house: 'The house', gallery: 'Photos', region: 'Region', occasions: 'Occasions', rates: 'Rates & enquiry' },
     enquire: 'Enquire',
     enquireLong: 'Check availability',
     menu: 'Menu',

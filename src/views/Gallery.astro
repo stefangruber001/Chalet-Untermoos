@@ -1,0 +1,288 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { Picture, getImage } from 'astro:assets';
+import { ROUTES, type Lang } from '../i18n/routes';
+import { GALLERY } from '../data/gallery';
+import { ROOMS } from '../data/property';
+import { getPhoto, photoAlt } from '../data/photos';
+import { breadcrumbJsonLd } from '../data/jsonld';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const de = lang === 'de';
+const site = Astro.site!.toString().replace(/\/$/, '');
+
+/* Resolve sections: titles from ROOMS where linked, images + one large WebP per photo for the viewer. */
+let n = 0;
+const sections = [];
+for (const s of GALLERY) {
+  const room = s.room ? ROOMS.find((r) => r.key === s.room) : undefined;
+  const title = room ? room[lang].title : (de ? s.de : s.en) ?? s.id;
+  const items = [];
+  for (const slot of s.slots) {
+    const img = getPhoto(slot);
+    if (!img) continue;
+    const full = await getImage({ src: img, width: Math.min(1920, img.width), format: 'webp', quality: 80 });
+    items.push({ slot, img, alt: photoAlt(slot, lang), full: full.src, ar: +(img.width / img.height).toFixed(4), i: 0 });
+  }
+  if (!items.length) continue;
+  // Opening mosaic: the lead photo plus the next two landscape photos; everything else in justified rows.
+  const [lead, ...rest] = items;
+  const side = rest.filter((it) => it.ar >= 1.2).slice(0, 2);
+  const mosaic = items.length >= 3 && side.length === 2;
+  const ordered = mosaic ? [lead, ...side, ...rest.filter((it) => !side.includes(it))] : items;
+  ordered.forEach((it) => (it.i = n++));
+  sections.push({ id: s.id, title, mosaic, items: ordered });
+}
+const total = n;
+
+const C = de ? {
+  title: 'Bilder – Stube, Küche, Schlafzimmer, Garten | Untermoos',
+  description: 'Alle Bilder von Untermoos: Stube mit Kachelofen, Küche mit Holzherd, vier Schlafzimmer, Bäder, Garten und Winter – Raum für Raum.',
+  eyebrow: 'Bilder', h1: `Untermoos in ${total} Bildern.`,
+  lead: 'Raum für Raum, drinnen und draußen, im Sommer und im Winter.', hint: 'Wählen Sie ein Bild, um es groß zu sehen.',
+  photos: (k: number) => (k === 1 ? '1 Bild' : `${k} Bilder`), navLabel: 'Bereiche',
+  viewer: 'Bildansicht', close: 'Schließen', prev: 'Vorheriges Bild', next: 'Nächstes Bild',
+} : {
+  title: 'Photos – Stube, kitchen, bedrooms, garden | Untermoos',
+  description: 'All photos of Untermoos: the Stube with its tiled stove, the kitchen with wood-fired range, four bedrooms, bathrooms, garden and winter – room by room.',
+  eyebrow: 'Photos', h1: `Untermoos in ${total} photos.`,
+  lead: 'Room by room, inside and out, in summer and in winter.', hint: 'Select a photo to see it large.',
+  photos: (k: number) => (k === 1 ? '1 photo' : `${k} photos`), navLabel: 'Sections',
+  viewer: 'Photo viewer', close: 'Close', prev: 'Previous photo', next: 'Next photo',
+};
+
+const jsonLd = [
+  breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }, { name: C.eyebrow, path: ROUTES.gallery[lang] }]),
+  {
+    '@context': 'https://schema.org', '@type': 'ImageGallery', name: C.title, url: site + ROUTES.gallery[lang], inLanguage: de ? 'de-AT' : 'en',
+    image: sections.flatMap((s) => s.items.map((it) => ({ '@type': 'ImageObject', contentUrl: site + it.full, caption: `${s.title} – ${it.alt}` }))),
+  },
+];
+const widths = [480, 768, 1080, 1440];
+---
+<Base lang={lang} route="gallery" title={C.title} description={C.description} jsonLd={jsonLd}>
+  <section class="gal-intro">
+    <div class="wrap gal-intro__inner">
+      <p class="eyebrow">{C.eyebrow}</p>
+      <h1>{C.h1}</h1>
+      <p class="lead lead--s gal-intro__lead">{C.lead} <span class="muted">{C.hint}</span></p>
+    </div>
+  </section>
+
+  <nav class="gal-nav" aria-label={C.navLabel}>
+    <div class="wrap">
+      <ul role="list">
+        {sections.map((s) => <li><a href={`#${s.id}`} data-chip={s.id}>{s.title}<span class="num">{s.items.length}</span></a></li>)}
+      </ul>
+    </div>
+  </nav>
+
+  {sections.map((s) => (
+    <section class="gal-sec" id={s.id} aria-labelledby={`h-${s.id}`}>
+      <div class="wrap">
+        <header class="gal-sec__head">
+          <h2 id={`h-${s.id}`}>{s.title}</h2>
+          <span class="gal-sec__count num">{C.photos(s.items.length)}</span>
+        </header>
+        {s.mosaic && (
+          <div class="gal-mosaic">
+            {s.items.slice(0, 3).map((it, k) => (
+              <a class:list={['gal-item', { 'gal-item--lead': k === 0 }]} href={it.full} data-i={it.i} data-cap={it.alt} data-sec={s.title}>
+                <Picture src={it.img} alt={it.alt} formats={['avif', 'webp']} widths={widths.filter((w) => w <= it.img.width)}
+                  sizes={k === 0 ? '(min-width: 980px) 62vw, 100vw' : '(min-width: 980px) 31vw, 50vw'}
+                  loading={it.i === 0 ? 'eager' : 'lazy'} fetchpriority={it.i === 0 ? 'high' : 'auto'} decoding="async" />
+              </a>
+            ))}
+          </div>
+        )}
+        {(s.mosaic ? s.items.slice(3) : s.items).length > 0 && (
+          <div class:list={['gal-rows', { 'gal-rows--pair': !s.mosaic && s.items.length <= 2 }]}>
+            {(s.mosaic ? s.items.slice(3) : s.items).map((it) => (
+              <a class="gal-item" href={it.full} data-i={it.i} data-cap={it.alt} data-sec={s.title} style={`--ar:${it.ar}`}>
+                <Picture src={it.img} alt={it.alt} formats={['avif', 'webp']} widths={widths.filter((w) => w <= it.img.width)}
+                  sizes="(min-width: 980px) 34vw, 50vw" loading="lazy" decoding="async" />
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  ))}
+
+  <dialog class="lb" data-lb aria-label={C.viewer}>
+    <div class="lb__bar">
+      <span class="lb__count num" data-lb-count></span>
+      <button type="button" class="lb__btn lb__close" data-lb-close>{C.close} <span aria-hidden="true">✕</span></button>
+    </div>
+    <div class="lb__stage" data-lb-stage>
+      <img class="lb__img" data-lb-img alt="" decoding="async" />
+    </div>
+    <div class="lb__foot">
+      <button type="button" class="lb__btn lb__nav lb__nav--prev" data-lb-prev aria-label={C.prev}><span aria-hidden="true">←</span></button>
+      <p class="lb__cap" data-lb-cap aria-live="polite"></p>
+      <button type="button" class="lb__btn lb__nav lb__nav--next" data-lb-next aria-label={C.next}><span aria-hidden="true">→</span></button>
+    </div>
+  </dialog>
+
+  <CtaBand lang={lang} />
+</Base>
+
+<script>
+  const dlg = document.querySelector<HTMLDialogElement>('[data-lb]');
+  const items = [...document.querySelectorAll<HTMLAnchorElement>('.gal-item')];
+  if (dlg && items.length && typeof dlg.showModal === 'function') {
+    const img = dlg.querySelector<HTMLImageElement>('[data-lb-img]')!;
+    const cap = dlg.querySelector<HTMLElement>('[data-lb-cap]')!;
+    const count = dlg.querySelector<HTMLElement>('[data-lb-count]')!;
+    const stage = dlg.querySelector<HTMLElement>('[data-lb-stage]')!;
+    let i = 0;
+    let opener: HTMLElement | null = null;
+    const at = (k: number) => items[(k + items.length) % items.length];
+    const show = (k: number) => {
+      i = (k + items.length) % items.length;
+      const a = items[i];
+      img.classList.remove('is-in');
+      img.src = a.href;
+      img.alt = a.dataset.cap ?? '';
+      cap.textContent = `${a.dataset.sec} · ${a.dataset.cap}`;
+      count.textContent = `${i + 1} / ${items.length}`;
+      [at(i + 1), at(i - 1)].forEach((b) => { const p = new Image(); p.src = b.href; });
+    };
+    img.addEventListener('load', () => img.classList.add('is-in'));
+    items.forEach((a, k) =>
+      a.addEventListener('click', (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault();
+        opener = a;
+        show(k);
+        dlg.showModal();
+        document.documentElement.classList.add('lb-open');
+      }),
+    );
+    const close = () => dlg.close();
+    dlg.addEventListener('close', () => { document.documentElement.classList.remove('lb-open'); opener?.focus(); });
+    dlg.querySelector('[data-lb-close]')!.addEventListener('click', close);
+    dlg.querySelector('[data-lb-prev]')!.addEventListener('click', () => show(i - 1));
+    dlg.querySelector('[data-lb-next]')!.addEventListener('click', () => show(i + 1));
+    dlg.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(i + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(i - 1); }
+    });
+    // Tap beside the photo closes; swipe left/right browses, swipe down closes.
+    stage.addEventListener('click', (e) => { if (e.target === stage) close(); });
+    let x0 = 0, y0 = 0, pointers = 0;
+    stage.addEventListener('pointerdown', (e) => { pointers++; x0 = e.clientX; y0 = e.clientY; });
+    stage.addEventListener('pointercancel', () => { pointers = 0; });
+    stage.addEventListener('pointerup', (e) => {
+      const multi = pointers > 1;
+      pointers = 0;
+      if (multi) return;
+      const dx = e.clientX - x0, dy = e.clientY - y0;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) show(dx < 0 ? i + 1 : i - 1);
+      else if (dy > 90 && Math.abs(dy) > Math.abs(dx)) close();
+    });
+  }
+
+  // Highlight the chip of the section in view.
+  const chips = new Map([...document.querySelectorAll<HTMLAnchorElement>('[data-chip]')].map((c) => [c.dataset.chip!, c]));
+  if ('IntersectionObserver' in window && chips.size) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        chips.forEach((c) => c.removeAttribute('aria-current'));
+        const c = chips.get(en.target.id);
+        if (!c) return;
+        c.setAttribute('aria-current', 'true');
+        // scroll only the chip row (scrollIntoView would also touch the page and can cancel a running anchor scroll)
+        const row = c.closest('ul');
+        if (row) row.scrollTo({ left: c.offsetLeft - row.clientWidth / 2 + c.offsetWidth / 2, behavior: 'smooth' });
+      });
+    }, { rootMargin: '-35% 0px -60% 0px' });
+    document.querySelectorAll('.gal-sec').forEach((s) => io.observe(s));
+  }
+</script>
+
+<style>
+  .gal-intro { padding-block: var(--space-xl) var(--space-l); }
+  .gal-intro__inner { display: grid; gap: var(--space-xs); }
+  .gal-intro h1 { font-size: var(--step-4); font-weight: 320; max-width: 16ch; }
+  .gal-intro__lead { max-width: 46ch; }
+  .gal-intro__lead .muted { font-family: var(--font-text); font-size: var(--step--1); display: block; margin-top: 0.5rem; }
+
+  .gal-nav { position: sticky; top: 4.4rem; z-index: 30; background: rgb(236 238 232 / 0.94); backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px); border-bottom: 1px solid var(--linie); }
+  .gal-nav ul { list-style: none; margin: 0; padding: 0.65rem 0; display: flex; gap: 0.4rem; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .gal-nav ul::-webkit-scrollbar { display: none; }
+  .gal-nav a {
+    display: inline-flex; align-items: center; gap: 0.45rem; white-space: nowrap; text-decoration: none;
+    font-size: var(--step--1); font-weight: 500; padding: 0.42rem 0.8rem; border: 1px solid var(--linie); border-radius: 999px;
+    transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .gal-nav a span { font-size: var(--step--2); color: var(--fels); }
+  .gal-nav a:hover { border-color: var(--laerche); }
+  .gal-nav a[aria-current='true'] { background: var(--laerche); color: var(--kalk); border-color: var(--laerche); }
+  .gal-nav a[aria-current='true'] span { color: var(--fels-hell); }
+
+  .gal-sec { padding-block: var(--space-l) 0; scroll-margin-top: 3.8rem; }
+  .gal-sec:last-of-type { padding-bottom: var(--space-2xl); }
+  .gal-sec__head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-top: var(--space-s); border-top: 1px solid var(--laerche); margin-bottom: var(--space-s); }
+  .gal-sec__head h2 { font-size: var(--step-2); }
+  .gal-sec__count { font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--fels); white-space: nowrap; }
+
+  .gal-item { position: relative; display: block; overflow: hidden; background: var(--laerche); cursor: zoom-in; }
+  .gal-item :global(picture) { display: block; width: 100%; height: 100%; }
+  .gal-item :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s var(--ease), opacity 0.4s var(--ease); }
+  .gal-item:hover :global(img) { transform: scale(1.03); }
+  .gal-item:focus-visible { outline-offset: 3px; }
+
+  /* Opening mosaic: one large photo, two stacked beside it. */
+  .gal-mosaic { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px; aspect-ratio: 2.1 / 1; }
+  .gal-mosaic .gal-item--lead { grid-row: 1 / span 2; }
+
+  /* Justified rows: equal heights per row, no cropping, last row left-aligned. */
+  .gal-rows { --row: clamp(150px, 19vw, 280px); display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+  .gal-rows::after { content: ''; flex-grow: 1000000; }
+  .gal-rows .gal-item { flex-grow: calc(var(--ar) * 100); flex-basis: calc(var(--ar) * var(--row)); aspect-ratio: var(--ar); }
+  .gal-rows--pair { display: grid; grid-template-columns: 1fr 1fr; }
+  .gal-rows--pair::after { display: none; }
+  .gal-rows--pair .gal-item { aspect-ratio: 4 / 3; }
+
+  @media (max-width: 720px) {
+    .gal-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; aspect-ratio: auto; gap: 6px; }
+    .gal-mosaic .gal-item { aspect-ratio: 4 / 3; }
+    .gal-mosaic .gal-item--lead { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 3 / 2; }
+    .gal-rows { --row: 118px; gap: 6px; margin-top: 6px; }
+    .gal-rows--pair { gap: 6px; }
+  }
+
+  /* Viewer */
+  .lb {
+    position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
+    background: rgb(18 20 17 / 0.98); color: var(--kalk); overflow: hidden;
+  }
+  .lb[open] { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
+  .lb::backdrop { background: rgb(18 20 17 / 0.9); }
+  .lb__bar { display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    padding: calc(env(safe-area-inset-top, 0px) + 0.7rem) max(16px, env(safe-area-inset-right, 0px)) 0.7rem max(16px, env(safe-area-inset-left, 0px)); }
+  .lb__count { font-size: var(--step--2); letter-spacing: 0.16em; font-weight: 600; color: var(--fels-hell); }
+  .lb__btn { background: transparent; color: var(--kalk); border: 1px solid var(--linie-hell); border-radius: 999px; cursor: pointer; font-size: var(--step--2); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.3s var(--ease), color 0.3s var(--ease); }
+  .lb__btn:hover { background: var(--kalk); color: var(--laerche); }
+  .lb__close { padding: 0.55rem 0.95rem; display: inline-flex; gap: 0.5rem; align-items: center; }
+  .lb__stage { position: relative; min-height: 0; display: grid; place-items: center; padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px)); touch-action: pan-y pinch-zoom; user-select: none; }
+  .lb__img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; opacity: 0; transition: opacity 0.35s var(--ease); -webkit-user-drag: none; }
+  .lb__img.is-in { opacity: 1; }
+  .lb__foot { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem;
+    padding: 0.8rem max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 1rem) max(16px, env(safe-area-inset-left, 0px)); }
+  .lb__cap { margin: 0; text-align: center; font-size: var(--step--1); line-height: 1.4; color: rgb(236 238 232 / 0.86); }
+  .lb__nav { width: 3rem; height: 3rem; font-size: 1.1rem; letter-spacing: 0; text-transform: none; display: grid; place-items: center; }
+  @media (min-width: 900px) {
+    .lb__stage { padding-inline: 6rem; }
+    .lb__nav { position: absolute; top: 50%; transform: translateY(-50%); width: 3.4rem; height: 3.4rem; }
+    .lb__nav--prev { left: max(20px, env(safe-area-inset-left, 0px)); }
+    .lb__nav--next { right: max(20px, env(safe-area-inset-right, 0px)); }
+    .lb__foot { grid-template-columns: 1fr; }
+  }
+  :global(html.lb-open) { overflow: hidden; }
+  @media (prefers-reduced-motion: reduce) { .gal-item :global(img), .lb__img { transition: none; } }
+</style>

@@ -9,6 +9,7 @@ import { PROPERTY, ROOMS, AMENITIES } from '../data/property';
 import { RULES } from '../data/rates';
 import { getPhoto, photoAlt, type Slot } from '../data/photos';
 import { rentalJsonLd, breadcrumbJsonLd } from '../data/jsonld';
+import { GALLERY } from '../data/gallery';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -39,6 +40,7 @@ const C = de ? {
   galleryEyebrow: 'Innenräume', galleryTitle: 'Altes Holz, bemalte Kästen, viel Licht.',
   galleryText: 'Vom Hausgang mit der bemalten Truhe bis zum Bauernkasten von 1895: Untermoos ist eingerichtet, nicht ausgestattet.',
   prev: 'Vorheriges Bild', next: 'Nächstes Bild',
+  all: (n: number) => `Alle ${n} Bilder ansehen`,
 } : {
   title: 'The house – 300 m², 4 bedrooms, Stube with tiled stove | Untermoos',
   description: 'Room by room: a Tyrolean Stube with tiled stove, a kitchen with wood-fired range, four bedrooms for ten guests, two bathrooms, timber balcony, garden. With floor plans.',
@@ -63,14 +65,16 @@ const C = de ? {
   galleryEyebrow: 'Interiors', galleryTitle: 'Old timber, painted wardrobes, lots of light.',
   galleryText: 'From the hallway with its painted chest to the farmhouse wardrobe from 1895: Untermoos is furnished, not fitted out.',
   prev: 'Previous image', next: 'Next image',
+  all: (n: number) => `See all ${n} photos`,
 };
 /** Photo per room row (the Stube itself opens the page as hero). */
 const ROOM_PHOTO: Record<string, Slot> = {
-  stube: 'kachelofen', kitchen: 'kitchen', 'bedroom-1': 'bedroom-1', bath: 'bath',
+  stube: 'kachelofen', kitchen: 'kitchen-2', 'bedroom-1': 'bedroom-1', bath: 'bath',
   'bedroom-2': 'bedroom-2', 'bedroom-3': 'bedroom-3', 'bedroom-4': 'bedroom-4', balcony: 'balcony',
 };
-const GALLERY: Slot[] = ['entrance-hall', 'hausgang', 'tafel', 'kasten-1895', 'eckbank', 'bedroom-1b', 'bedroom-1c', 'bedroom-2b', 'bedroom-2c', 'bedroom-3b', 'bedroom-3c', 'wardrobe', 'bedroom-4b', 'bedroom-4c', 'bedroom-4d', 'bath-2'];
-const gallery = GALLERY.filter((s) => getPhoto(s));
+const STRIP: Slot[] = ['entrance-hall', 'hausgang', 'stube-2', 'kitchen', 'tafel', 'kasten-1895', 'eckbank', 'bedroom-1b', 'bedroom-1c', 'bedroom-2b', 'bedroom-2c', 'bedroom-3b', 'bedroom-3c', 'wardrobe', 'bedroom-4b', 'bedroom-4c', 'bedroom-4d', 'bath-2'];
+const gallery = STRIP.filter((s) => getPhoto(s));
+const allCount = GALLERY.reduce((n, s) => n + s.slots.filter((slot) => getPhoto(slot)).length, 0);
 const floors = ['eg', 'og'] as const;
 const jsonLd = [
   rentalJsonLd(lang, C.description),
@@ -136,6 +140,7 @@ const jsonLd = [
         </div>
         <div class="gallery__side">
           <p class="measure muted">{C.galleryText}</p>
+          <p><a class="link-arrow" href={url('gallery', lang)}>{C.all(allCount)} <span aria-hidden="true">→</span></a></p>
           <div class="gallery__btns">
             <button type="button" class="gallery__btn" data-gal="-1" aria-label={C.prev}><span aria-hidden="true">←</span></button>
             <button type="button" class="gallery__btn" data-gal="1" aria-label={C.next}><span aria-hidden="true">→</span></button>
@@ -149,6 +154,10 @@ const jsonLd = [
             <p class="gallery__cap" aria-hidden="true">{photoAlt(slot, lang)}</p>
           </div>
         ))}
+        <a class="gallery__item gallery__more" href={url('gallery', lang)}>
+          <span class="gallery__more-n num">{allCount}</span>
+          <span class="gallery__more-t">{C.all(allCount)} <span aria-hidden="true">→</span></span>
+        </a>
       </div>
     </section>
   )}
@@ -214,6 +223,10 @@ const jsonLd = [
   .gallery__track:focus-visible { outline-offset: -2px; }
   .gallery__item { scroll-snap-align: start; min-width: 0; }
   .gallery__cap { margin-top: 0.6rem; font-size: var(--step--1); color: var(--fels); line-height: 1.4; }
+  .gallery__more { aspect-ratio: 3 / 2; align-self: start; display: grid; align-content: end; gap: 0.4rem; padding: clamp(18px, 2.4vw, 32px); background: var(--nacht); color: var(--kalk); text-decoration: none; transition: background 0.35s var(--ease); }
+  .gallery__more:hover { background: var(--moos); }
+  .gallery__more-n { font-family: var(--font-display); font-size: var(--step-5); font-weight: 300; line-height: 0.85; letter-spacing: -0.03em; }
+  .gallery__more-t { font-size: var(--step--1); font-weight: 600; letter-spacing: 0.06em; }
   @media (max-width: 860px) {
     .gallery__side { grid-column: 1 / -1; }
     .gallery__btns { display: none; }

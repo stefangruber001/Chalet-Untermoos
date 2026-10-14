@@ -6,6 +6,7 @@ Bilingual (DE/EN) website for **Untermoos**, a ~200-year-old Tyrolean farmhouse 
 |---|---|---|
 | Home | `/` | `/en/` |
 | The house (floor plans, rooms) | `/haus/` | `/en/house/` |
+| Photos (60, room by room, full-screen viewer) | `/bilder/` | `/en/photos/` |
 | Region | `/region/` | `/en/region/` |
 | Occasions | `/anlaesse/` | `/en/occasions/` |
 | Rates & enquiry | `/preise/` | `/en/rates/` |
@@ -42,7 +43,7 @@ Bathrooms (2 or 3 since spring 2026) · check-in time (15:00 vs 16:00) · dog fe
 | Page copy (DE + EN side by side) | `src/views/*.astro` |
 | Photos (slot → file) | `src/assets/photos/<slot>.jpg`, alt texts in `src/data/photos.ts` |
 
-New photos: put the originals in a folder, map them in `tools/photo-map.json`, run `npm run photos -- <folder>` (auto-rotates, max 2560 px). Missing slots show a neutral placeholder; kitchen and bedroom slots (`kitchen`, `bedroom-1` … `bedroom-4`) appear automatically on *Das Haus* once the files exist.
+New photos: put the originals in a folder, map them in `tools/photo-map.json`, run `npm run photos -- <folder> [slot …]` (auto-rotates, max 2560 px). The gallery page order and sections live in `src/data/gallery.ts`. Missing slots show a neutral placeholder; kitchen and bedroom slots (`kitchen`, `bedroom-1` … `bedroom-4`) appear automatically on *Das Haus* once the files exist.
 
 ## Commands
 

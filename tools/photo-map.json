@@ -146,5 +146,53 @@
   },
   "bedroom-4d": {
     "src": "up_10b9571d.jpg"
+  },
+  "stube-2": {
+    "src": "up_e726be9c.jpg"
+  },
+  "stube-3": {
+    "src": "up_4257f4b6.jpg"
+  },
+  "stube-4": {
+    "src": "up_e51aa535.jpg"
+  },
+  "kitchen-2": {
+    "src": "up_0f79e47c.jpg"
+  },
+  "kitchen-3": {
+    "src": "up_99f299bd.jpg"
+  },
+  "bedroom-3d": {
+    "src": "up_ae944920.jpg"
+  },
+  "eckbank-2": {
+    "src": "up_1dce17d4.jpg"
+  },
+  "bath-3": {
+    "src": "up_6bb776b0.jpg"
+  },
+  "bath-4": {
+    "src": "up_c217f9a5.jpg"
+  },
+  "bath-5": {
+    "src": "up_77955104.jpg"
+  },
+  "deckchairs": {
+    "src": "up_e443c1f3.jpg"
+  },
+  "terrace": {
+    "src": "up_560db29c.jpg"
+  },
+  "sculpture-wall": {
+    "src": "up_616b59c2.jpg"
+  },
+  "visitor": {
+    "src": "up_d1b70b53.jpg"
+  },
+  "stone-bench": {
+    "src": "up_5d90569c.jpg"
+  },
+  "winter-snow": {
+    "src": "up_7015223c.jpg"
   }
 }

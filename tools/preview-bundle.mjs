@@ -30,13 +30,15 @@ function pickCandidate(srcset) {
 
 function transform(html, isMain) {
   // pictures → one WebP each
-  html = html.replace(/<picture>([\s\S]*?)<\/picture>/g, (_, inner) => {
+  html = html.replace(/<picture([^>]*)>([\s\S]*?)<\/picture>/g, (_, attrs, inner) => {
     const webp = inner.match(/<source srcset="([^"]+)" type="image\/webp"/);
     const img = inner.match(/<img [^>]*>/)[0];
     const chosen = webp ? pickCandidate(webp[1]) : img.match(/ src="([^"]+)"/)[1];
     const cleaned = img.replace(/ srcset="[^"]*"/, '').replace(/ sizes="[^"]*"/, '').replace(/ src="[^"]*"/, ` src="${chosen}"`);
-    return `<picture>${cleaned}</picture>`;
+    return `<picture${attrs}>${cleaned}</picture>`;
   });
+  // gallery viewer links → the thumbnail's WebP (no extra full-size files in the preview)
+  html = html.replace(/(<a class="gal-item[^"]*"[^>]*?)href="[^"]*"([^>]*>\s*<picture[^>]*><img src=")([^"]+)"/g, '$1href="$3"$2$3"');
   // scripts: drop prefetch, inline other modules
   html = html.replace(/<script type="module" src="\/_astro\/page\.[^"]+\.js"><\/script>/g, '');
   html = html.replace(/<script type="module" src="\/_astro\/([^"]+\.js)"><\/script>/g, (_, f) => {

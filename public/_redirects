@@ -3,6 +3,6 @@
 /kontakt/ /preise/#anfrage 301
 /buchung /preise/ 301
 /buchung/ /preise/ 301
-/bildergalerie /haus/ 301
-/bildergalerie/ /haus/ 301
+/bildergalerie /bilder/ 301
+/bildergalerie/ /bilder/ 301
 # Apex → www is handled by a Cloudflare redirect rule (see README).
