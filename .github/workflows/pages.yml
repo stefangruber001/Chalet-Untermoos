@@ -38,7 +38,7 @@ jobs:
       - run: npm run build
         env:
           SHOW_SAMPLE_REVIEWS: '1'
-      - run: node tools/preview-bundle.mjs pages --standalone
+      - run: node tools/preview-bundle.mjs pages --standalone --site=https://stefangruber001.github.io/Chalet-Untermoos/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: pages

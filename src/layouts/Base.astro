@@ -50,8 +50,13 @@ const t = UI[lang];
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={site + ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:alt" content={lang === 'de' ? 'Bauernhaus Untermoos im Sommer – das ganze Haus für bis zu 10 Gäste im Alpbachtal' : 'The Untermoos farmhouse in summer – the whole house for up to 10 guests in the Alpbachtal'} />
     <meta property="og:locale" content={lang === 'de' ? 'de_AT' : 'en_GB'} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={site + ogImage} />
     <script is:inline>
       // Season: saved choice, else by booking intent (Oct–Mar → winter, Apr–Sep → summer).
       (function () {

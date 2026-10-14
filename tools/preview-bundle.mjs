@@ -4,6 +4,8 @@
 // - one WebP per photo (largest ≤ 1440 px) instead of the full AVIF/WebP/JPEG set
 // - JS modules inlined, prefetch dropped; the main page loses its document wrapper (the viewer adds one)
 // --standalone: for a static host under any path (GitHub Pages preview): full documents, every page noindex
+// --site=<url>: with --standalone, the absolute address of that host – share images (og:image, twitter:image)
+//   and og:url then point there, so WhatsApp & co. show the preview picture for the shared link
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync, rmSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -13,6 +15,8 @@ const dist = join(root, 'dist');
 const args = process.argv.slice(2);
 const standalone = args.includes('--standalone');
 const out = args.find((a) => !a.startsWith('--')) || join(root, 'preview');
+const siteArg = args.find((a) => a.startsWith('--site='));
+const site = siteArg ? siteArg.slice(7).replace(/\/?$/, '/') : null;
 rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
 
@@ -31,7 +35,7 @@ function pickCandidate(srcset) {
   return (fit || c.sort((a, b) => a.w - b.w)[0]).u;
 }
 
-function transform(html, isMain) {
+function transform(html, isMain, route) {
   // pictures → one WebP each
   html = html.replace(/<picture([^>]*)>([\s\S]*?)<\/picture>/g, (_, attrs, inner) => {
     const webp = inner.match(/<source srcset="([^"]+)" type="image\/webp"/);
@@ -57,6 +61,10 @@ function transform(html, isMain) {
   html = html.replace(/<link rel="apple-touch-icon"[^>]*>/, '');
   // (safe-area handling for the viewer's status bar lives in global.css: --safe-top)
   if (standalone) html = html.replace('<head>', '<head><meta name="robots" content="noindex, nofollow">');
+  if (standalone && site) {
+    html = html.replace(/content="https?:\/\/[^"]+\/(og-untermoos(?:-en)?\.jpg)"/g, (_, f) => (assets.add(f), `content="${site}${f}"`));
+    html = html.replace(/(<meta property="og:url" content=")[^"]*"/, `$1${site}${route === '/' ? '' : flat(route)}"`);
+  }
   if (isMain && !standalone) {
     html = html
       .replace(/^<!DOCTYPE html><html[^>]*><head>/i, '')
@@ -73,7 +81,7 @@ function transform(html, isMain) {
 
 for (const p of routes) {
   const html = readFileSync(join(dist, p, 'index.html'), 'utf8');
-  writeFileSync(join(out, flat(p)), transform(html, p === '/'));
+  writeFileSync(join(out, flat(p)), transform(html, p === '/', p));
 }
 for (const a of assets) {
   mkdirSync(dirname(join(out, a)), { recursive: true });
