@@ -91,6 +91,8 @@ export const SLOTS = {
   'alm': { de: 'Almwiesen mit Hütten zwischen bewaldeten Hängen', en: 'Alpine pastures with huts between wooded slopes' },
   'forest-path': { de: 'Markierter Wanderweg durch den Wald', en: 'A waymarked trail through the forest' },
   'wc': { de: 'Separates WC zwischen alten Holzwänden', en: 'A separate WC between old timber walls' },
+  'apple-tree': { de: 'Das Bauernhaus hinter den Zweigen des Apfelbaums', en: 'The farmhouse seen through the branches of the apple tree' },
+  'zither': { de: 'Zither, Goldrahmen und alte Truhe an der Blockwand im oberen Hausgang', en: 'Zither, gilded frame and old chest against the log wall upstairs' },
   'bus-stop': { de: 'Bushaltestelle „Untermoos“, rund 250 m vom Haus', en: 'The “Untermoos” bus stop, about 250 m from the house' },
   'region-winter': { de: 'Winter im Alpbachtal', en: 'Winter in the Alpbachtal' },
   'region-summer': { de: 'Sommer im Alpbachtal', en: 'Summer in the Alpbachtal' },
