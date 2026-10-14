@@ -46,8 +46,9 @@ def upright_forever(font):
 JOBS = [
     # (source file inside package, output name, axis limits)
     # Display serif Fraunces (roman only): softness and "wonky" letters pinned (SOFT 30, WONK 0),
-    # optical size capped at 72 so large headings keep sturdy hairlines, weights 360–600.
-    ("fraunces/files/fraunces-latin-full-normal.woff2", "fraunces.woff2", {"wght": (360, 600), "opsz": (9, 72), "SOFT": 30, "WONK": 0}),
+    # weights 360–600, optical size capped at 36: large headings keep the sturdier hairlines of the
+    # mid-size cut (H crossbar ~40 % of the stem instead of ~30 % at opsz 72) – readability first.
+    ("fraunces/files/fraunces-latin-full-normal.woff2", "fraunces.woff2", {"wght": (360, 600), "opsz": (9, 36), "SOFT": 30, "WONK": 0}),
     ("albert-sans/files/albert-sans-latin-wght-normal.woff2", "albert-sans.woff2", {"wght": (380, 700)}),
 ]
 # Latin-ext subset files are merged in by using the latin-ext source as well where needed.
