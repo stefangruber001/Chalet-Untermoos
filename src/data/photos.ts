@@ -79,6 +79,12 @@ export const SLOTS = {
   'sunset': { de: 'Abendrot über dem Bauernhaus', en: 'Sunset glow over the farmhouse' },
   'cows': { de: 'Kühe auf der Weide, dahinter Wald und Berge', en: 'Cows in the pasture, forest and mountains behind' },
   'cows-2': { de: 'Grasende Kühe vor bewaldeten Bergen', en: 'Cows grazing below wooded mountains' },
+  'hallway-og': { de: 'Oberer Hausgang: alte Bauernkästen, bemalter Kasten und die Eckbank am Fenster', en: 'Upstairs hallway: old farmhouse wardrobes, a painted cupboard and the corner bench by the window' },
+  'welcome': { de: 'Willkommen an der roten Haustür: Blumen, Gläser und der Untermoosschnaps', en: 'Welcome at the red front door: flowers, glasses and the Untermoosschnaps' },
+  'welcome-glasses': { de: 'Schnapsgläser mit Münzen und ein „Welcome“ zur Begrüßung', en: 'Schnapps glasses with coin medallions and a “Welcome”' },
+  'moor-meadow': { de: 'Moorwiese mit Weiher und Wald', en: 'Moorland meadow with pond and forest' },
+  'track': { de: 'Feldweg über die Wiese, dahinter verschneite Gipfel', en: 'A farm track across the meadow, snow-capped peaks beyond' },
+  'bus-stop': { de: 'Bushaltestelle „Untermoos“, rund 250 m vom Haus', en: 'The “Untermoos” bus stop, about 250 m from the house' },
   'region-winter': { de: 'Winter im Alpbachtal', en: 'Winter in the Alpbachtal' },
   'region-summer': { de: 'Sommer im Alpbachtal', en: 'Summer in the Alpbachtal' },
 } as const;
