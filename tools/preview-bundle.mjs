@@ -52,8 +52,7 @@ function transform(html, isMain) {
   // (the viewer reserves names starting with "_", so /_astro/ becomes assets/)
   html = html.replace(/(["'(\s,])\/_astro\//g, '$1assets/').replace(/(["'(\s,])\/fonts\//g, '$1fonts/').replace(/"\/favicon\.svg"/g, '"favicon.svg"');
   html = html.replace(/<link rel="apple-touch-icon"[^>]*>/, '');
-  // sticky header clears the phone status bar inside the viewer
-  html = html.replace('</head>', '<style>.site-header{top:env(safe-area-inset-top,0px);box-shadow:0 calc(-1 * env(safe-area-inset-top,0px)) 0 0 rgb(236 238 232)}.section-nav{top:calc(4.4rem + env(safe-area-inset-top,0px))}</style></head>');
+  // (safe-area handling for the viewer's status bar lives in global.css: --safe-top)
   if (isMain) {
     html = html
       .replace(/^<!DOCTYPE html><html[^>]*><head>/i, '')

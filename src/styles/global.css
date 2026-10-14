@@ -99,6 +99,8 @@ html {
   background: var(--paper);
   color-scheme: light;
 }
+/* pages that open with a photograph: the status-bar inset and overscroll take the oxblood of the photo shade and footer */
+html:has([data-hero]) { background: var(--wein); }
 /* pages with an in-page section bar: anchors land below header + bar */
 html:has(.section-nav) { scroll-padding-top: calc(var(--hdr-h) + 4rem); }
 @media (prefers-reduced-motion: reduce) {
