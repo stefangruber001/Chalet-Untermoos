@@ -65,9 +65,11 @@ const metaColsMobile = meta.length === 4 ? 2 : 3;
       linear-gradient(90deg, rgb(20 22 19 / 0.78) 0%, rgb(20 22 19 / 0.5) 34%, rgb(20 22 19 / 0.08) 62%, rgb(20 22 19 / 0) 100%),
       linear-gradient(180deg, rgb(20 22 19 / 0.35) 0%, rgb(20 22 19 / 0) 22%, rgb(20 22 19 / 0.2) 58%, rgb(20 22 19 / 0.9) 100%);
   }
-  .hero__title, .hero__lead { text-shadow: 0 1px 30px rgb(0 0 0 / 0.28); }
+  .hero__title, .hero__lead, .hero__eyebrow { text-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 2px 28px rgb(0 0 0 / 0.32); }
   @media (max-width: 720px) {
-    .hero__shade { background: linear-gradient(180deg, rgb(20 22 19 / 0.45) 0%, rgb(20 22 19 / 0.15) 30%, rgb(20 22 19 / 0.7) 62%, rgb(20 22 19 / 0.94) 100%); }
+    /* Phone: the text block covers the lower two thirds – keep it on a calm, dark ground. */
+    .hero__shade { background: linear-gradient(180deg, rgb(20 22 19 / 0.42) 0%, rgb(20 22 19 / 0.16) 20%, rgb(20 22 19 / 0.6) 38%, rgb(20 22 19 / 0.84) 56%, rgb(20 22 19 / 0.95) 100%); }
+    .hero__lead { font-weight: 400; }
   }
   .hero__content { padding-block: var(--space-2xl) var(--space-l); display: grid; gap: var(--space-s); }
   .hero__eyebrow { color: var(--zirbe); }

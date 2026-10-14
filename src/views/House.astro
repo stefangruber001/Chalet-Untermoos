@@ -7,7 +7,7 @@ import CtaBand from '../components/CtaBand.astro';
 import { url, ROUTES, type Lang } from '../i18n/routes';
 import { PROPERTY, ROOMS, AMENITIES } from '../data/property';
 import { RULES } from '../data/rates';
-import { getPhoto } from '../data/photos';
+import { getPhoto, photoAlt, type Slot } from '../data/photos';
 import { rentalJsonLd, breadcrumbJsonLd } from '../data/jsonld';
 
 interface Props { lang: Lang }
@@ -36,6 +36,9 @@ const C = de ? {
     ['Parken', 'direkt am Haus'], ['E-Auto', 'Laden möglich, nach Verbrauch'], ['Seehöhe', `${p.elevationM} m, ganzjährig erreichbar`],
   ],
   rates: 'Preise & Verfügbarkeit',
+  galleryEyebrow: 'Innenräume', galleryTitle: 'Altes Holz, bemalte Kästen, viel Licht.',
+  galleryText: 'Vom Hausgang mit der bemalten Truhe bis zum Bauernkasten von 1895: Untermoos ist eingerichtet, nicht ausgestattet.',
+  prev: 'Vorheriges Bild', next: 'Nächstes Bild',
 } : {
   title: 'The house – 300 m², 4 bedrooms, Stube with tiled stove | Untermoos',
   description: 'Room by room: a Tyrolean Stube with tiled stove, a kitchen with wood-fired range, four bedrooms for ten guests, two bathrooms, timber balcony, garden. With floor plans.',
@@ -57,7 +60,17 @@ const C = de ? {
     ['Parking', 'right at the house'], ['Electric car', 'charging possible, billed by use'], ['Altitude', `${p.elevationM} m, accessible all year`],
   ],
   rates: 'Rates & availability',
+  galleryEyebrow: 'Interiors', galleryTitle: 'Old timber, painted wardrobes, lots of light.',
+  galleryText: 'From the hallway with its painted chest to the farmhouse wardrobe from 1895: Untermoos is furnished, not fitted out.',
+  prev: 'Previous image', next: 'Next image',
 };
+/** Photo per room row (the Stube itself opens the page as hero). */
+const ROOM_PHOTO: Record<string, Slot> = {
+  stube: 'kachelofen', kitchen: 'kitchen', 'bedroom-1': 'bedroom-1', bath: 'bath',
+  'bedroom-2': 'bedroom-2', 'bedroom-3': 'bedroom-3', 'bedroom-4': 'bedroom-4', balcony: 'balcony',
+};
+const GALLERY: Slot[] = ['entrance-hall', 'hausgang', 'tafel', 'kasten-1895', 'eckbank', 'bedroom-1b', 'bedroom-1c', 'bedroom-2b', 'bedroom-2c', 'bedroom-3b', 'bedroom-3c', 'wardrobe', 'bedroom-4b', 'bath-2'];
+const gallery = GALLERY.filter((s) => getPhoto(s));
 const floors = ['eg', 'og'] as const;
 const jsonLd = [
   rentalJsonLd(lang, C.description),
@@ -66,7 +79,7 @@ const jsonLd = [
 ---
 <Base lang={lang} route="house" title={C.title} description={C.description} jsonLd={jsonLd}>
   <Hero lang={lang} compact eyebrow={C.eyebrow} title={C.heroTitle} leadWinter={C.leadWinter} leadSummer={C.leadSummer}
-    winterSlot="winter-detail" summerSlot="exterior-angle" winterPos="50% 50%" summerPos="55% 40%" />
+    winterSlot="stube" summerSlot="exterior-angle" winterPos="40% 55%" summerPos="55% 40%" />
 
   <section class="section plan-section">
     <div class="wrap">
@@ -88,8 +101,8 @@ const jsonLd = [
           <p class="eyebrow eyebrow--plain floor-block__title">{C.floors[fl]}</p>
           <div class="room-rows">
             {ROOMS.filter((r) => r.floor === fl).map((r) => (
-              <article class:list={['room-row', { 'room-row--photo': r.key !== 'stube' && Boolean(getPhoto(r.key as any)) }]}>
-                {r.key !== 'stube' && getPhoto(r.key as any) && <Photo slot={r.key as any} lang={lang} ratio="3/2" sizes="(min-width: 980px) 30vw, 100vw" />}
+              <article class:list={['room-row', { 'room-row--photo': Boolean(ROOM_PHOTO[r.key] && getPhoto(ROOM_PHOTO[r.key])) }]}>
+                {ROOM_PHOTO[r.key] && getPhoto(ROOM_PHOTO[r.key]) && <Photo slot={ROOM_PHOTO[r.key]} lang={lang} ratio="3/2" sizes="(min-width: 980px) 30vw, 100vw" widths={[480, 768, 1080, 1440]} />}
                 <div class="room-row__text">
                   <h3>{r[lang].title}</h3>
                   <p class="muted">{r[lang].text}</p>
@@ -105,7 +118,7 @@ const jsonLd = [
 
   <section class="section section--dark warmth">
     <div class="wrap grid">
-      <div class="warmth__media"><Photo slot="stube" lang={lang} ratio="4/5" sizes="(min-width: 980px) 42vw, 100vw" position="50% 50%" /></div>
+      <div class="warmth__media"><Photo slot="stove" lang={lang} ratio="4/5" sizes="(min-width: 980px) 42vw, 100vw" position="30% 50%" /></div>
       <div class="warmth__text stack reveal">
         <p class="eyebrow warmth__eyebrow">{C.warmthEyebrow}</p>
         <h2>{C.warmthTitle}</h2>
@@ -113,6 +126,32 @@ const jsonLd = [
       </div>
     </div>
   </section>
+
+  {gallery.length > 0 && (
+    <section class="section gallery" aria-labelledby="gallery-title">
+      <div class="wrap grid gallery__head">
+        <div class="head reveal" style="grid-column: 1 / span 7; margin-bottom: 0">
+          <p class="eyebrow">{C.galleryEyebrow}</p>
+          <h2 id="gallery-title">{C.galleryTitle}</h2>
+        </div>
+        <div class="gallery__side">
+          <p class="measure muted">{C.galleryText}</p>
+          <div class="gallery__btns">
+            <button type="button" class="gallery__btn" data-gal="-1" aria-label={C.prev}><span aria-hidden="true">←</span></button>
+            <button type="button" class="gallery__btn" data-gal="1" aria-label={C.next}><span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="gallery__track" data-gallery tabindex="0" role="region" aria-label={C.galleryTitle}>
+        {gallery.map((slot) => (
+          <div class="gallery__item">
+            <Photo slot={slot} lang={lang} ratio="3/2" sizes="(min-width: 980px) 44vw, 84vw" widths={[480, 768, 1080, 1440]} />
+            <p class="gallery__cap" aria-hidden="true">{photoAlt(slot, lang)}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
 
   <section class="section outside">
     <div class="wrap">
@@ -149,9 +188,39 @@ const jsonLd = [
   <CtaBand lang={lang} />
 </Base>
 
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((track) => {
+    const section = track.closest('section');
+    section?.querySelectorAll<HTMLButtonElement>('[data-gal]').forEach((b) =>
+      b.addEventListener('click', () => track.scrollBy({ left: Number(b.dataset.gal) * track.clientWidth * 0.8, behavior: 'smooth' })),
+    );
+  });
+</script>
+
 <style>
+  .gallery { background: var(--papier); overflow: hidden; }
+  .gallery__head { margin-bottom: var(--space-l); row-gap: var(--space-m); }
+  .gallery__side { grid-column: 9 / -1; align-self: end; display: grid; gap: var(--space-s); }
+  .gallery__btns { display: flex; gap: 0.6rem; }
+  .gallery__btn { width: 2.9rem; height: 2.9rem; border-radius: 50%; border: 1px solid var(--linie); background: transparent; cursor: pointer; font-size: 1.05rem; color: var(--laerche); transition: background 0.3s var(--ease), color 0.3s var(--ease); }
+  .gallery__btn:hover { background: var(--laerche); color: var(--kalk); }
+  .gallery__track {
+    display: grid; grid-auto-flow: column; grid-auto-columns: min(44vw, 680px); gap: clamp(10px, 1.4vw, 20px);
+    overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    padding: 0 max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))) var(--space-xs);
+    scroll-padding-inline: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+    scrollbar-width: thin; scrollbar-color: var(--linie) transparent;
+  }
+  .gallery__track:focus-visible { outline-offset: -2px; }
+  .gallery__item { scroll-snap-align: start; min-width: 0; }
+  .gallery__cap { margin-top: 0.6rem; font-size: var(--step--1); color: var(--fels); line-height: 1.4; }
+  @media (max-width: 860px) {
+    .gallery__side { grid-column: 1 / -1; }
+    .gallery__btns { display: none; }
+    .gallery__track { grid-auto-columns: 84vw; }
+  }
   .plan-head { margin-bottom: var(--space-l); row-gap: var(--space-m); }
-  @media (max-width: 860px) { .plan-head > *, .outside__head > * { grid-column: 1 / -1 !important; } }
+  @media (max-width: 860px) { .plan-head > *, .outside__head > *, .gallery__head > * { grid-column: 1 / -1 !important; } }
 
   .floor-block { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: var(--space-m); padding-block: var(--space-m); border-top: 1px solid var(--laerche); }
   .floor-block + .floor-block { margin-top: var(--space-l); }

@@ -1,26 +1,144 @@
 {
-  "_note": "Source file (as downloaded from the owner's Drive folder, prefix = first 6 chars of Drive id) → site slot. crop = [left, top, right, bottom] as fractions.",
-  "hero-winter":   { "src": "1Ki1-I_UNTERMOOS_ALPACHTAL_AUssEN_WINTER.jpg" },
-  "hero-summer":   { "src": "15SkZ5_UNTERMOOS_ALPACHTAL_AUssEN_(7).jpg" },
-  "winter-detail": { "src": "1Ki1-I_UNTERMOOS_ALPACHTAL_AUssEN_WINTER.jpg", "crop": [0.12, 0.36, 0.88, 0.8] },
-  "exterior":      { "src": "1W09Va_2024-07-20_HausRuprechter_web_8.jpg" },
-  "exterior-angle":{ "src": "1Ug14e_2024-07-20_HausRuprechter_web_7.jpg" },
-  "exterior-tree": { "src": "1BNa-I_2024-07-20_HausRuprechter_web_4.jpg" },
-  "entrance":      { "src": "1ePF8M_UNTERMOOS_ALPACHTAL_AUssEN_(14).jpg" },
-  "garden":        { "src": "1qehhT_2024-07-20_HausRuprechter_web_6.jpg" },
-  "garden-2":      { "src": "1n7eU7_2024-07-20_HausRuprechter_web_5.jpg" },
-  "deckchair":     { "src": "126v2d_2024-07-20_HausRuprechter_web_9.jpg" },
-  "table":         { "src": "1VorSs_2024-07-20_HausRuprechter_web_22.jpg" },
-  "table-detail":  { "src": "1830CD_2024-07-20_HausRuprechter_web_26.jpg" },
-  "schnaps":       { "src": "1Ob-9__2024-07-20_HausRuprechter_web_24.jpg" },
-  "view":          { "src": "1W6Zwo_2024-07-20_HausRuprechter_web_29.jpg" },
-  "view-2":        { "src": "1u9eSw_2024-07-20_HausRuprechter_web_28.jpg" },
-  "moor":          { "src": "1O-yH3_IMG_0544.jpg" },
-  "moor-2":        { "src": "16M4fC_IMG_0543.jpg" },
-  "meadow":        { "src": "1GpC_r_UNTERMOOS_ALPACHTAL_AUssEN_(10).jpg" },
-  "trail":         { "src": "1Hdzi-_UNTERMOOS_ALPACHTAL_AUssEN_(2).jpg" },
-  "stube":         { "src": "10LtTV_UNTERMOOS_ALPACHTAL__Gang(2).png" },
-  "bath":          { "src": "1Pf__4_UNTERMOOS_ALPACHTAL__Bad_(4).jpg" },
-  "hosts":         { "src": "1bd-8X_IMG_0268_(002).jpg" },
-  "sculpture":     { "src": "1j1e1X_IMG_0312_(002).jpg" }
+  "_note": "Source file (as downloaded from the owner's Drive folder, prefix = first 6 chars of Drive id) → site slot. crop = [left, top, right, bottom] as fractions. Interior set 14.10.2026: chat uploads (prefix up_ + upload id).",
+  "hero-winter": {
+    "src": "1Ki1-I_UNTERMOOS_ALPACHTAL_AUssEN_WINTER.jpg"
+  },
+  "hero-summer": {
+    "src": "15SkZ5_UNTERMOOS_ALPACHTAL_AUssEN_(7).jpg"
+  },
+  "winter-detail": {
+    "src": "1Ki1-I_UNTERMOOS_ALPACHTAL_AUssEN_WINTER.jpg",
+    "crop": [
+      0.12,
+      0.36,
+      0.88,
+      0.8
+    ]
+  },
+  "exterior": {
+    "src": "1W09Va_2024-07-20_HausRuprechter_web_8.jpg"
+  },
+  "exterior-angle": {
+    "src": "1Ug14e_2024-07-20_HausRuprechter_web_7.jpg"
+  },
+  "exterior-tree": {
+    "src": "1BNa-I_2024-07-20_HausRuprechter_web_4.jpg"
+  },
+  "entrance": {
+    "src": "1ePF8M_UNTERMOOS_ALPACHTAL_AUssEN_(14).jpg"
+  },
+  "garden": {
+    "src": "1qehhT_2024-07-20_HausRuprechter_web_6.jpg"
+  },
+  "garden-2": {
+    "src": "1n7eU7_2024-07-20_HausRuprechter_web_5.jpg"
+  },
+  "deckchair": {
+    "src": "126v2d_2024-07-20_HausRuprechter_web_9.jpg"
+  },
+  "table": {
+    "src": "1VorSs_2024-07-20_HausRuprechter_web_22.jpg"
+  },
+  "table-detail": {
+    "src": "1830CD_2024-07-20_HausRuprechter_web_26.jpg"
+  },
+  "schnaps": {
+    "src": "1Ob-9__2024-07-20_HausRuprechter_web_24.jpg"
+  },
+  "view": {
+    "src": "1W6Zwo_2024-07-20_HausRuprechter_web_29.jpg"
+  },
+  "view-2": {
+    "src": "1u9eSw_2024-07-20_HausRuprechter_web_28.jpg"
+  },
+  "moor": {
+    "src": "1O-yH3_IMG_0544.jpg"
+  },
+  "moor-2": {
+    "src": "16M4fC_IMG_0543.jpg"
+  },
+  "meadow": {
+    "src": "1GpC_r_UNTERMOOS_ALPACHTAL_AUssEN_(10).jpg"
+  },
+  "trail": {
+    "src": "1Hdzi-_UNTERMOOS_ALPACHTAL_AUssEN_(2).jpg"
+  },
+  "stube": {
+    "src": "up_69d5892d.jpg"
+  },
+  "bath": {
+    "src": "1Pf__4_UNTERMOOS_ALPACHTAL__Bad_(4).jpg"
+  },
+  "hosts": {
+    "src": "1bd-8X_IMG_0268_(002).jpg"
+  },
+  "sculpture": {
+    "src": "1j1e1X_IMG_0312_(002).jpg"
+  },
+  "kachelofen": {
+    "src": "up_98ffb83c.jpg"
+  },
+  "kitchen": {
+    "src": "up_09eb0da7.jpg"
+  },
+  "tafel": {
+    "src": "up_f7d4a8dc.jpg"
+  },
+  "hausgang": {
+    "src": "up_6623039d.jpg"
+  },
+  "entrance-hall": {
+    "src": "up_8e42b71e.jpg"
+  },
+  "stove": {
+    "src": "up_8c01257e.jpg"
+  },
+  "kasten-1895": {
+    "src": "up_603f0632.jpg"
+  },
+  "eckbank": {
+    "src": "up_55778ba5.jpg"
+  },
+  "wardrobe": {
+    "src": "up_e6e17dc3.jpg"
+  },
+  "bedroom-1": {
+    "src": "up_2ca84888.jpg"
+  },
+  "bedroom-1b": {
+    "src": "up_ecb28c40.jpg"
+  },
+  "bedroom-1c": {
+    "src": "up_e04833fd.jpg"
+  },
+  "bedroom-2": {
+    "src": "up_de5a4dbf.jpg"
+  },
+  "bedroom-2b": {
+    "src": "up_f49e1bae.jpg"
+  },
+  "bedroom-2c": {
+    "src": "up_2b9e1e53.jpg"
+  },
+  "bedroom-3": {
+    "src": "up_af863bbb.jpg"
+  },
+  "bedroom-3b": {
+    "src": "up_3c51dec8.jpg"
+  },
+  "bedroom-3c": {
+    "src": "up_9fb1efef.jpg"
+  },
+  "bedroom-4": {
+    "src": "up_411908cd.jpg"
+  },
+  "bedroom-4b": {
+    "src": "up_4c3bea0f.jpg"
+  },
+  "balcony": {
+    "src": "up_536315be.jpg"
+  },
+  "bath-2": {
+    "src": "up_adf11b1a.jpg"
+  }
 }
