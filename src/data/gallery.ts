@@ -15,8 +15,8 @@ export const GALLERY: GallerySection[] = [
   { id: 'familienzimmer', room: 'bedroom-2', slots: ['bedroom-2d', 'bedroom-2', 'bedroom-2b', 'bedroom-2c'] },
   { id: 'zweibettzimmer', room: 'bedroom-3', slots: ['bedroom-3', 'bedroom-3d', 'bedroom-3b', 'bedroom-3c', 'wardrobe'] },
   { id: 'doppelzimmer-og', room: 'bedroom-4', slots: ['bedroom-4c', 'bedroom-4', 'bedroom-4b', 'bedroom-4d'] },
-  { id: 'baeder', de: 'Bäder', en: 'Bathrooms', slots: ['bath', 'bath-3', 'bath-4', 'bath-2', 'bath-5'] },
-  { id: 'draussen', de: 'Garten & Terrasse', en: 'Garden & terrace', slots: ['hero-summer', 'exterior', 'wildflowers', 'garden', 'deckchairs', 'terrace', 'facade-summer', 'entrance', 'table', 'welcome', 'sculpture-wall', 'sculpture-fence', 'visitor', 'balcony', 'deckchair', 'exterior-angle', 'sunset', 'garden-2', 'stone-bench', 'schnaps', 'welcome-glasses', 'table-detail', 'exterior-tree'] },
+  { id: 'baeder', de: 'Bäder', en: 'Bathrooms', slots: ['bath', 'bath-3', 'bath-4', 'bath-2', 'bath-basin', 'bath-5'] },
+  { id: 'draussen', de: 'Garten & Terrasse', en: 'Garden & terrace', slots: ['hero-summer', 'exterior', 'wildflowers', 'garden', 'deckchairs', 'terrace', 'facade-summer', 'entrance', 'table', 'welcome', 'edelweiss', 'sculpture-wall', 'sculpture-fence', 'visitor', 'balcony', 'deckchair', 'exterior-angle', 'sunset', 'garden-2', 'stone-bench', 'schnaps', 'welcome-glasses', 'table-detail', 'exterior-tree'] },
   { id: 'winter', de: 'Winter', en: 'Winter', slots: ['hero-winter', 'winter-snow'] },
-  { id: 'umgebung', de: 'Umgebung', en: 'Surroundings', slots: ['view', 'view-2', 'cows', 'moor', 'moor-2', 'moor-meadow', 'meadow', 'track', 'cows-2', 'trail', 'bus-stop'] },
+  { id: 'umgebung', de: 'Umgebung', en: 'Surroundings', slots: ['view', 'view-2', 'cows', 'moor', 'moor-2', 'moor-meadow', 'meadow', 'track', 'old-tree', 'cows-2', 'trail', 'bus-stop'] },
 ];
