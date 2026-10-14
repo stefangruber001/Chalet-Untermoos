@@ -1,6 +1,6 @@
 """Copy the owner's photos into src/assets/photos/<slot>.jpg (auto-rotated, max 2560 px, sRGB JPEG q88).
 
-Run: python3 tools/import_photos.py <folder-with-originals>
+Run: python3 tools/import_photos.py <folder-with-originals> [slot ...]   (no slots = all)
 Astro then generates AVIF/WebP in all needed widths at build time.
 """
 import json, sys
@@ -12,8 +12,9 @@ src_dir = Path(sys.argv[1])
 out_dir = ROOT / 'src' / 'assets' / 'photos'
 out_dir.mkdir(parents=True, exist_ok=True)
 mapping = json.loads((ROOT / 'tools' / 'photo-map.json').read_text())
+only = set(sys.argv[2:])
 for slot, spec in mapping.items():
-    if slot.startswith('_'):
+    if slot.startswith('_') or (only and slot not in only):
         continue
     f = src_dir / spec['src']
     if not f.exists():
