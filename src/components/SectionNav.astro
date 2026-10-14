@@ -1,0 +1,52 @@
+---
+/** Sticky in-page navigation for long pages: chips under the header, the current section is highlighted. */
+interface Props { label: string; items: { id: string; label: string; count?: number }[] }
+const { label, items } = Astro.props;
+---
+<nav class="section-nav" aria-label={label} data-section-nav>
+  <div class="wrap">
+    <ul role="list">
+      {items.map((it) => (
+        <li><a href={`#${it.id}`} data-chip={it.id}>{it.label}{it.count !== undefined && <span class="num">{it.count}</span>}</a></li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-section-nav]').forEach((nav) => {
+    const row = nav.querySelector<HTMLElement>('ul')!;
+    const chips = new Map([...nav.querySelectorAll<HTMLAnchorElement>('[data-chip]')].map((c) => [c.dataset.chip!, c]));
+    const targets = [...chips.keys()].map((id) => document.getElementById(id)).filter((t): t is HTMLElement => Boolean(t));
+    if (!('IntersectionObserver' in window) || !targets.length) return;
+    const activate = (id: string) => {
+      chips.forEach((c, k) => (k === id ? c.setAttribute('aria-current', 'location') : c.removeAttribute('aria-current')));
+      const c = chips.get(id);
+      // scroll only the chip row – never the page – so a running anchor jump is not interrupted
+      if (c) row.scrollTo({ left: c.offsetLeft - row.clientWidth / 2 + c.offsetWidth / 2, behavior: 'smooth' });
+    };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => { if (en.isIntersecting) activate(en.target.id); });
+    }, { rootMargin: '-32% 0px -63% 0px' });
+    targets.forEach((t) => io.observe(t));
+  });
+</script>
+
+<style>
+  .section-nav {
+    position: sticky; top: 4.4rem; z-index: 30;
+    background: rgb(236 238 232 / 0.94); backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px);
+    border-bottom: 1px solid var(--linie);
+  }
+  .section-nav ul { position: relative; list-style: none; margin: 0; padding: 0.65rem 0; display: flex; gap: 0.4rem; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .section-nav ul::-webkit-scrollbar { display: none; }
+  .section-nav a {
+    display: inline-flex; align-items: center; gap: 0.45rem; white-space: nowrap; text-decoration: none;
+    font-size: var(--step--1); font-weight: 500; padding: 0.42rem 0.85rem; border: 1px solid var(--linie); border-radius: 999px;
+    transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .section-nav a span { font-size: var(--step--2); color: var(--fels); }
+  .section-nav a:hover { border-color: var(--laerche); }
+  .section-nav a[aria-current] { background: var(--laerche); color: var(--kalk); border-color: var(--laerche); }
+  .section-nav a[aria-current] span { color: var(--fels-hell); }
+</style>

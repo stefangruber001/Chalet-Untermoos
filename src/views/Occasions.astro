@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Photo from '../components/Photo.astro';
 import CtaBand from '../components/CtaBand.astro';
+import SectionNav from '../components/SectionNav.astro';
+import NextPage from '../components/NextPage.astro';
 import { url, ROUTES, type Lang } from '../i18n/routes';
 import { SEASONS } from '../data/rates';
 import { fmtEUR } from '../i18n/ui';
@@ -80,6 +82,10 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
   <Hero lang={lang} compact eyebrow={C.eyebrow} title={C.heroTitle} leadWinter={C.leadWinter} leadSummer={C.leadSummer}
     winterSlot="hero-winter" summerSlot="exterior-tree" winterPos="62% 50%" summerPos="50% 45%" />
 
+  <SectionNav label={de ? 'Anlässe' : 'Occasions'} items={de
+    ? [{ id: 'familie', label: 'Familie' }, { id: 'freunde', label: 'Freunde & Ski' }, { id: 'team', label: 'Team-Offsite' }, { id: 'feste', label: 'Feste' }]
+    : [{ id: 'familie', label: 'Family' }, { id: 'freunde', label: 'Friends & ski' }, { id: 'team', label: 'Team offsite' }, { id: 'feste', label: 'Celebrations' }]} />
+
   {C.items.map((o, i) => (
     <section class:list={['section', 'occ-block', { 'occ-block--alt': i % 2 === 1 }]} id={o.k}>
       <div class="wrap grid">
@@ -101,6 +107,9 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
       </div>
     </section>
   ))}
+
+  <NextPage lang={lang} to="rates" photo="table" position="50% 55%"
+    text={de ? 'Saisonpreise, Konditionen und Ihr Richtpreis in zwei Minuten.' : 'Seasonal rates, terms and your indicative price in two minutes.'} />
 
   <CtaBand lang={lang} />
 </Base>

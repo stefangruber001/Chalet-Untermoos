@@ -4,6 +4,7 @@ import Hero from '../components/Hero.astro';
 import SeasonTable from '../components/SeasonTable.astro';
 import Enquiry from '../components/Enquiry.astro';
 import Faq from '../components/Faq.astro';
+import SectionNav from '../components/SectionNav.astro';
 import { ROUTES, type Lang } from '../i18n/routes';
 import { fmtEUR } from '../i18n/ui';
 import { SEASONS, RULES, FROM_PRICE } from '../data/rates';
@@ -146,7 +147,11 @@ const jsonLd = [
     <a slot="actions" class="btn btn--light" href="#anfrage">{C.cta} <span class="arrow" aria-hidden="true">↓</span></a>
   </Hero>
 
-  <section class="section rates" aria-labelledby="rates-title">
+  <SectionNav label={de ? 'Abschnitte' : 'Sections'} items={de
+    ? [{ id: 'preise', label: 'Preise' }, { id: 'inklusive', label: 'Inklusive' }, { id: 'vorteile', label: 'Vorteile' }, { id: 'buchen', label: 'So buchen' }, { id: 'konditionen', label: 'Konditionen' }, { id: 'anfrage', label: 'Anfrage' }, { id: 'faq', label: 'FAQ' }]
+    : [{ id: 'preise', label: 'Rates' }, { id: 'inklusive', label: 'Included' }, { id: 'vorteile', label: 'Benefits' }, { id: 'buchen', label: 'How to book' }, { id: 'konditionen', label: 'Terms' }, { id: 'anfrage', label: 'Enquiry' }, { id: 'faq', label: 'FAQ' }]} />
+
+  <section class="section rates" id="preise" aria-labelledby="rates-title">
     <div class="wrap grid">
       <div class="rates__head stack reveal">
         <p class="eyebrow">{C.ratesEyebrow}</p>
@@ -167,7 +172,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="section section--tight inc" aria-label={`${C.incEyebrow} / ${C.addEyebrow}`}>
+  <section class="section section--tight inc" id="inklusive" aria-label={`${C.incEyebrow} / ${C.addEyebrow}`}>
     <div class="wrap grid">
       <div class="inc__col stack reveal">
         <p class="eyebrow">{C.incEyebrow}</p>
@@ -182,7 +187,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="section section--moss adv" aria-labelledby="adv-title">
+  <section class="section section--moss adv" id="vorteile" aria-labelledby="adv-title">
     <div class="wrap">
       <div class="head">
         <p class="eyebrow adv__eyebrow">{C.advEyebrow}</p>
@@ -197,7 +202,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="section steps" aria-labelledby="steps-title">
+  <section class="section steps" id="buchen" aria-labelledby="steps-title">
     <div class="wrap">
       <div class="head">
         <p class="eyebrow">{C.stepsEyebrow}</p>
@@ -211,7 +216,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="section section--tight terms" aria-labelledby="terms-title">
+  <section class="section section--tight terms" id="konditionen" aria-labelledby="terms-title">
     <div class="wrap grid">
       <div class="terms__head stack">
         <p class="eyebrow">{C.termsEyebrow}</p>
@@ -242,7 +247,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="section faq-section">
+  <section class="section faq-section" id="faq">
     <div class="wrap"><Faq lang={lang} /></div>
   </section>
 </Base>

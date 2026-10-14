@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
+import SectionNav from '../components/SectionNav.astro';
+import NextPage from '../components/NextPage.astro';
 import { Picture, getImage } from 'astro:assets';
 import { ROUTES, type Lang } from '../i18n/routes';
 import { GALLERY } from '../data/gallery';
@@ -71,13 +73,7 @@ const widths = [480, 768, 1080, 1440];
     </div>
   </section>
 
-  <nav class="gal-nav" aria-label={C.navLabel}>
-    <div class="wrap">
-      <ul role="list">
-        {sections.map((s) => <li><a href={`#${s.id}`} data-chip={s.id}>{s.title}<span class="num">{s.items.length}</span></a></li>)}
-      </ul>
-    </div>
-  </nav>
+  <SectionNav label={C.navLabel} items={sections.map((s) => ({ id: s.id, label: s.title, count: s.items.length }))} />
 
   {sections.map((s) => (
     <section class="gal-sec" id={s.id} aria-labelledby={`h-${s.id}`}>
@@ -123,6 +119,8 @@ const widths = [480, 768, 1080, 1440];
       <button type="button" class="lb__btn lb__nav lb__nav--next" data-lb-next aria-label={C.next}><span aria-hidden="true">→</span></button>
     </div>
   </dialog>
+
+  <NextPage lang={lang} to="region" photo="view" text={de ? 'Skigebiete, Seen und Fahrzeiten rund um Untermoos.' : 'Ski areas, lakes and drive times around Untermoos.'} />
 
   <CtaBand lang={lang} />
 </Base>
@@ -188,23 +186,6 @@ const widths = [480, 768, 1080, 1440];
     });
   }
 
-  // Highlight the chip of the section in view.
-  const chips = new Map([...document.querySelectorAll<HTMLAnchorElement>('[data-chip]')].map((c) => [c.dataset.chip!, c]));
-  if ('IntersectionObserver' in window && chips.size) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((en) => {
-        if (!en.isIntersecting) return;
-        chips.forEach((c) => c.removeAttribute('aria-current'));
-        const c = chips.get(en.target.id);
-        if (!c) return;
-        c.setAttribute('aria-current', 'true');
-        // scroll only the chip row (scrollIntoView would also touch the page and can cancel a running anchor scroll)
-        const row = c.closest('ul');
-        if (row) row.scrollTo({ left: c.offsetLeft - row.clientWidth / 2 + c.offsetWidth / 2, behavior: 'smooth' });
-      });
-    }, { rootMargin: '-35% 0px -60% 0px' });
-    document.querySelectorAll('.gal-sec').forEach((s) => io.observe(s));
-  }
 </script>
 
 <style>
@@ -214,20 +195,8 @@ const widths = [480, 768, 1080, 1440];
   .gal-intro__lead { max-width: 46ch; }
   .gal-intro__lead .muted { font-family: var(--font-text); font-size: var(--step--1); display: block; margin-top: 0.5rem; }
 
-  .gal-nav { position: sticky; top: 4.4rem; z-index: 30; background: rgb(236 238 232 / 0.94); backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px); border-bottom: 1px solid var(--linie); }
-  .gal-nav ul { list-style: none; margin: 0; padding: 0.65rem 0; display: flex; gap: 0.4rem; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
-  .gal-nav ul::-webkit-scrollbar { display: none; }
-  .gal-nav a {
-    display: inline-flex; align-items: center; gap: 0.45rem; white-space: nowrap; text-decoration: none;
-    font-size: var(--step--1); font-weight: 500; padding: 0.42rem 0.8rem; border: 1px solid var(--linie); border-radius: 999px;
-    transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
-  }
-  .gal-nav a span { font-size: var(--step--2); color: var(--fels); }
-  .gal-nav a:hover { border-color: var(--laerche); }
-  .gal-nav a[aria-current='true'] { background: var(--laerche); color: var(--kalk); border-color: var(--laerche); }
-  .gal-nav a[aria-current='true'] span { color: var(--fels-hell); }
 
-  .gal-sec { padding-block: var(--space-l) 0; scroll-margin-top: 3.8rem; }
+  .gal-sec { padding-block: var(--space-l) 0; }
   .gal-sec:last-of-type { padding-bottom: var(--space-2xl); }
   .gal-sec__head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-top: var(--space-s); border-top: 1px solid var(--laerche); margin-bottom: var(--space-s); }
   .gal-sec__head h2 { font-size: var(--step-2); }

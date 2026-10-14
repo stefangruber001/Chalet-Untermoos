@@ -4,6 +4,8 @@ import Hero from '../components/Hero.astro';
 import Photo from '../components/Photo.astro';
 import TimeMap from '../components/TimeMap.astro';
 import CtaBand from '../components/CtaBand.astro';
+import SectionNav from '../components/SectionNav.astro';
+import NextPage from '../components/NextPage.astro';
 import { ROUTES, type Lang } from '../i18n/routes';
 import { breadcrumbJsonLd } from '../data/jsonld';
 
@@ -102,7 +104,11 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
   <Hero lang={lang} compact eyebrow={C.eyebrow} title={C.heroTitle} leadWinter={C.leadWinter} leadSummer={C.leadSummer}
     winterSlot="view-2" summerSlot="view" winterPos="50% 60%" summerPos="50% 55%" />
 
-  <section class="section">
+  <SectionNav label={de ? 'Abschnitte' : 'Sections'} items={de
+    ? [{ id: 'lage', label: 'Lage' }, { id: 'winter', label: 'Winter' }, { id: 'sommer', label: 'Sommer' }, { id: 'anreise', label: 'Genuss & Anreise' }]
+    : [{ id: 'lage', label: 'Location' }, { id: 'winter', label: 'Winter' }, { id: 'sommer', label: 'Summer' }, { id: 'anreise', label: 'Food & getting here' }]} />
+
+  <section class="section" id="lage">
     <div class="wrap">
       <div class="grid split-head">
         <div class="head reveal" style="grid-column: 1 / span 6; margin-bottom: 0">
@@ -155,7 +161,7 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="anreise">
     <div class="wrap grid">
       <div class="taste stack reveal">
         <p class="eyebrow">{C.tasteEyebrow}</p>
@@ -169,6 +175,9 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
       </div>
     </div>
   </section>
+
+  <NextPage lang={lang} to="occasions" photo="tafel" position="60% 50%"
+    text={de ? 'Familie, Freunde, Team oder Fest – mit Ideen und Preisen pro Person.' : 'Family, friends, team or celebration – with ideas and prices per person.'} />
 
   <CtaBand lang={lang} />
 </Base>

@@ -6,9 +6,13 @@ import TimeMap from '../components/TimeMap.astro';
 import Faq from '../components/Faq.astro';
 import CtaBand from '../components/CtaBand.astro';
 import SeasonTable from '../components/SeasonTable.astro';
+import Carousel from '../components/Carousel.astro';
+import NextPage from '../components/NextPage.astro';
 import { url, type Lang } from '../i18n/routes';
 import { fmtEUR } from '../i18n/ui';
-import { PROPERTY } from '../data/property';
+import { PROPERTY, ROOMS } from '../data/property';
+import { GALLERY } from '../data/gallery';
+import { getPhoto, type Slot } from '../data/photos';
 import { FROM_PRICE } from '../data/rates';
 import { FAQ } from '../data/faq';
 import { rentalJsonLd, faqJsonLd } from '../data/jsonld';
@@ -37,12 +41,21 @@ const C = de ? {
     { n: '4', u: '', l: 'Skigebiete in unter einer Stunde' }, { n: '4', u: '', l: 'Bergbahnen im Sommer gratis' },
     { n: '0', u: '€', l: 'extra für Reinigung, Wäsche und Energie' }, { n: '2', u: '', l: 'Hunde willkommen' },
   ],
-  roomsEyebrow: 'Innen & außen', roomsTitle: 'Altes Holz. Viel Platz. Ein Tisch für alle.',
-  rooms: [
-    { slot: 'stube', title: 'Die Stube', text: 'Holzgetäfelt, mit gelbem Kachelofen, Ofenbank und Eckbank – das Herz des Hauses, an kalten Tagen und an langen Abenden.' },
-    { slot: 'table', title: 'Vor der Haustür', text: 'Frühstück am Holztisch neben der roten Tür, abends ein Glas im Garten, während die Berge das letzte Licht fangen.' },
-    { slot: 'bedroom-2', title: 'Zum Schlafen', text: 'Vier Schlafzimmer, zehn Betten: geschnitzte Holzbetten, bemalte Bauernkästen, Dielenböden. Zur Begrüßung wartet ein Glas vom hauseigenen Schnaps.' },
+  roomsEyebrow: 'Rundgang', roomsTitle: 'Altes Holz. Viel Platz. Ein Tisch für alle.',
+  tour: [
+    { slot: 'stube', id: 'stube', meta: 'Erdgeschoss', text: 'Holzgetäfelt, mit gelbem Kachelofen, Ofenbank und Eckbank – das Herz des Hauses.', position: '40% 50%' },
+    { slot: 'kitchen-2', id: 'kueche', meta: 'Erdgeschoss', text: 'Holzherd neben dem Elektroherd, Geschirrspüler und ein eigener Esstisch.' },
+    { slot: 'entrance-hall', id: 'hausgang', meta: 'Erdgeschoss', text: 'Durch die rote Haustür in den Hausgang: Treppe, Dartscheibe, bemalte Truhe und Pelletofen.' },
+    { slot: 'bedroom-1', id: 'doppelzimmer-eg', meta: '2 Betten · Erdgeschoss', text: 'Eisenbett und Sitzecke – für alle, die keine Treppe möchten.' },
+    { slot: 'bedroom-2d', id: 'vierbettzimmer', meta: '4 Betten · Obergeschoss', text: 'Doppelbett und zwei Einzelbetten – für die Kinder oder die Freundesrunde.' },
+    { slot: 'bedroom-3', id: 'zweibettzimmer', meta: '2 Betten · Obergeschoss', text: 'Zwei Holzbetten, ein Sofa und Kunst an der Wand.' },
+    { slot: 'bedroom-4c', id: 'doppelzimmer-og', meta: '2 Betten · Obergeschoss', text: 'Alte Blockwände, eine Sitzecke und abends indirektes Licht.' },
+    { slot: 'bath', id: 'baeder', meta: 'Erd- und Obergeschoss', text: 'Holz, Glas und Naturstein; seit Frühjahr 2026 zusätzlich ein Bad mit Dusche.' },
+    { slot: 'table', id: 'draussen', meta: 'Draußen', text: 'Frühstück am Holztisch neben der roten Tür, abends ein Glas im Garten.' },
+    { slot: 'winter-snow', id: 'winter', meta: 'Dezember bis April', text: 'Schnee vor der Tür, Wärme aus dem Kachelofen, vier Skigebiete in Reichweite.' },
   ],
+  tourLabel: 'Rundgang durch das Haus', allPhotos: (n: number) => `Alle ${n} Bilder`,
+  next: 'Grundriss, Räume und Ausstattung – Raum für Raum.',
   roomsLink: 'Alle Räume und die Ausstattung', photosLink: 'Alle Bilder',
   seasonsEyebrow: 'Zwei Jahreszeiten', seasonsTitle: 'Winter wie Sommer: das Alpbachtal vor der Tür.',
   winter: {
@@ -96,12 +109,21 @@ const C = de ? {
     { n: '4', u: '', l: 'ski areas within an hour' }, { n: '4', u: '', l: 'mountain lifts free in summer' },
     { n: '€0', u: '', l: 'extra for cleaning, linen or energy' }, { n: '2', u: '', l: 'dogs welcome' },
   ],
-  roomsEyebrow: 'Inside & out', roomsTitle: 'Old timber. Plenty of space. One table for everyone.',
-  rooms: [
-    { slot: 'stube', title: 'The Stube', text: 'Wood-panelled, with a yellow tiled stove, its warm bench and the corner bench – the heart of the house on cold days and long evenings.' },
-    { slot: 'table', title: 'By the front door', text: 'Breakfast at the wooden table beside the red door, a glass in the garden at night while the mountains catch the last light.' },
-    { slot: 'bedroom-2', title: 'To sleep', text: 'Four bedrooms, ten beds: carved wooden beds, painted farmhouse wardrobes, plank floors. A glass of the house’s own schnapps awaits you on arrival.' },
+  roomsEyebrow: 'Walk-through', roomsTitle: 'Old timber. Plenty of space. One table for everyone.',
+  tour: [
+    { slot: 'stube', id: 'stube', meta: 'Ground floor', text: 'Wood-panelled, with a yellow tiled stove, its warm bench and the corner bench – the heart of the house.', position: '40% 50%' },
+    { slot: 'kitchen-2', id: 'kueche', meta: 'Ground floor', text: 'A wood-fired range beside the electric hob, a dishwasher and its own dining table.' },
+    { slot: 'entrance-hall', id: 'hausgang', meta: 'Ground floor', text: 'Through the red front door into the hallway: staircase, dartboard, painted chest and pellet stove.' },
+    { slot: 'bedroom-1', id: 'doppelzimmer-eg', meta: '2 beds · ground floor', text: 'An iron bed and a seating corner – for anyone who prefers no stairs.' },
+    { slot: 'bedroom-2d', id: 'vierbettzimmer', meta: '4 beds · first floor', text: 'A double bed and two single beds – for the children or a group of friends.' },
+    { slot: 'bedroom-3', id: 'zweibettzimmer', meta: '2 beds · first floor', text: 'Two wooden beds, a sofa and art on the walls.' },
+    { slot: 'bedroom-4c', id: 'doppelzimmer-og', meta: '2 beds · first floor', text: 'Old log walls, a seating corner and soft indirect light in the evening.' },
+    { slot: 'bath', id: 'baeder', meta: 'Ground and first floor', text: 'Timber, glass and natural stone; since spring 2026 an additional bathroom with shower.' },
+    { slot: 'table', id: 'draussen', meta: 'Outside', text: 'Breakfast at the wooden table by the red door, a glass in the garden at night.' },
+    { slot: 'winter-snow', id: 'winter', meta: 'December to April', text: 'Snow at the door, warmth from the tiled stove, four ski areas within reach.' },
   ],
+  tourLabel: 'A walk through the house', allPhotos: (n: number) => `All ${n} photos`,
+  next: 'Floor plans, rooms and amenities – room by room.',
   roomsLink: 'All rooms and amenities', photosLink: 'All photos',
   seasonsEyebrow: 'Two seasons', seasonsTitle: 'Winter or summer: the Alpbachtal on your doorstep.',
   winter: {
@@ -139,6 +161,13 @@ const C = de ? {
 };
 
 const jsonLd = [rentalJsonLd(lang, C.description), faqJsonLd(FAQ[lang])];
+const sectionTitle = (id: string) => {
+  const sec = GALLERY.find((g) => g.id === id)!;
+  const room = sec.room ? ROOMS.find((r) => r.key === sec.room) : undefined;
+  return room ? room[lang].title : ((de ? sec.de : sec.en) ?? id);
+};
+const photoCount = GALLERY.reduce((n, s) => n + s.slots.filter((slot) => getPhoto(slot)).length, 0);
+const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id), meta: t.meta, text: t.text, position: (t as { position?: string }).position, href: url('gallery', lang, t.id) }));
 ---
 <Base lang={lang} route="home" title={C.title} description={C.description} jsonLd={jsonLd}>
   <Hero lang={lang} eyebrow={C.eyebrow} title="Untermoos" leadWinter={C.leadWinter} leadSummer={C.leadSummer} meta={C.meta}>
@@ -177,17 +206,10 @@ const jsonLd = [rentalJsonLd(lang, C.description), faqJsonLd(FAQ[lang])];
         <p class="eyebrow">{C.roomsEyebrow}</p>
         <h2>{C.roomsTitle}</h2>
       </div>
-      <div class="rooms__grid">
-        {C.rooms.map((r, i) => (
-          <article class={`room room--${i + 1}`}>
-            <Photo slot={r.slot as any} lang={lang} ratio={i === 0 ? '3/2' : '4/3'} sizes={i === 0 ? '(min-width: 980px) 58vw, 100vw' : '(min-width: 980px) 34vw, 100vw'} />
-            <div class="room__text reveal">
-              <h3>{r.title}</h3>
-              <p class="muted">{r.text}</p>
-            </div>
-          </article>
-        ))}
-      </div>
+    </div>
+    <Carousel lang={lang} id="tour" label={C.tourLabel} items={tour} ratio="4/3" size="m"
+      end={{ href: url('gallery', lang), n: photoCount, label: C.allPhotos(photoCount) }} />
+    <div class="wrap">
       <p class="rooms__more"><a class="link-arrow" href={url('house', lang)}>{C.roomsLink} <span aria-hidden="true">→</span></a><a class="link-arrow" href={url('gallery', lang)}>{C.photosLink} <span aria-hidden="true">→</span></a></p>
     </div>
   </section>
@@ -298,6 +320,8 @@ const jsonLd = [rentalJsonLd(lang, C.description), faqJsonLd(FAQ[lang])];
     <div class="wrap"><Faq lang={lang} /></div>
   </section>
 
+  <NextPage lang={lang} to="house" photo="kachelofen" text={C.next} />
+
   <CtaBand lang={lang} />
 </Base>
 
@@ -330,18 +354,7 @@ const jsonLd = [rentalJsonLd(lang, C.description), faqJsonLd(FAQ[lang])];
     .facts li:nth-child(n + 3) { border-top: 1px solid var(--linie); margin-top: var(--space-s); }
   }
 
-  .rooms__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(12px, 2vw, 32px); row-gap: var(--space-l); }
-  .room { display: grid; gap: var(--space-s); align-content: start; }
-  .room--1 { grid-column: 1 / span 7; grid-row: span 2; }
-  .room--2 { grid-column: 9 / -1; }
-  .room--3 { grid-column: 9 / -1; }
-  .room__text { display: grid; gap: 0.4rem; max-width: 40ch; }
-  .room__text h3 { font-size: var(--step-2); }
-  .rooms__more { margin-top: var(--space-l); display: flex; flex-wrap: wrap; gap: 0.8rem 2rem; }
-  @media (max-width: 860px) {
-    .room--1, .room--2, .room--3 { grid-column: 1 / -1; grid-row: auto; }
-    .room--2 { grid-column: 3 / -1; }
-  }
+  .rooms__more { margin-top: var(--space-m); display: flex; flex-wrap: wrap; gap: 0.8rem 2rem; }
 
   .seasons__head .eyebrow, .season-card__eyebrow { color: var(--zirbe); }
   .seasons__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-l); }

@@ -1,0 +1,207 @@
+---
+/**
+ * Swipeable carousel on native scroll-snap (no library, no autoplay).
+ * Touch: swipe · trackpad: scroll · mouse: drag · keyboard: ← → Home End · buttons + counter + progress rail.
+ * Accessibility follows the W3C APG carousel pattern (region + grouped slides, labelled controls).
+ */
+import { Picture } from 'astro:assets';
+import { getPhoto, photoAlt, type Slot } from '../data/photos';
+import type { Lang } from '../i18n/routes';
+
+export interface CarouselItem { slot: Slot; title?: string; text?: string; meta?: string; href?: string; alt?: string; position?: string }
+interface Props {
+  lang: Lang;
+  id: string;
+  label: string;
+  items: CarouselItem[];
+  ratio?: string;
+  size?: 'm' | 'l'; // m ≈ three cards visible on desktop, l ≈ two
+  caption?: boolean; // photo strips: show the alt text under each photo
+  end?: { href: string; n: string | number; label: string };
+}
+const { lang, id, label, items, ratio = '4/3', size = 'm', caption = false, end } = Astro.props;
+const de = lang === 'de';
+const slides = items.map((it) => ({ ...it, img: getPhoto(it.slot), alt: it.alt ?? photoAlt(it.slot, lang) })).filter((it) => it.img);
+const total = slides.length + (end ? 1 : 0);
+const pad2 = (n: number) => String(n).padStart(2, '0');
+const T = de
+  ? { prev: 'Zurück', next: 'Weiter', role: 'Karussell', slide: 'Folie', of: (i: number) => `${i} von ${total}` }
+  : { prev: 'Previous', next: 'Next', role: 'carousel', slide: 'slide', of: (i: number) => `${i} of ${total}` };
+const widths = [480, 768, 1080, 1440];
+const sizes = size === 'l' ? '(min-width: 860px) 44vw, 84vw' : '(min-width: 860px) 31vw, 82vw';
+---
+<div class:list={['carousel', `carousel--${size}`]} data-carousel role="region" aria-roledescription={T.role} aria-label={label}>
+  <div class="carousel__track" id={id} data-carousel-track tabindex="0">
+    {slides.map((it, i) => (
+      <div class="carousel__slide" role="group" aria-roledescription={T.slide} aria-label={T.of(i + 1)}>
+        {it.href ? (
+          <a class="carousel__card carousel__card--link" href={it.href}>
+            <span class="carousel__media" style={`aspect-ratio:${ratio}${it.position ? `;--pos:${it.position}` : ''}`}>
+              <Picture src={it.img!} alt={it.alt} formats={['avif', 'webp']} widths={widths.filter((w) => w <= it.img!.width)} sizes={sizes} loading="lazy" decoding="async" draggable="false" />
+            </span>
+            {it.meta && <span class="carousel__meta">{it.meta}</span>}
+            {it.title && <span class="carousel__title">{it.title} <span class="arrow" aria-hidden="true">→</span></span>}
+            {it.text && <span class="carousel__text">{it.text}</span>}
+          </a>
+        ) : (
+          <div class="carousel__card">
+            <span class="carousel__media" style={`aspect-ratio:${ratio}${it.position ? `;--pos:${it.position}` : ''}`}>
+              <Picture src={it.img!} alt={it.alt} formats={['avif', 'webp']} widths={widths.filter((w) => w <= it.img!.width)} sizes={sizes} loading="lazy" decoding="async" draggable="false" />
+            </span>
+            {caption && <span class="carousel__cap" aria-hidden="true">{it.alt}</span>}
+            {it.title && <span class="carousel__title">{it.title}</span>}
+            {it.text && <span class="carousel__text">{it.text}</span>}
+          </div>
+        )}
+      </div>
+    ))}
+    {end && (
+      <div class="carousel__slide" role="group" aria-roledescription={T.slide} aria-label={T.of(total)}>
+        <a class="carousel__end" href={end.href} style={`aspect-ratio:${ratio}`}>
+          <span class="carousel__end-n num">{end.n}</span>
+          <span class="carousel__end-t">{end.label} <span aria-hidden="true">→</span></span>
+        </a>
+      </div>
+    )}
+  </div>
+  <div class="wrap carousel__controls">
+    <span class="carousel__count num" data-carousel-count aria-hidden="true">01 / {pad2(total)}</span>
+    <span class="carousel__rail" aria-hidden="true"><span class="carousel__thumb" data-carousel-thumb></span></span>
+    <span class="carousel__btns">
+      <button type="button" class="carousel__btn" data-carousel-prev aria-controls={id} aria-label={T.prev} disabled><span aria-hidden="true">←</span></button>
+      <button type="button" class="carousel__btn" data-carousel-next aria-controls={id} aria-label={T.next}><span aria-hidden="true">→</span></button>
+    </span>
+  </div>
+</div>
+
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-carousel-track]')!;
+    const slides = [...track.children] as HTMLElement[];
+    const prev = root.querySelector<HTMLButtonElement>('[data-carousel-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-carousel-next]');
+    const count = root.querySelector<HTMLElement>('[data-carousel-count]');
+    const thumb = root.querySelector<HTMLElement>('[data-carousel-thumb]');
+    if (!slides.length) return;
+    const pad = () => parseFloat(getComputedStyle(track).paddingLeft) || 0;
+    const index = () => {
+      const x = track.scrollLeft + pad();
+      let best = 0;
+      let dist = Infinity;
+      slides.forEach((s, k) => { const d = Math.abs(s.offsetLeft - x); if (d < dist) { dist = d; best = k; } });
+      return best;
+    };
+    // Buttons move by the number of fully visible cards (at least one).
+    const step = () => {
+      const s = slides[0];
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return Math.max(1, Math.floor((track.clientWidth - pad() + gap) / (s.offsetWidth + gap)));
+    };
+    const go = (k: number) => {
+      const s = slides[Math.max(0, Math.min(slides.length - 1, k))];
+      track.scrollTo({ left: s.offsetLeft - pad(), behavior: reduce.matches ? 'auto' : 'smooth' });
+    };
+    const pad2 = (n: number) => String(n).padStart(2, '0');
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const max = track.scrollWidth - track.clientWidth;
+      const atStart = track.scrollLeft <= 4;
+      const atEnd = track.scrollLeft >= max - 4;
+      if (prev) prev.disabled = atStart;
+      if (next) next.disabled = atEnd || max <= 0;
+      const i = atEnd ? slides.length - 1 : index();
+      if (count) count.textContent = `${pad2(i + 1)} / ${pad2(slides.length)}`;
+      if (thumb) {
+        const w = Math.min(100, (track.clientWidth / track.scrollWidth) * 100);
+        thumb.style.width = `${w}%`;
+        thumb.style.left = `${max > 0 ? (track.scrollLeft / max) * (100 - w) : 0}%`;
+      }
+    };
+    const schedule = () => { if (!raf) raf = requestAnimationFrame(update); };
+    track.addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', schedule);
+    prev?.addEventListener('click', () => go(index() - step()));
+    next?.addEventListener('click', () => go(index() + step()));
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(index() + 1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); go(index() - 1); }
+      else if (e.key === 'Home') { e.preventDefault(); go(0); }
+      else if (e.key === 'End') { e.preventDefault(); go(slides.length - 1); }
+    });
+    // Mouse: drag to browse (touch screens and trackpads scroll natively).
+    let down = false;
+    let dragged = false;
+    let x0 = 0;
+    let s0 = 0;
+    track.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      down = true; dragged = false; x0 = e.clientX; s0 = track.scrollLeft;
+    });
+    addEventListener('pointermove', (e) => {
+      if (!down) return;
+      const dx = e.clientX - x0;
+      if (!dragged && Math.abs(dx) > 6) { dragged = true; track.classList.add('is-dragging'); }
+      if (dragged) track.scrollLeft = s0 - dx;
+    });
+    addEventListener('pointerup', () => {
+      if (!down) return;
+      down = false;
+      if (dragged) { track.classList.remove('is-dragging'); go(index()); }
+    });
+    track.addEventListener('click', (e) => { if (dragged) { e.preventDefault(); e.stopPropagation(); dragged = false; } }, true);
+    track.addEventListener('dragstart', (e) => e.preventDefault());
+    update();
+  });
+</script>
+
+<style>
+  .carousel { --gap: clamp(10px, 1.4vw, 20px); --edge: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))); }
+  .carousel--m { --card: min(31vw, 470px); }
+  .carousel--l { --card: min(44vw, 680px); }
+  .carousel__track {
+    position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: var(--card); gap: var(--gap);
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory;
+    padding: 0 var(--edge) 4px; scroll-padding-inline: var(--edge);
+    scrollbar-width: none; cursor: grab;
+  }
+  .carousel__track::-webkit-scrollbar { display: none; }
+  .carousel__track:focus-visible { outline-offset: -2px; }
+  .carousel__track.is-dragging { scroll-snap-type: none; cursor: grabbing; user-select: none; }
+  .carousel__track.is-dragging a { pointer-events: none; }
+  .carousel__slide { scroll-snap-align: start; min-width: 0; }
+  .carousel__card { display: grid; gap: 0.55rem; align-content: start; color: inherit; text-decoration: none; }
+  .carousel__media { position: relative; display: block; overflow: hidden; background: var(--laerche); }
+  .carousel__media :global(picture), .carousel__media :global(img) { display: block; width: 100%; height: 100%; }
+  .carousel__media :global(img) { object-fit: cover; object-position: var(--pos, 50% 50%); transition: transform 0.8s var(--ease); -webkit-user-drag: none; user-select: none; }
+  .carousel__card--link:hover .carousel__media :global(img) { transform: scale(1.04); }
+  .carousel__meta { margin-top: 0.35rem; font-size: var(--step--2); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fels); }
+  .carousel__title { font-family: var(--font-display); font-size: var(--step-1); line-height: 1.18; display: flex; align-items: baseline; gap: 0.5rem; }
+  .carousel__title .arrow { font-size: 0.8em; transition: transform 0.35s var(--ease); }
+  .carousel__card--link:hover .carousel__title .arrow { transform: translateX(4px); }
+  .carousel__card--link:hover .carousel__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; text-decoration-color: var(--geranie); }
+  .carousel__text { font-size: var(--step--1); line-height: 1.5; color: var(--fels); max-width: 42ch; }
+  .carousel__cap { margin-top: 0.1rem; font-size: var(--step--1); line-height: 1.4; color: var(--fels); }
+  .carousel__end { display: grid; align-content: end; gap: 0.4rem; padding: clamp(18px, 2.4vw, 32px); background: var(--nacht); color: var(--kalk); text-decoration: none; transition: background 0.35s var(--ease); }
+  .carousel__end:hover { background: var(--moos); }
+  .carousel__end-n { font-family: var(--font-display); font-size: var(--step-5); font-weight: 300; line-height: 0.85; letter-spacing: -0.03em; }
+  .carousel__end-t { font-size: var(--step--1); font-weight: 600; letter-spacing: 0.06em; }
+  .carousel__controls { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: clamp(0.8rem, 2vw, 1.6rem); margin-top: var(--space-s); }
+  .carousel__count { font-size: var(--step--2); font-weight: 600; letter-spacing: 0.16em; color: var(--fels); }
+  .carousel__rail { position: relative; height: 2px; background: var(--linie); overflow: hidden; }
+  .carousel__thumb { position: absolute; top: 0; bottom: 0; left: 0; width: 30%; background: var(--laerche); }
+  .carousel__btns { display: flex; gap: 0.5rem; }
+  .carousel__btn {
+    width: 2.9rem; height: 2.9rem; border-radius: 50%; border: 1px solid var(--linie); background: transparent; cursor: pointer;
+    font-size: 1.05rem; color: var(--laerche); display: grid; place-items: center;
+    transition: background 0.3s var(--ease), color 0.3s var(--ease), opacity 0.3s var(--ease);
+  }
+  .carousel__btn:hover:not(:disabled) { background: var(--laerche); color: var(--kalk); }
+  .carousel__btn:disabled { opacity: 0.3; cursor: default; }
+  @media (max-width: 860px) {
+    .carousel--m, .carousel--l { --card: 82vw; }
+    .carousel__btns { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .carousel__media :global(img) { transition: none; } }
+</style>
