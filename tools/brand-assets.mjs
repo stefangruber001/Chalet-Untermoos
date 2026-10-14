@@ -14,25 +14,24 @@ const root = fileURLToPath(new URL('..', import.meta.url));
 // Assets are inlined as data URLs: pages created with setContent may not load file:// resources.
 const data = (p, type) => `data:${type};base64,${readFileSync(root + p).toString('base64')}`;
 const fonts = `
-  @font-face { font-family: N; src: url('${data('public/fonts/bodoni-moda-normal.woff2', 'font/woff2')}') format('woff2'); font-weight: 400 700; }
-  @font-face { font-family: NI; src: url('${data('public/fonts/bodoni-moda-italic.woff2', 'font/woff2')}') format('woff2'); font-weight: 400 700; font-style: italic; }
+  @font-face { font-family: N; src: url('${data('public/fonts/fraunces.woff2', 'font/woff2')}') format('woff2'); font-weight: 360 600; }
   @font-face { font-family: A; src: url('${data('public/fonts/albert-sans.woff2', 'font/woff2')}') format('woff2'); font-weight: 380 700; }
   * { margin: 0; box-sizing: border-box; }`;
 const photo = data('src/assets/photos/hero-summer.jpg', 'image/jpeg');
 
 const og = (line, place) => `<!doctype html><html><head><style>${fonts}
-  body { width: 1200px; height: 630px; position: relative; overflow: hidden; background: #4a1119; color: #f8f0ea; font-family: A; }
+  body { width: 1200px; height: 630px; position: relative; overflow: hidden; background: #181012; color: #fdf7f4; font-family: A; }
   .photo { position: absolute; inset: 0; background: url('${photo}') 50% 38% / cover; }
   .shade { position: absolute; inset: 0; background:
-    linear-gradient(90deg, rgb(34 8 13 / .9) 0%, rgb(34 8 13 / .66) 42%, rgb(34 8 13 / .08) 74%),
-    linear-gradient(180deg, rgb(34 8 13 / .2) 0%, rgb(34 8 13 / 0) 40%, rgb(34 8 13 / .72) 100%); }
+    linear-gradient(90deg, rgb(24 16 18 / .82) 0%, rgb(24 16 18 / .55) 42%, rgb(24 16 18 / .04) 74%),
+    linear-gradient(180deg, rgb(24 16 18 / .25) 0%, rgb(24 16 18 / 0) 40%, rgb(24 16 18 / .62) 100%); }
   .logo { position: absolute; top: 54px; left: 72px; display: flex; align-items: center; gap: 18px; }
-  .word { font-family: N; font-weight: 560; font-size: 30px; letter-spacing: .2em; text-transform: uppercase; }
+  .word { font-family: N; font-weight: 560; font-size: 30px; letter-spacing: .18em; text-transform: uppercase; }
   .txt { position: absolute; left: 72px; bottom: 66px; display: grid; gap: 16px; }
-  .eyebrow { font-size: 17px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #d4b583; display: flex; align-items: center; gap: 14px; }
-  .eyebrow::before { content: ''; width: 34px; height: 1px; background: #d4b583; }
-  h1 { font-family: NI; font-style: italic; font-weight: 500; font-size: 128px; line-height: .9; letter-spacing: -.02em; margin-left: -4px; }
-  p { font-size: 30px; color: rgb(248 240 234 / .94); }
+  .eyebrow { font-size: 17px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #fdf7f4; display: flex; align-items: center; gap: 14px; }
+  .eyebrow::before { content: ''; width: 34px; height: 1px; background: #fdf7f4; }
+  h1 { font-family: N; font-weight: 400; font-size: 124px; line-height: .92; letter-spacing: -.022em; margin-left: -4px; }
+  p { font-size: 30px; color: rgb(255 255 255 / .94); }
 </style></head><body>
   <div class="photo"></div><div class="shade"></div>
   <div class="logo">${crest(64)}<span class="word">Untermoos</span></div>

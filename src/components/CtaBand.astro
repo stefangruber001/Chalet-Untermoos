@@ -9,7 +9,7 @@ const host = PROPERTY.host;
 const title = Astro.props.title ?? (de ? 'Ihr Zeitraum ist frei?' : 'Are your dates free?');
 const text = Astro.props.text ?? (de ? 'Fragen Sie an – wir antworten innerhalb von 24 Stunden mit einem persönlichen Angebot.' : 'Send an enquiry – we reply within 24 hours with a personal offer.');
 ---
-<section class="cta-band section--red" aria-labelledby="cta-title">
+<section class="cta-band section--signature" aria-labelledby="cta-title">
   <svg class="cta-band__stag" viewBox="0 0 85.66 100" aria-hidden="true" focusable="false"><use href="#um-stag" /></svg>
   <div class="wrap cta-band__inner">
     <p class="eyebrow">{de ? 'Direkt bei den Gastgebern' : 'Directly with your hosts'}</p>
@@ -24,12 +24,12 @@ const text = Astro.props.text ?? (de ? 'Fragen Sie an – wir antworten innerhal
 
 <style>
   .cta-band { position: relative; isolation: isolate; overflow: clip; }
-  .cta-band__stag { position: absolute; z-index: -1; right: -4%; bottom: -12%; height: 128%; width: auto; fill: rgb(248 240 234 / 0.07); }
+  .cta-band__stag { position: absolute; z-index: -1; right: -4%; bottom: -12%; height: 128%; width: auto; fill: rgb(255 255 255 / 0.08); }
   .cta-band__inner { padding-block: var(--space-2xl); display: grid; gap: var(--space-s); justify-items: start; }
   .cta-band h2 { font-size: var(--step-4); max-width: 14ch; }
-  .cta-band p.lead { max-width: 40ch; color: rgb(248 240 234 / 0.92); }
+  .cta-band p.lead { max-width: 40ch; color: rgb(255 255 255 / 0.92); }
   .cta-band__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.6rem; margin-top: var(--space-xs); }
-  .cta-band__phone { font-size: var(--step-0); font-weight: 600; letter-spacing: 0.03em; text-decoration: none; border-bottom: 1px solid rgb(248 240 234 / 0.5); min-height: 2.75rem; display: inline-flex; align-items: center; }
-  .cta-band__phone:hover { border-color: var(--messing); color: var(--messing); }
-  @media (max-width: 720px) { .cta-band__stag { right: -28%; height: 92%; bottom: -6%; } }
+  .cta-band__phone { font-size: var(--step-0); font-weight: 600; letter-spacing: 0.03em; text-decoration: none; border-bottom: 1px solid rgb(255 255 255 / 0.55); min-height: 2.75rem; display: inline-flex; align-items: center; }
+  .cta-band__phone:hover { border-color: var(--creme); }
+  @media (max-width: 900px) { .cta-band__stag { right: -28%; height: 92%; bottom: -6%; } }
 </style>

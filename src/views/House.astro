@@ -88,7 +88,7 @@ const jsonLd = [
 ---
 <Base lang={lang} route="house" title={C.title} description={C.description} jsonLd={jsonLd}>
   <Hero lang={lang} compact eyebrow={C.eyebrow} title={C.heroTitle} leadWinter={C.leadWinter} leadSummer={C.leadSummer}
-    winterSlot="stube" summerSlot="exterior-angle" winterPos="40% 55%" summerPos="55% 40%" />
+    winterSlot="stube" summerSlot="exterior-angle" winterPos="40% 55%" summerPos="55% 12%" />
 
   <SectionNav label={C.nav} items={Object.entries(C.chips).map(([id, label]) => ({ id, label }))} />
 
@@ -113,7 +113,7 @@ const jsonLd = [
           <div class="room-rows">
             {ROOMS.filter((r) => r.floor === fl).map((r) => (
               <article class:list={['room-row', { 'room-row--photo': Boolean(ROOM_PHOTO[r.key] && getPhoto(ROOM_PHOTO[r.key])) }]}>
-                {ROOM_PHOTO[r.key] && getPhoto(ROOM_PHOTO[r.key]) && <Photo slot={ROOM_PHOTO[r.key]} lang={lang} ratio="3/2" sizes="(min-width: 980px) 30vw, 100vw" widths={[480, 768, 1080, 1440]} />}
+                {ROOM_PHOTO[r.key] && getPhoto(ROOM_PHOTO[r.key]) && <Photo slot={ROOM_PHOTO[r.key]} lang={lang} ratio="3/2" sizes="(min-width: 901px) 30vw, 100vw" widths={[480, 768, 1080, 1440]} />}
                 <div class="room-row__text">
                   <h3>{r[lang].title}</h3>
                   <p class="muted">{r[lang].text}</p>
@@ -127,11 +127,11 @@ const jsonLd = [
     </div>
   </section>
 
-  <section class="section section--dark warmth">
+  <section class="section section--rose warmth">
     <div class="wrap grid">
-      <div class="warmth__media"><Photo slot="stove" lang={lang} ratio="4/5" sizes="(min-width: 980px) 42vw, 100vw" position="30% 50%" /></div>
+      <div class="warmth__media"><Photo slot="stove" lang={lang} ratio="4/5" sizes="(min-width: 901px) 42vw, 100vw" position="30% 50%" /></div>
       <div class="warmth__text stack reveal">
-        <p class="eyebrow warmth__eyebrow">{C.warmthEyebrow}</p>
+        <p class="eyebrow">{C.warmthEyebrow}</p>
         <h2>{C.warmthTitle}</h2>
         <p class="lead lead--s">{C.warmthText}</p>
       </div>
@@ -165,10 +165,10 @@ const jsonLd = [
         <p class="measure muted reveal" style="grid-column: 8 / -1; align-self: end">{C.outsideText}</p>
       </div>
       <div class="mosaic">
-        <Photo slot="entrance" lang={lang} ratio="4/3" class="mosaic__a" sizes="(min-width: 980px) 58vw, 100vw" />
-        <Photo slot="garden" lang={lang} ratio="4/5" class="mosaic__b" sizes="(min-width: 980px) 38vw, 100vw" position="62% 50%" />
-        <Photo slot="deckchair" lang={lang} ratio="4/5" class="mosaic__c" sizes="(min-width: 980px) 38vw, 100vw" />
-        <Photo slot="exterior" lang={lang} ratio="4/3" class="mosaic__d" sizes="(min-width: 980px) 58vw, 100vw" />
+        <Photo slot="entrance" lang={lang} ratio="4/3" class="mosaic__a" sizes="(min-width: 901px) 58vw, 100vw" />
+        <Photo slot="garden" lang={lang} ratio="4/5" class="mosaic__b" sizes="(min-width: 901px) 38vw, 100vw" position="62% 50%" />
+        <Photo slot="deckchair" lang={lang} ratio="4/5" class="mosaic__c" sizes="(min-width: 901px) 38vw, 100vw" />
+        <Photo slot="exterior" lang={lang} ratio="4/3" class="mosaic__d" sizes="(min-width: 901px) 58vw, 100vw" />
       </div>
     </div>
   </section>
@@ -194,14 +194,14 @@ const jsonLd = [
 
 
 <style>
-  .gallery { background: var(--paper-2); overflow: hidden; }
+  .gallery { overflow: hidden; }
   .gallery__head { margin-bottom: var(--space-l); row-gap: var(--space-m); }
   .gallery__side { grid-column: 9 / -1; align-self: end; display: grid; gap: var(--space-s); }
-  @media (max-width: 860px) {
+  @media (max-width: 900px) {
     .gallery__side { grid-column: 1 / -1; }
   }
   .plan-head { margin-bottom: var(--space-l); row-gap: var(--space-m); }
-  @media (max-width: 860px) { .plan-head > *, .outside__head > *, .gallery__head > * { grid-column: 1 / -1 !important; } }
+  @media (max-width: 900px) { .plan-head > *, .outside__head > *, .gallery__head > * { grid-column: 1 / -1 !important; } }
 
   .floor-block { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: var(--space-m); padding-block: var(--space-m); border-top: 1px solid var(--ink); }
   .floor-block + .floor-block { margin-top: var(--space-l); }
@@ -211,14 +211,12 @@ const jsonLd = [
   .room-row h3 { font-size: var(--step-2); }
   .room-row__text { display: grid; gap: 0.4rem; max-width: 46ch; }
   .room-row__beds { justify-self: start; font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; border: 1px solid var(--line); border-radius: 999px; padding: 0.3rem 0.7rem; margin-top: 0.3rem; }
-  @media (max-width: 860px) {
-    .floor-block { grid-template-columns: 1fr; }
-    .room-rows { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 900px) { .floor-block { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .room-rows { grid-template-columns: 1fr; } }
 
   .warmth__media { grid-column: 1 / span 5; }
+  @media (max-width: 900px) { .warmth__media :global(.frame) { aspect-ratio: 4 / 3 !important; } }
   .warmth__text { grid-column: 7 / -1; align-self: center; --flow: var(--space-s); }
-  .warmth__eyebrow { color: var(--messing); }
   @media (max-width: 900px) {
     .warmth__media, .warmth__text { grid-column: 1 / -1; }
     .warmth__text { margin-top: var(--space-l); }
@@ -230,8 +228,12 @@ const jsonLd = [
   .mosaic :global(.mosaic__b) { grid-column: 8 / -1; grid-row: span 2; align-self: start; }
   .mosaic :global(.mosaic__c) { grid-column: 1 / span 4; }
   .mosaic :global(.mosaic__d) { grid-column: 5 / span 3; align-self: end; aspect-ratio: 3 / 4 !important; }
-  @media (max-width: 760px) {
-    .mosaic :global(.mosaic__a), .mosaic :global(.mosaic__b), .mosaic :global(.mosaic__c), .mosaic :global(.mosaic__d) { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 4 / 3 !important; }
+  @media (max-width: 900px) {
+    .mosaic :global(.mosaic__a), .mosaic :global(.mosaic__d) { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 4 / 3 !important; }
+    .mosaic :global(.mosaic__b), .mosaic :global(.mosaic__c) { grid-column: span 6; grid-row: auto; aspect-ratio: 4 / 5 !important; }
+  }
+  @media (max-width: 560px) {
+    .mosaic :global(.mosaic__b), .mosaic :global(.mosaic__c) { grid-column: 1 / -1; aspect-ratio: 4 / 3 !important; }
   }
 
   .amen { grid-column: 1 / span 6; --flow: var(--space-m); }
@@ -246,5 +248,5 @@ const jsonLd = [
     .amen, .know { grid-column: 1 / -1; }
     .know { margin-top: var(--space-l); }
   }
-  @media (max-width: 520px) { .amen__list { columns: 1; } }
+  @media (max-width: 560px) { .amen__list { columns: 1; } }
 </style>

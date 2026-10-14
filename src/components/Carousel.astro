@@ -172,7 +172,7 @@ const sizes = size === 'l' ? '(min-width: 860px) 44vw, 84vw' : '(min-width: 860p
   .carousel__track.is-dragging a { pointer-events: none; }
   .carousel__slide { scroll-snap-align: start; min-width: 0; }
   .carousel__card { display: grid; gap: 0.55rem; align-content: start; color: inherit; text-decoration: none; }
-  .carousel__media { position: relative; display: block; overflow: hidden; background: var(--ink); }
+  .carousel__media { position: relative; display: block; overflow: hidden; background: var(--rose-2); }
   .carousel__media :global(picture), .carousel__media :global(img) { display: block; width: 100%; height: 100%; }
   .carousel__media :global(img) { object-fit: cover; object-position: var(--pos, 50% 50%); transition: transform 0.8s var(--ease); -webkit-user-drag: none; user-select: none; }
   .carousel__card--link:hover .carousel__media :global(img) { transform: scale(1.04); }
@@ -183,9 +183,9 @@ const sizes = size === 'l' ? '(min-width: 860px) 44vw, 84vw' : '(min-width: 860p
   .carousel__card--link:hover .carousel__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; text-decoration-color: var(--rot); }
   .carousel__text { font-size: var(--step--1); line-height: 1.5; color: var(--ink-2); max-width: 42ch; }
   .carousel__cap { margin-top: 0.1rem; font-size: var(--step--1); line-height: 1.4; color: var(--ink-2); }
-  .carousel__end { display: grid; align-content: end; gap: 0.4rem; padding: clamp(18px, 2.4vw, 32px); background: var(--wein); color: var(--paper); text-decoration: none; transition: background 0.35s var(--ease); }
-  .carousel__end:hover { background: var(--rot); }
-  .carousel__end-n { font-family: var(--font-display); font-size: var(--step-5); font-weight: 500; font-variation-settings: 'opsz' 30; line-height: 0.85; letter-spacing: -0.03em; }
+  .carousel__end { display: grid; align-content: end; gap: 0.4rem; padding: clamp(18px, 2.4vw, 32px); background: var(--rose-2); color: var(--ink); text-decoration: none; transition: background 0.35s var(--ease); }
+  .carousel__end:hover { background: var(--rose-3); }
+  .carousel__end-n { font-family: var(--font-display); font-size: var(--step-5); font-weight: 460; color: var(--rot); line-height: 0.85; letter-spacing: -0.03em; }
   .carousel__end-t { font-size: var(--step--1); font-weight: 600; letter-spacing: 0.06em; }
   .carousel__controls { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: clamp(0.8rem, 2vw, 1.6rem); margin-top: var(--space-s); }
   .carousel__count { font-size: var(--step--2); font-weight: 600; letter-spacing: 0.16em; color: var(--ink-2); }
@@ -199,7 +199,11 @@ const sizes = size === 'l' ? '(min-width: 860px) 44vw, 84vw' : '(min-width: 860p
   }
   .carousel__btn:hover:not(:disabled) { background: var(--ink); color: var(--paper); }
   .carousel__btn:disabled { opacity: 0.3; cursor: default; }
-  @media (max-width: 860px) {
+  @media (max-width: 900px) {
+    .carousel--m { --card: 46vw; }
+    .carousel--l { --card: 64vw; }
+  }
+  @media (max-width: 560px) {
     .carousel--m, .carousel--l { --card: 82vw; }
     .carousel__btns { display: none; }
   }

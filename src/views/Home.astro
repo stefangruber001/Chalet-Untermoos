@@ -52,7 +52,6 @@ const C = de ? {
     { slot: 'bedroom-4c', id: 'doppelzimmer-og', meta: '2 Betten · Obergeschoss', text: 'Alte Blockwände, eine Sitzecke und abends indirektes Licht.' },
     { slot: 'bath', id: 'baeder', meta: 'Erd- und Obergeschoss', text: 'Holz, Glas und ein Becken aus versteinertem Holz; seit Frühjahr 2026 zusätzlich ein Bad mit Dusche.' },
     { slot: 'table', id: 'draussen', meta: 'Draußen', text: 'Frühstück am Holztisch neben der roten Tür, abends ein Glas im Garten.' },
-    { slot: 'winter-snow', id: 'winter', meta: 'Dezember bis April', text: 'Schnee vor der Tür, Wärme aus dem Kachelofen, vier Skigebiete in Reichweite.' },
   ],
   tourLabel: 'Rundgang durch das Haus', allPhotos: (n: number) => `Alle ${n} Bilder`,
   next: 'Grundriss, Räume und Ausstattung – Raum für Raum.',
@@ -79,6 +78,8 @@ const C = de ? {
   hostEyebrow: 'Gastgeber', hostTitle: 'Ein Haus mit Menschen dahinter.',
   hostText: 'Renoviert hat das Bauernhaus ein Bildhauer, der hier aufgewachsen ist – gleich nebenan liegen die Bildhauerei Ruprechter und der Alpwerk-Shop mit Zirbenprodukten. Im Garten stehen Skulpturen, auf dem Tisch wartet zur Begrüßung ein Schnapserl vom selbstgebrannten Obstler.',
   hostText2: 'Erich und Sonja Ruprechter sind persönlich für Sie da: bei der Ankunft, mit Tipps für Touren und Tische, und wenn etwas fehlt. Anfragen beantworten sie innerhalb von 24 Stunden.',
+  hostNames: 'Erich und Sonja Ruprechter', hostRole: 'Ihre Gastgeber · Breitenbach am Inn', hostCard: 'Kontakt zu den Gastgebern',
+  hostPhone: 'Telefon', hostMail: 'E-Mail', hostReplyLabel: 'Antwort', hostReply: 'innerhalb von 24 Stunden', hostCta: 'Verfügbarkeit anfragen',
   occEyebrow: 'Für wen', occTitle: 'Gemacht für Gruppen, die zusammen sein wollen.',
   occ: [
     { k: 'familie', title: 'Familie & Generationen', text: 'Ein Schlafzimmer im Erdgeschoss für die Großeltern, Spielplatz und eingezäunter Garten für Kinder und Hund.' },
@@ -120,7 +121,6 @@ const C = de ? {
     { slot: 'bedroom-4c', id: 'doppelzimmer-og', meta: '2 beds · first floor', text: 'Old log walls, a seating corner and soft indirect light in the evening.' },
     { slot: 'bath', id: 'baeder', meta: 'Ground and first floor', text: 'Timber, glass and a petrified-wood basin; since spring 2026 an additional bathroom with shower.' },
     { slot: 'table', id: 'draussen', meta: 'Outside', text: 'Breakfast at the wooden table by the red door, a glass in the garden at night.' },
-    { slot: 'winter-snow', id: 'winter', meta: 'December to April', text: 'Snow at the door, warmth from the tiled stove, four ski areas within reach.' },
   ],
   tourLabel: 'A walk through the house', allPhotos: (n: number) => `All ${n} photos`,
   next: 'Floor plans, rooms and amenities – room by room.',
@@ -147,6 +147,8 @@ const C = de ? {
   hostEyebrow: 'Your hosts', hostTitle: 'A house with people behind it.',
   hostText: 'The farmhouse was renovated by a sculptor who grew up here – the Ruprechter sculpture workshop and the Alpwerk shop with Swiss stone pine products are right next door. Sculptures stand in the garden, and a glass of the hosts’ home-distilled Obstler waits on the table when you arrive.',
   hostText2: 'Erich and Sonja Ruprechter look after you in person: on arrival, with tips for hikes and tables, and whenever something is missing. They answer enquiries within 24 hours.',
+  hostNames: 'Erich and Sonja Ruprechter', hostRole: 'Your hosts · Breitenbach am Inn', hostCard: 'Contact your hosts',
+  hostPhone: 'Phone', hostMail: 'Email', hostReplyLabel: 'Reply', hostReply: 'within 24 hours', hostCta: 'Check availability',
   occEyebrow: 'Who it is for', occTitle: 'Made for groups who want to be together.',
   occ: [
     { k: 'familie', title: 'Family & generations', text: 'A ground-floor bedroom for grandparents, a playground and fenced garden for children and dogs.' },
@@ -214,16 +216,16 @@ const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id
     </div>
   </section>
 
-  <section class="section section--dark seasons">
+  <section class="section section--rose seasons">
     <div class="wrap">
       <div class="head seasons__head reveal">
         <p class="eyebrow">{C.seasonsEyebrow}</p>
         <h2>{C.seasonsTitle}</h2>
       </div>
       <div class="seasons__grid">
-        {[{ s: C.winter, slot: 'winter-detail', key: 'winter' }, { s: C.summer, slot: 'moor', key: 'summer' }].map(({ s, slot, key }) => (
+        {[{ s: C.winter, slot: 'winter-snow', key: 'winter' }, { s: C.summer, slot: 'moor', key: 'summer' }].map(({ s, slot, key }) => (
           <article class="season-card" data-season-card={key}>
-            <Photo slot={slot as any} lang={lang} ratio="3/2" sizes="(min-width: 980px) 45vw, 100vw" />
+            <Photo slot={slot as any} lang={lang} ratio="3/2" sizes="(min-width: 561px) 46vw, 100vw" />
             <div class="season-card__body stack reveal">
               <p class="eyebrow eyebrow--plain season-card__eyebrow">{s.eyebrow}</p>
               <h3>{s.title}</h3>
@@ -252,34 +254,45 @@ const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id
     </div>
   </section>
 
-  <section class="section section--red included">
+  <section class="section section--blush included">
     <div class="wrap grid">
       <div class="included__head reveal">
-        <p class="eyebrow included__eyebrow">{C.inclEyebrow}</p>
+        <p class="eyebrow">{C.inclEyebrow}</p>
         <h2>{C.inclTitle}</h2>
         <p class="lead lead--s">{C.inclText}</p>
       </div>
       <div class="included__lists">
-        <ul class="ticks ticks--light" role="list">{C.incl.map((x) => <li>{x}</li>)}</ul>
+        <ul class="ticks" role="list">{C.incl.map((x) => <li>{x}</li>)}</ul>
         <div>
-          <p class="footer-label">{C.extrasTitle}</p>
+          <p class="label">{C.extrasTitle}</p>
           <ul class="plain" role="list">{C.extras.map((x) => <li>{x}</li>)}</ul>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section hosts">
-    <div class="wrap grid">
-      <div class="hosts__media">
-        <Photo slot="hosts" lang={lang} ratio="4/5" sizes="(min-width: 980px) 24vw, 60vw" widths={[425]} class="hosts__portrait" />
-        <Photo slot="sculpture" lang={lang} ratio="1/1" sizes="(min-width: 980px) 18vw, 40vw" widths={[550]} class="hosts__sculpture" />
-      </div>
+  <section class="section hosts" aria-labelledby="hosts-title">
+    <div class="wrap grid hosts__grid">
       <div class="hosts__text stack reveal">
         <p class="eyebrow">{C.hostEyebrow}</p>
-        <h2>{C.hostTitle}</h2>
+        <h2 id="hosts-title">{C.hostTitle}</h2>
         <p class="lead lead--s">{C.hostText}</p>
         <p class="muted measure">{C.hostText2}</p>
+      </div>
+      <div class="host-card reveal" role="group" aria-label={C.hostCard}>
+        <div class="host-card__head">
+          <Photo slot="hosts" lang={lang} ratio="4/5" sizes="(min-width: 901px) 176px, 136px" widths={[425]} class="host-card__photo" position="62% 30%" />
+          <div class="host-card__who">
+            <p class="host-card__names">{C.hostNames}</p>
+            <p class="host-card__role">{C.hostRole}</p>
+          </div>
+        </div>
+        <dl class="host-card__contact">
+          <div><dt>{C.hostPhone}</dt><dd><a class="num" href={`tel:${p.host.phone.replace(/\s/g, '')}`}>{p.host.phoneDisplay}</a></dd></div>
+          <div><dt>{C.hostMail}</dt><dd><a href={`mailto:${p.host.email}`}>{p.host.email}</a></dd></div>
+          <div><dt>{C.hostReplyLabel}</dt><dd>{C.hostReply}</dd></div>
+        </dl>
+        <a class="btn host-card__btn" href={url('rates', lang, 'anfrage')}>{C.hostCta} <span class="arrow" aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
@@ -302,13 +315,13 @@ const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id
     </div>
   </section>
 
-  <section class="section section--dark price-band">
+  <section class="section section--rose price-band">
     <div class="wrap grid">
       <div class="price-band__main reveal">
-        <p class="eyebrow price-band__eyebrow">{C.priceEyebrow}</p>
+        <p class="eyebrow">{C.priceEyebrow}</p>
         <h2>{C.priceTitle(fmtEUR(FROM_PRICE, lang))}</h2>
         <p class="muted measure">{C.priceText}</p>
-        <a class="btn btn--light" href={url('rates', lang)}>{C.priceLink} <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn" href={url('rates', lang)}>{C.priceLink} <span class="arrow" aria-hidden="true">→</span></a>
       </div>
       <div class="price-band__table reveal">
         <SeasonTable lang={lang} compact />
@@ -326,18 +339,17 @@ const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id
 </Base>
 
 <style>
-
   .intro__head { grid-column: 1 / span 5; display: grid; gap: var(--space-xs); align-content: start; }
   .intro__head h2 { font-size: var(--step-4); }
   .intro__body { grid-column: 7 / -1; --flow: var(--space-m); }
   .facts { list-style: none; margin: var(--space-xl) 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
-  .facts li { display: grid; gap: 0.5rem; padding: var(--space-s) var(--space-s) 0 0; border-right: 1px solid var(--line); }
+  .facts li { display: grid; gap: 0.5rem; align-content: start; padding: var(--space-s) var(--space-s) 0 0; border-right: 1px solid var(--line); }
   .facts li + li { padding-left: var(--space-s); }
   .facts li:last-child { border-right: 0; }
-  .facts__n { font-family: var(--font-display); font-size: var(--step-4); line-height: 1; font-weight: 500; font-variation-settings: 'opsz' 30; color: var(--rot); letter-spacing: -0.02em; }
+  .facts__n { font-family: var(--font-display); font-size: var(--step-4); line-height: 1; font-weight: 460; color: var(--rot); letter-spacing: -0.02em; }
   .facts__u { font-size: 0.34em; margin-left: 0.2em; letter-spacing: 0.04em; vertical-align: 1.35em; font-family: var(--font-text); font-weight: 600; text-transform: uppercase; }
   .facts__l { font-size: var(--step--1); color: var(--ink-2); line-height: 1.35; }
-  @media (max-width: 980px) {
+  @media (max-width: 900px) {
     .intro__head, .intro__body { grid-column: 1 / -1; }
     .intro__body { margin-top: var(--space-m); }
     .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -345,7 +357,7 @@ const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id
     .facts li:nth-child(3n + 1) { padding-left: 0; }
     .facts li:nth-child(n + 4) { border-top: 1px solid var(--line); margin-top: var(--space-s); }
   }
-  @media (max-width: 520px) {
+  @media (max-width: 560px) {
     .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .facts li { border-right: 0 !important; padding-left: 0 !important; }
     .facts li:nth-child(even) { padding-left: var(--space-s) !important; border-left: 1px solid var(--line); }
@@ -354,86 +366,75 @@ const tour = C.tour.map((t) => ({ slot: t.slot as Slot, title: sectionTitle(t.id
 
   .rooms__more { margin-top: var(--space-m); display: flex; flex-wrap: wrap; gap: 0.8rem 2rem; }
 
-  .seasons__head .eyebrow, .season-card__eyebrow { color: var(--messing); }
-  .seasons__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-l); }
+  .seasons__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-l) clamp(1.25rem, 3vw, 3rem); }
   .season-card { display: grid; gap: var(--space-m); align-content: start; }
   .season-card__body { --flow: var(--space-s); }
-  .season-card h3 { font-size: var(--step-3); }
+  .season-card h3 { font-size: var(--step-2); }
   :global(html[data-season='summer']) .season-card[data-season-card='summer'],
   :global(html[data-season='winter']) .season-card[data-season-card='winter'] { order: -1; }
-  @media (max-width: 860px) { .seasons__grid { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .seasons__grid { grid-template-columns: 1fr; } }
 
-  .ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
-  .ticks li { position: relative; padding-left: 1.6rem; }
-  .ticks li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 0.8rem; height: 1px; background: var(--rot); }
-  .ticks--light li::before { background: var(--messing); }
   .plain { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.45rem; }
 
   .location__head { margin-bottom: var(--space-l); row-gap: var(--space-m); }
-  @media (max-width: 860px) { .location__head > div { grid-column: 1 / -1 !important; } }
+  @media (max-width: 900px) { .location__head > div { grid-column: 1 / -1 !important; } }
 
   .included__head { grid-column: 1 / span 6; display: grid; gap: var(--space-s); align-content: start; }
-  .included__eyebrow { color: var(--messing); }
-  .included__eyebrow::before { background: var(--messing); }
-  .included__lists { grid-column: 8 / -1; display: grid; gap: var(--space-l); font-size: var(--step-1); font-family: var(--font-display); }
-  .included__lists .plain { font-size: var(--step-0); font-family: var(--font-text); color: rgb(248 240 234 / 0.86); }
-  @media (max-width: 860px) {
+  .included__lists { grid-column: 8 / -1; display: grid; gap: var(--space-l); font-size: var(--step-1); }
+  .included__lists .ticks { font-family: var(--font-display); font-size: var(--step-1); line-height: 1.3; }
+  .included__lists .plain { font-size: var(--step-0); color: var(--ink-2); }
+  @media (max-width: 900px) {
     .included__head, .included__lists { grid-column: 1 / -1; }
     .included__lists { margin-top: var(--space-l); }
   }
 
-  .hosts { background: var(--paper-2); }
-  .hosts__media { grid-column: 1 / span 5; position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: end; }
-  .hosts__media :global(.hosts__portrait) { grid-column: 1 / span 4; grid-row: 1; max-width: 340px; width: 100%; }
-  .hosts__media :global(.hosts__sculpture) { grid-column: 4 / span 3; grid-row: 1; width: 100%; max-width: 230px; justify-self: end; transform: translateY(18%); box-shadow: 0 0 0 10px var(--paper-2); }
-  .hosts__text { grid-column: 7 / -1; align-self: center; --flow: var(--space-s); }
+  .hosts__grid { align-items: center; row-gap: var(--space-l); }
+  .hosts__text { grid-column: 1 / span 6; --flow: var(--space-s); }
+  .host-card { grid-column: 8 / -1; background: var(--rose-1); padding: clamp(1.25rem, 2.4vw, 2.25rem); display: grid; gap: var(--space-m); }
+  .host-card__head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(1rem, 2vw, 1.5rem); align-items: center; }
+  .host-card__head :global(.host-card__photo) { width: clamp(112px, 30vw, 176px); }
+  .host-card__names { font-family: var(--font-display); font-size: var(--step-2); line-height: 1.12; text-wrap: balance; }
+  .host-card__role { margin-top: 0.55rem; font-size: var(--step--2); font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--rot); line-height: 1.4; }
+  .host-card__contact { margin: 0; display: grid; border-top: 1px solid var(--rose-3); }
+  .host-card__contact div { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 1rem; align-items: center; min-height: 3.1rem; border-bottom: 1px solid var(--rose-3); }
+  .host-card__contact dt { font-size: var(--step--2); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); }
+  .host-card__contact dd { margin: 0; font-size: var(--step--1); font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+  .host-card__contact a { text-decoration: none; min-height: 2.75rem; display: inline-flex; align-items: center; }
+  .host-card__contact a:hover { color: var(--rot); }
+  .host-card__btn { justify-self: start; }
   @media (max-width: 900px) {
-    .hosts__media, .hosts__text { grid-column: 1 / -1; }
-    .hosts__text { margin-top: calc(var(--space-l) + 8%); }
+    .hosts__text, .host-card { grid-column: 1 / -1; }
+    .host-card { max-width: 38rem; }
   }
+  @media (max-width: 560px) {
+    .host-card__contact div { grid-template-columns: 1fr; gap: 0; padding-block: 0.55rem 0.25rem; }
+    .host-card__btn { justify-self: stretch; }
+  }
+
   .occasions__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
   .occ { display: grid; grid-template-rows: auto 1fr auto; gap: var(--space-s); padding: var(--space-m) var(--space-m) var(--space-m) 0; text-decoration: none; border-right: 1px solid var(--line); min-height: 18rem; transition: background 0.4s var(--ease); }
   .occ + .occ { padding-left: var(--space-m); }
   .occ:last-child { border-right: 0; }
-  .occ h3 { font-size: var(--step-2); }
+  .occ h3 { font-size: var(--step-2); hyphens: auto; }
   .occ__arrow { font-size: 1.4rem; transition: transform 0.35s var(--ease); }
   .occ:hover .occ__arrow { transform: translateX(6px); color: var(--rot); }
-  @media (max-width: 980px) {
-    .hosts { background: var(--paper-2); }
-  .hosts__media { grid-column: 1 / span 5; position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: end; }
-  .hosts__media :global(.hosts__portrait) { grid-column: 1 / span 4; grid-row: 1; max-width: 340px; width: 100%; }
-  .hosts__media :global(.hosts__sculpture) { grid-column: 4 / span 3; grid-row: 1; width: 100%; max-width: 230px; justify-self: end; transform: translateY(18%); box-shadow: 0 0 0 10px var(--paper-2); }
-  .hosts__text { grid-column: 7 / -1; align-self: center; --flow: var(--space-s); }
-  @media (max-width: 900px) {
-    .hosts__media, .hosts__text { grid-column: 1 / -1; }
-    .hosts__text { margin-top: calc(var(--space-l) + 8%); }
-  }
-  .occasions__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (max-width: 1180px) {
+    .occasions__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .occ { min-height: 0; }
     .occ:nth-child(2n) { border-right: 0; }
     .occ:nth-child(2n + 1) { padding-left: 0; }
     .occ:nth-child(n + 3) { border-top: 1px solid var(--line); }
   }
   @media (max-width: 560px) {
-    .hosts { background: var(--paper-2); }
-  .hosts__media { grid-column: 1 / span 5; position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: end; }
-  .hosts__media :global(.hosts__portrait) { grid-column: 1 / span 4; grid-row: 1; max-width: 340px; width: 100%; }
-  .hosts__media :global(.hosts__sculpture) { grid-column: 4 / span 3; grid-row: 1; width: 100%; max-width: 230px; justify-self: end; transform: translateY(18%); box-shadow: 0 0 0 10px var(--paper-2); }
-  .hosts__text { grid-column: 7 / -1; align-self: center; --flow: var(--space-s); }
-  @media (max-width: 900px) {
-    .hosts__media, .hosts__text { grid-column: 1 / -1; }
-    .hosts__text { margin-top: calc(var(--space-l) + 8%); }
-  }
-  .occasions__grid { grid-template-columns: 1fr; }
+    .occasions__grid { grid-template-columns: 1fr; }
     .occ { border-right: 0; padding-left: 0 !important; }
     .occ + .occ { border-top: 1px solid var(--line); }
   }
 
   .price-band__main { grid-column: 1 / span 6; display: grid; gap: var(--space-s); justify-items: start; align-content: start; }
   .price-band__main h2 { font-size: var(--step-4); }
-  .price-band__eyebrow { color: var(--messing); }
   .price-band__table { grid-column: 8 / -1; align-self: end; }
-  @media (max-width: 860px) {
+  @media (max-width: 900px) {
     .price-band__main, .price-band__table { grid-column: 1 / -1; }
     .price-band__table { margin-top: var(--space-l); }
   }

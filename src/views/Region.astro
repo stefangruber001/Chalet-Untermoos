@@ -128,10 +128,10 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
     </div>
   </section>
 
-  <section class="section section--dark" id="winter">
+  <section class="section section--rose" id="winter">
     <div class="wrap">
       <div class="head reveal">
-        <p class="eyebrow eyebrow--messing">{C.winterEyebrow}</p>
+        <p class="eyebrow">{C.winterEyebrow}</p>
         <h2>{C.winterTitle}</h2>
       </div>
       <div class="table-wrap">
@@ -140,7 +140,7 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
           <tbody>{C.ski.map(([a, b, c]) => <tr><td class="ski__name">{a}</td><td class="ski__facts">{b}</td><td class="r num ski__time">{c}</td></tr>)}</tbody>
         </table>
       </div>
-      <ul class="ticks ticks--light region-list" role="list">{C.winterList.map((x) => <li>{x}</li>)}</ul>
+      <ul class="ticks region-list" role="list">{C.winterList.map((x) => <li>{x}</li>)}</ul>
     </div>
   </section>
 
@@ -153,18 +153,18 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
         <ul class="ticks" role="list">{C.summerList.map((x) => <li>{x}</li>)}</ul>
       </div>
       <div class="summer__media">
-        <Photo slot="moor" lang={lang} ratio="3/4" class="summer__a" sizes="(min-width: 980px) 30vw, 60vw" />
-        <Photo slot="trail" lang={lang} ratio="3/4" class="summer__b" sizes="(min-width: 980px) 22vw, 40vw" />
+        <Photo slot="moor" lang={lang} ratio="3/4" class="summer__a" sizes="(min-width: 901px) 20vw, 50vw" />
+        <Photo slot="trail" lang={lang} ratio="3/4" class="summer__b" sizes="(min-width: 901px) 20vw, 50vw" />
       </div>
     </div>
   </section>
 
   <section class="section section--tight band">
     <div class="band__row">
-      <Photo slot="meadow" lang={lang} ratio="3/4" sizes="(min-width: 980px) 25vw, 50vw" />
-      <Photo slot="moor-2" lang={lang} ratio="3/4" sizes="(min-width: 980px) 25vw, 50vw" />
-      <Photo slot="view" lang={lang} ratio="3/4" sizes="(min-width: 980px) 25vw, 50vw" position="45% 50%" />
-      <Photo slot="deckchair" lang={lang} ratio="3/4" sizes="(min-width: 980px) 25vw, 50vw" position="55% 50%" />
+      <Photo slot="meadow" lang={lang} ratio="3/4" sizes="(min-width: 901px) 25vw, 50vw" />
+      <Photo slot="moor-2" lang={lang} ratio="3/4" sizes="(min-width: 901px) 25vw, 50vw" />
+      <Photo slot="view" lang={lang} ratio="3/4" sizes="(min-width: 901px) 25vw, 50vw" position="45% 50%" />
+      <Photo slot="deckchair" lang={lang} ratio="3/4" sizes="(min-width: 901px) 25vw, 50vw" position="55% 50%" />
     </div>
   </section>
 
@@ -191,21 +191,20 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
 
 <style>
   .split-head { margin-bottom: var(--space-l); row-gap: var(--space-m); }
-  @media (max-width: 860px) { .split-head > * { grid-column: 1 / -1 !important; } }
-  .eyebrow--messing { color: var(--messing); }
+  @media (max-width: 900px) { .split-head > * { grid-column: 1 / -1 !important; } }
 
   .ski { width: 100%; border-collapse: collapse; min-width: 620px; }
-  .ski th { text-align: left; font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; color: var(--creme-2); font-weight: 600; padding: 0 1rem 0.8rem 0; border-bottom: 1px solid var(--paper); }
-  .ski td { padding: 1.1rem 1rem 1.1rem 0; border-bottom: 1px solid var(--line-light); vertical-align: baseline; }
+  .ski th { text-align: left; font-size: var(--step--2); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); font-weight: 600; padding: 0 1rem 0.8rem 0; border-bottom: 1px solid var(--ink); }
+  .ski td { padding: 1.1rem 1rem 1.1rem 0; border-bottom: 1px solid var(--line-strong); vertical-align: baseline; }
   .ski .r { text-align: right; }
   .ski__name { font-family: var(--font-display); font-size: var(--step-1); width: 32%; }
-  .ski__facts { color: var(--creme-2); font-size: var(--step--1); }
-  .ski__time { white-space: nowrap; font-weight: 600; font-size: var(--step--1); color: var(--messing); }
+  .ski__facts { color: var(--ink-2); font-size: var(--step--1); }
+  .ski__time { white-space: nowrap; font-weight: 600; font-size: var(--step--1); color: var(--rot); }
   /* Phones: one card per ski area – name and distance on top, facts below (no clipped third column). */
-  @media (max-width: 720px) {
+  @media (max-width: 900px) {
     .ski { min-width: 0; }
     .ski thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-    .ski tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 1rem; row-gap: 0.4rem; padding: 1rem 0; border-bottom: 1px solid var(--line-light); }
+    .ski tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 1rem; row-gap: 0.4rem; padding: 1rem 0; border-bottom: 1px solid var(--line-strong); }
     .ski td { display: block; padding: 0; border: 0; }
     .ski__name { width: auto; }
     .ski__facts { grid-column: 1 / -1; }
@@ -213,22 +212,16 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
   }
   .region-list { margin-top: var(--space-l); max-width: 70ch; }
 
-  .ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; }
-  .ticks li { position: relative; padding-left: 1.6rem; }
-  .ticks li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 0.8rem; height: 1px; background: var(--rot); }
-  .ticks--light li::before { background: var(--messing); }
 
   .summer__text { grid-column: 1 / span 6; --flow: var(--space-s); }
-  .summer__media { grid-column: 8 / -1; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: end; }
-  .summer__media :global(.summer__a) { grid-column: 1 / span 4; grid-row: 1; }
-  .summer__media :global(.summer__b) { grid-column: 3 / span 3; grid-row: 1; transform: translateY(30%); box-shadow: 0 0 0 10px var(--paper); }
+  .summer__media { grid-column: 8 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(10px, 1.4vw, 20px); align-self: center; }
   @media (max-width: 900px) {
     .summer__text, .summer__media { grid-column: 1 / -1; }
-    .summer__media { margin-top: var(--space-l); margin-bottom: 18%; }
+    .summer__media { margin-top: var(--space-l); }
   }
 
   .band__row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(8px, 1vw, 16px); padding-inline: var(--gutter); max-width: var(--max); margin-inline: auto; }
-  @media (max-width: 760px) { .band__row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 900px) { .band__row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
   .taste { grid-column: 1 / span 5; --flow: var(--space-s); }
   .arrive { grid-column: 7 / -1; display: grid; gap: var(--space-s); align-content: start; }

@@ -50,7 +50,7 @@ function transform(html, isMain) {
   html = html.replace(/href="(\/[^"#]*)(#[^"]*)?"/g, (m, p, hash = '') => (known.has(p) ? `href="${flat(p)}${hash}"` : m));
   // asset paths → relative
   // (the viewer reserves names starting with "_", so /_astro/ becomes assets/)
-  html = html.replace(/(["'(\s,])\/_astro\//g, '$1assets/').replace(/(["'(\s,])\/fonts\//g, '$1fonts/').replace(/"\/favicon\.svg"/g, '"favicon.svg"');
+  html = html.replace(/(["'(\s,])\/_astro\//g, '$1assets/').replace(/(["'(\s,])\/fonts\//g, '$1fonts/').replace(/(["'(\s,])\/plans\//g, '$1plans/').replace(/"\/favicon\.svg"/g, '"favicon.svg"');
   html = html.replace(/<link rel="apple-touch-icon"[^>]*>/, '');
   // (safe-area handling for the viewer's status bar lives in global.css: --safe-top)
   if (isMain) {
@@ -62,7 +62,7 @@ function transform(html, isMain) {
       .replace('</head><body', '<div data-body')
       .replace(/<\/body><\/html>\s*$/i, '</div>');
   }
-  for (const m of html.matchAll(/(?:src|href)="((?:assets|fonts)\/[^"]+|favicon\.svg)"/g)) assets.add(m[1]);
+  for (const m of html.matchAll(/(?:src|href)="((?:assets|fonts|plans)\/[^"]+|favicon\.svg)"/g)) assets.add(m[1]);
   for (const m of html.matchAll(/url\(['"]?((?:assets|fonts)\/[^'")]+)['"]?\)/g)) assets.add(m[1]);
   return html;
 }

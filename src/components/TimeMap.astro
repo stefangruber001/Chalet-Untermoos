@@ -27,7 +27,7 @@ const aria = lang === 'de'
     <svg viewBox="0 0 600 600" role="img" aria-label={aria}>
       <defs>
         <radialGradient id="tm-fade" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="var(--paper-2)" stop-opacity="1" />
+          <stop offset="0%" stop-color="var(--rose-1)" stop-opacity="1" />
           <stop offset="100%" stop-color="var(--paper)" stop-opacity="1" />
         </radialGradient>
       </defs>
@@ -96,7 +96,7 @@ const aria = lang === 'de'
   .tm-dot text { font: 700 12px var(--font-text); fill: var(--creme); pointer-events: none; }
   .tm-dot { cursor: default; transition: opacity 0.25s var(--ease); }
   .has-focus .tm-dot:not(.is-on) { opacity: 0.28; }
-  .tm-dot.is-on circle { r: 16px; fill: var(--wein); }
+  .tm-dot.is-on circle { r: 16px; fill: var(--rot-tief); }
   .timemap__side { display: grid; gap: var(--space-s); min-width: 0; }
   .timemap__list { list-style: none; margin: 0; padding: 0; display: grid; }
   .timemap__list li {
@@ -105,12 +105,12 @@ const aria = lang === 'de'
   }
   /* time bar along the row's base line: length = drive time */
   .timemap__list li::after { content: ''; position: absolute; left: 2.7rem; bottom: -1px; height: 2px; width: calc((100% - 2.7rem) * var(--t)); background: var(--rot); opacity: 0.6; }
-  .timemap__list li.is-on { background: var(--paper-2); }
+  .timemap__list li.is-on { background: var(--rose-1); }
   .tm-badge { width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--rot); color: var(--creme); display: grid; place-items: center; font-size: 0.8rem; font-weight: 700; }
-  .tm-name { font-family: var(--font-display); font-size: var(--step-1); line-height: 1.2; min-width: 0; font-variation-settings: 'opsz' 18; }
+  .tm-name { font-family: var(--font-display); font-size: var(--step-1); line-height: 1.2; min-width: 0; }
   .tm-kind { display: block; margin-top: 0.15rem; font-family: var(--font-text); font-size: var(--step--2); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; color: var(--ink-2); }
   .tm-time { text-align: right; font-weight: 600; font-size: var(--step--1); white-space: nowrap; }
   @media (max-width: 900px) { .timemap { grid-template-columns: 1fr; } }
   /* phones: the list with time bars carries the information; the radial map would be too small to read */
-  @media (max-width: 720px) { .timemap__figure { display: none; } }
+  @media (max-width: 560px) { .timemap__figure { display: none; } }
 </style>

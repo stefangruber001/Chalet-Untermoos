@@ -18,6 +18,10 @@ const { label, items } = Astro.props;
     const row = nav.querySelector<HTMLElement>('ul')!;
     const chips = new Map([...nav.querySelectorAll<HTMLAnchorElement>('[data-chip]')].map((c) => [c.dataset.chip!, c]));
     const targets = [...chips.keys()].map((id) => document.getElementById(id)).filter((t): t is HTMLElement => Boolean(t));
+    const more = () => row.classList.toggle('is-more', row.scrollLeft + row.clientWidth < row.scrollWidth - 4);
+    row.addEventListener('scroll', more, { passive: true });
+    window.addEventListener('resize', more, { passive: true });
+    more();
     if (!('IntersectionObserver' in window) || !targets.length) return;
     const activate = (id: string) => {
       chips.forEach((c, k) => (k === id ? c.setAttribute('aria-current', 'location') : c.removeAttribute('aria-current')));
@@ -29,13 +33,15 @@ const { label, items } = Astro.props;
       entries.forEach((en) => { if (en.isIntersecting) activate(en.target.id); });
     }, { rootMargin: '-32% 0px -63% 0px' });
     targets.forEach((t) => io.observe(t));
+    const top = () => { if (targets[0].getBoundingClientRect().top > window.innerHeight * 0.4) chips.forEach((c) => c.removeAttribute('aria-current')); };
+    window.addEventListener('scroll', top, { passive: true });
   });
 </script>
 
 <style>
   .section-nav {
     position: sticky; top: calc(var(--hdr-h) + var(--safe-top)); z-index: 30;
-    background: rgb(249 245 241 / 0.96); backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px);
+    background: rgb(251 248 246 / 0.96); backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px);
     border-bottom: 1px solid var(--line);
     transition: top 0.45s var(--ease);
   }
@@ -44,10 +50,10 @@ const { label, items } = Astro.props;
   .section-nav::before { content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: var(--safe-top); background: inherit; }
   .section-nav ul { position: relative; list-style: none; margin: 0; padding: 0.5rem 0; display: flex; gap: 0.45rem; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
   .section-nav ul::-webkit-scrollbar { display: none; }
-  /* fade at the right edge hints that more chips scroll into view */
-  @media (max-width: 980px) { .section-nav ul { -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent); mask-image: linear-gradient(90deg, #000 86%, transparent); padding-right: 2rem; } }
+  /* fade at the right edge hints that more chips scroll into view (any width, only while more are hidden) */
+  .section-nav ul.is-more { -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent); mask-image: linear-gradient(90deg, #000 86%, transparent); padding-right: 2rem; }
   .section-nav a {
-    display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap; text-decoration: none; min-height: 2.5rem;
+    display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap; text-decoration: none; min-height: 2.75rem;
     font-size: var(--step--1); font-weight: 500; padding: 0.45rem 0.95rem; border: 1px solid var(--line-strong); border-radius: var(--radius);
     transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
   }

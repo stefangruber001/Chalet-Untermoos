@@ -60,7 +60,7 @@ New photos: put the originals in a folder, map them in `tools/photo-map.json`, r
 
 ## Technical notes
 
-- No cookies, no tracking, no third-party requests; fonts (Newsreader, Albert Sans – SIL OFL) are self-hosted subsets.
+- No cookies, no tracking, no third-party requests; fonts (Fraunces, Albert Sans – SIL OFL) are self-hosted subsets.
 - Images: AVIF/WebP in responsive sizes, generated at build time.
 - SEO: canonical + hreflang on every page, sitemap with language alternates, JSON-LD (VacationRental, FAQPage, BreadcrumbList), `llms.txt` for AI assistants, redirects from the old URLs in `public/_redirects`.
 - Security headers and caching: `public/_headers`. Enquiry endpoint: `functions/api/enquiry.js` (origin check, honeypot, validation; stores nothing).

@@ -13,7 +13,7 @@ const host = PROPERTY.host;
 ---
 <header class="site-header">
   <div class="wrap site-header__inner">
-    <a class="brand" href={url('home', lang)} aria-label="Untermoos – Start">
+    <a class="brand" href={url('home', lang)}>
       <Crest />
       <span class="brand__text"><span class="brand__word">Untermoos</span><span class="brand__tag">{t.brandTag}</span></span>
     </a>
@@ -38,20 +38,20 @@ const host = PROPERTY.host;
 
 <div class="menu-sheet" id="menu-sheet" hidden data-menu role="dialog" aria-modal="true" aria-label={t.menu}>
   <div class="menu-sheet__top">
-    <a class="brand" href={url('home', lang)} aria-label="Untermoos – Start">
+    <a class="brand" href={url('home', lang)}>
       <Crest />
       <span class="brand__text"><span class="brand__word">Untermoos</span><span class="brand__tag">{t.brandTag}</span></span>
     </a>
     <button class="menu-close" type="button" data-menu-close>{t.close}</button>
   </div>
   <nav aria-label={lang === 'de' ? 'Mobile Navigation' : 'Mobile navigation'}>
-    <a href={url('home', lang)} aria-current={route === 'home' ? 'page' : undefined}>Start</a>
+    <a href={url('home', lang)} aria-current={route === 'home' ? 'page' : undefined}>{lang === 'de' ? 'Start' : 'Home'}</a>
     {NAV.map((key) => (
       <a href={url(key, lang)} aria-current={route === key ? 'page' : undefined}>{t.nav[key as keyof typeof t.nav]}</a>
     ))}
   </nav>
   <div class="menu-sheet__foot">
-    <a class="btn btn--light" href={url('rates', lang, 'anfrage')}>{t.enquireLong} <span class="arrow" aria-hidden="true">→</span></a>
+    <a class="btn" href={url('rates', lang, 'anfrage')}>{t.enquireLong} <span class="arrow" aria-hidden="true">→</span></a>
     <div class="menu-sheet__contact">
       <span>{t.footer.contact} · {t.footer.reply}</span>
       <a href={`tel:${host.phone.replace(/\s/g, '')}`} class="num">{host.phoneDisplay}</a>

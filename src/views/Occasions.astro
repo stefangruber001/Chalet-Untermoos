@@ -80,7 +80,7 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
 ---
 <Base lang={lang} route="occasions" title={C.title} description={C.description} jsonLd={jsonLd}>
   <Hero lang={lang} compact eyebrow={C.eyebrow} title={C.heroTitle} leadWinter={C.leadWinter} leadSummer={C.leadSummer}
-    winterSlot="hero-winter" summerSlot="exterior-tree" winterPos="62% 50%" summerPos="50% 45%" />
+    winterSlot="hero-winter" summerSlot="exterior-tree" winterPos="62% 15%" summerPos="50% 30%" />
 
   <SectionNav label={de ? 'Anlässe' : 'Occasions'} items={de
     ? [{ id: 'familie', label: 'Familie' }, { id: 'freunde', label: 'Freunde & Ski' }, { id: 'team', label: 'Team-Offsite' }, { id: 'feste', label: 'Feste' }]
@@ -90,7 +90,7 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
     <section class:list={['section', 'occ-block', { 'occ-block--alt': i % 2 === 1 }]} id={o.k}>
       <div class="wrap grid">
         <div class="occ-block__media">
-          <Photo slot={o.slot as any} lang={lang} ratio="4/5" sizes="(min-width: 980px) 42vw, 100vw" position={o.pos} />
+          <Photo slot={o.slot as any} lang={lang} ratio="4/5" sizes="(min-width: 901px) 42vw, 100vw" position={o.pos} />
         </div>
         <div class="occ-block__text stack reveal">
           <p class="eyebrow">{String(i + 1).padStart(2, '0')} · {C.eyebrow}</p>
@@ -98,7 +98,7 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
           <p class="lead lead--s">{o.text}</p>
           <ul class="ticks" role="list">{o.list.map((x) => <li>{x}</li>)}</ul>
           <div class="occ-idea">
-            <p class="footer-label">{C.idea}</p>
+            <p class="label occ-idea__label">{C.idea}</p>
             <p>{o.idea}</p>
           </div>
           <p class="occ-price"><strong class="num">{de ? 'ab ' : 'from '}{pp(o.price)}</strong> <span class="muted">{C.perPerson}</span></p>
@@ -115,16 +115,14 @@ const jsonLd = [breadcrumbJsonLd([{ name: 'Untermoos', path: ROUTES.home[lang] }
 </Base>
 
 <style>
-  .occ-block--alt { background: var(--paper-2); }
+  .occ-block--alt { background: var(--rose-1); }
   .occ-block__media { grid-column: 1 / span 5; }
+  @media (max-width: 900px) { .occ-block__media :global(.frame) { aspect-ratio: 4 / 3 !important; } }
   .occ-block__text { grid-column: 7 / -1; align-self: center; --flow: var(--space-s); }
   .occ-block--alt .occ-block__media { grid-column: 8 / -1; grid-row: 1; }
   .occ-block--alt .occ-block__text { grid-column: 1 / span 6; grid-row: 1; }
-  .ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
-  .ticks li { position: relative; padding-left: 1.6rem; }
-  .ticks li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 0.8rem; height: 1px; background: var(--rot); }
   .occ-idea { border-left: 2px solid var(--rot); padding: 0.2rem 0 0.2rem 1rem; display: grid; gap: 0.3rem; }
-  .occ-idea .footer-label { color: var(--rot); margin: 0; }
+  .occ-idea .occ-idea__label { color: var(--rot); margin: 0; }
   .occ-price strong { font-family: var(--font-display); font-weight: 400; font-size: var(--step-2); margin-right: 0.3rem; }
   @media (max-width: 900px) {
     .occ-block__media, .occ-block__text, .occ-block--alt .occ-block__media, .occ-block--alt .occ-block__text { grid-column: 1 / -1; grid-row: auto; }

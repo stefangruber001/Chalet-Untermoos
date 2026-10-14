@@ -42,8 +42,9 @@ const box = (vb: string) => vb.split(' ').map(Number);
       <figure class="plan">
         <figcaption class="plan__title"><span class="eyebrow eyebrow--plain">{title}</span></figcaption>
         <div class="plan__canvas" style={`aspect-ratio:${vw}/${vh}`}>
+          {/* furniture lines are the bulk of the drawing: a separate, cached and lazily loaded file keeps the page light */}
+          <img class="plan__furn-img" src={`/plans/${key}-furniture.svg`} alt="" loading="lazy" decoding="async" width={vw} height={vh} />
           <svg viewBox={p.viewBox} role="img" aria-label={de ? `Grundriss ${title}` : `Floor plan ${title.toLowerCase()}`} preserveAspectRatio="xMidYMid meet">
-            <path d={p.furn} class="plan__furn" />
             <path d={p.door} class="plan__door" />
             <path d={p.wall} class="plan__wall" />
           </svg>
@@ -60,17 +61,18 @@ const box = (vb: string) => vb.split(' ').map(Number);
 <style>
   .plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-l) clamp(16px, 3vw, 48px); }
   .plan { margin: 0; display: grid; gap: var(--space-s); }
-  .plan__canvas { position: relative; width: 100%; background: var(--paper-2); border: 1px solid var(--line); }
-  .plan__canvas svg { position: absolute; inset: 4%; width: 92%; height: 92%; overflow: visible; }
-  .plan__furn { fill: none; stroke: #b5a29e; stroke-width: 0.35; stroke-linecap: round; }
+  .plan__canvas { position: relative; width: 100%; background: var(--rose-1); border: 1px solid var(--line); }
+  .plan__canvas svg, .plan__furn-img { position: absolute; inset: 4%; width: 92%; height: 92%; }
+  .plan__canvas svg { overflow: visible; }
+  .plan__furn-img { object-fit: contain; max-width: none; }
   .plan__door { fill: none; stroke: var(--rot); stroke-width: 0.5; stroke-linecap: round; }
   .plan__wall { fill: var(--ink); stroke: var(--ink); stroke-width: 0.3; }
   .plan__label {
     position: absolute; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none;
-    font-family: var(--font-display); font-size: clamp(0.86rem, 0.74rem + 0.4vw, 1.05rem); line-height: 1; color: var(--ink); font-weight: 500;
-    background: rgb(249 245 241 / 0.88); padding: 0.18em 0.35em; border-radius: 2px;
+    font-family: var(--font-display); font-size: clamp(0.86rem, 0.74rem + 0.4vw, 1.05rem); line-height: 1; color: var(--ink); font-weight: 460;
+    background: rgb(251 248 246 / 0.88); padding: 0.18em 0.35em; border-radius: 2px;
   }
   .plan__label--small { font-family: var(--font-text); font-size: clamp(0.7rem, 0.64rem + 0.2vw, 0.78rem); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: var(--ink-2); }
   .plans__note { grid-column: 1 / -1; margin-top: calc(var(--space-s) * -1); }
-  @media (max-width: 860px) { .plans { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .plans { grid-template-columns: 1fr; } }
 </style>

@@ -20,17 +20,39 @@ UNICODES = (
     [0x20AC, 0x2122, 0x2190, 0x2191, 0x2192, 0x2193, 0x2197, 0x2212, 0x2248, 0x2264, 0x2265, 0x2116]
 )
 
+def upright_forever(font):
+    """Fraunces keeps its "wonky" leaning h/m/n/s/& as default glyphs and swaps in the upright
+    forms through an rvrn feature variation (WONK=0 or small optical sizes). Pinning WONK=0 with the
+    instancer leaves that rule conditioned on small optical sizes only, so large headings would turn
+    wonky again. Make the upright forms the default glyphs and drop the feature variations."""
+    gsub = font["GSUB"].table
+    fv = getattr(gsub, "FeatureVariations", None)
+    if not fv:
+        return
+    swap = {}
+    for rec in fv.FeatureVariationRecord:
+        for st in rec.FeatureTableSubstitution.SubstitutionRecord:
+            for li in st.Feature.LookupListIndex:
+                for sub in gsub.LookupList.Lookup[li].SubTable:
+                    swap.update(getattr(sub, "mapping", {}) or {})
+    for table in font["cmap"].tables:
+        table.cmap = {cp: swap.get(g, g) for cp, g in table.cmap.items()}
+    gsub.FeatureVariations = None
+    if gsub.Version > 0x00010000:
+        gsub.Version = 0x00010000
+    assert "h" not in swap or font.getBestCmap()[ord("h")] == swap["h"]
+
+
 JOBS = [
     # (source file inside package, output name, axis limits)
-    # Display serif Bodoni Moda: full optical-size axis (headlines use high-contrast cuts, leads the text cut).
-    ("bodoni-moda/files/bodoni-moda-latin-standard-normal.woff2", "bodoni-moda-normal.woff2", {"wght": (400, 700)}),
-    ("bodoni-moda/files/bodoni-moda-latin-standard-italic.woff2", "bodoni-moda-italic.woff2", {"wght": (400, 700)}),
+    # Display serif Fraunces (roman only): softness and "wonky" letters pinned (SOFT 30, WONK 0),
+    # optical size capped at 72 so large headings keep sturdy hairlines, weights 360–600.
+    ("fraunces/files/fraunces-latin-full-normal.woff2", "fraunces.woff2", {"wght": (360, 600), "opsz": (9, 72), "SOFT": 30, "WONK": 0}),
     ("albert-sans/files/albert-sans-latin-wght-normal.woff2", "albert-sans.woff2", {"wght": (380, 700)}),
 ]
 # Latin-ext subset files are merged in by using the latin-ext source as well where needed.
 EXT = {
-    "bodoni-moda-normal.woff2": "bodoni-moda/files/bodoni-moda-latin-ext-standard-normal.woff2",
-    "bodoni-moda-italic.woff2": "bodoni-moda/files/bodoni-moda-latin-ext-standard-italic.woff2",
+    "fraunces.woff2": "fraunces/files/fraunces-latin-ext-full-normal.woff2",
     "albert-sans.woff2": "albert-sans/files/albert-sans-latin-ext-wght-normal.woff2",
 }
 
@@ -47,6 +69,8 @@ for src, name, limits in JOBS:
         sub.populate(unicodes=UNICODES)
         sub.subset(font)
         font = instancer.instantiateVariableFont(font, limits)
+        if name.startswith("fraunces"):
+            upright_forever(font)
         out = OUT / (name.replace(".woff2", f"{variant}.woff2"))
         font.flavor = "woff2"
         font.save(out)
